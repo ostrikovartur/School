@@ -1,7 +1,5 @@
 ﻿using School;
-
-
-Address malynivka = new Address
+Address malynivka = new()
 {
     Country = "Ukraine",
     City = "Malynivka",
@@ -9,13 +7,13 @@ Address malynivka = new Address
     PostalCode = 22360
 };
 
-Employee director = new Employee
+Employee director = new()
 {
     FirstName = "Володимир",
     LastName = "Сиченко"
 };
 
-School.School malynivskaSchool = new School.School
+School.School malynivskaSchool = new()
 {
     Address = malynivka,
     Name = "Малинівська школа #1",
@@ -26,66 +24,63 @@ School.School malynivskaSchool = new School.School
     Employees = new List<Employee>()
 };
 
-Floor firstFloor = new Floor
+Floor firstFloor = new()
 {
     Number = 1,
-    Rooms = new List<Room>()
 };
 
 malynivskaSchool.Floors.Add(firstFloor);
 
-Floor secondFloor = new Floor
+Floor secondFloor = new()
 {
     Number = 2,
-    Rooms = new List<Room>()
 };
 malynivskaSchool.Floors.Add(secondFloor);
 
-Floor thirdFloor = new Floor
+Floor thirdFloor = new()
 {
     Number = 3,
-    Rooms = new List<Room>()
 };
 malynivskaSchool.Floors.Add(thirdFloor);
 
-Room mathRoom = new Room
+Room mathRoom = new()
 {
     Number = 101,
     Type = RoomType.Regular | RoomType.Math,
     Floor = firstFloor
 };
 
-Room bioRoom = new Room
+Room bioRoom = new()
 {
     Number = 202,
     Type = RoomType.Regular | RoomType.Biology,
     Floor = secondFloor
 };
-Room informRoom = new Room
+Room informRoom = new()
 {
     Number = 103,
     Type = RoomType.Regular | RoomType.Informatic,
     Floor = firstFloor
 };
-Room literatureRoom = new Room
+Room literatureRoom = new()
 {
     Number = 204,
     Type = RoomType.Regular | RoomType.Literature,
     Floor = secondFloor
 };
-Room gymRoom = new Room
+Room gymRoom = new()
 {
     Number = 100,
     Type = RoomType.Regular | RoomType.Gym,
     Floor = thirdFloor
 };
-Room physicsRoom = new Room
+Room physicsRoom = new()
 {
     Number = 203,
     Type = RoomType.Physics,
     Floor = secondFloor
 };
-Room hallRoom = new Room
+Room hallRoom = new()
 {
     Number = 200,
     Type = RoomType.Hall,
@@ -101,17 +96,19 @@ malynivskaSchool.Rooms.Add(gymRoom);
 malynivskaSchool.Rooms.Add(physicsRoom);
 malynivskaSchool.Rooms.Add(hallRoom);
 
-firstFloor.Rooms.Add(mathRoom);
+firstFloor.AddRoom(mathRoom);
 
-firstFloor.Rooms.Add(informRoom);
+firstFloor.AddRoom(informRoom);
 
-secondFloor.Rooms.Add(bioRoom);
+secondFloor.AddRoom(bioRoom);
 
-secondFloor.Rooms.Add(literatureRoom);
+secondFloor.AddRoom(literatureRoom);
 
-thirdFloor.Rooms.Add(gymRoom);
+thirdFloor.AddRoom(gymRoom);
 
-secondFloor.Rooms.Add(physicsRoom);
+secondFloor.AddRoom(physicsRoom);
 
-secondFloor.Rooms.Add(hallRoom);
+secondFloor.AddRoom(hallRoom);
+
+malynivskaSchool.Print();
 
