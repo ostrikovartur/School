@@ -3,77 +3,53 @@
     class School
     {
         public Address Address { get; set; }
-        public ICollection<Room> Rooms { get; set; }
+        public IEnumerable<Room> Rooms
+        { 
+            get
+            {
+                List<Room> allRooms = new List<Room>();
+                foreach (Floor floor in Floors)
+                {
+                    allRooms.AddRange(floor.Rooms);
+                }
+                return allRooms;
+            }
+        }
         public DateOnly OpeningDate { get; set; }
         public string Name { get; set; }
-        public ICollection<Floor> Floors { get; set; }
+        public IEnumerable<Floor> Floors => _floors;
         public Employee Director { get; set; }
-        public ICollection<Employee> Employees { get; set; }
+        public IEnumerable<Employee> Employees => _employees;
+        private List<Floor> _floors;
+        private List<Employee> _employees;
+        private List<Room> _rooms;
+        public School()
+        {
+            _floors = new List<Floor>();
+            _employees = new List<Employee>();
+            _rooms = new List<Room>();
+        }
+        public void AddEmployee(Employee employee)
+        {
+            _employees.Add(employee);
+        }
+        public void AddFloor(Floor floor)
+        {
+            _floors.Add(floor);
+        }
         public void Print()
         {
             Console.WriteLine($"Name {Name}");
-            //for (int i = 0; i < Floors.Count; i++)
-            //{
-            //    Floor floor = Floors.ElementAt(i);
-            //    Console.WriteLine($"Floor  {floor.Number} : {floor.Rooms.Count()}  ");
-            //}
+            Console.WriteLine($"Director name: {Director.LastName} {Director.FirstName}");
+            foreach (Employee employee in Employees)
+            {
+                employee.Print();
+            }
+            Console.WriteLine($"All rooms on school:{Rooms.Count()}");
             foreach (Floor floor in Floors)
             {
-                Console.WriteLine($"Floor:{floor.Number}Rooms:{floor.Rooms.Count()}");
                 floor.Print();
             }
         }
-    }
-    class Address
-    {
-        public string Country { get; set; }
-        public string City { get; set; }
-        public string Street { get; set; }
-        public int PostalCode { get; set; }
-    }
-    class Employee
-    {
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-    }
-    class Room
-    {
-        public int Number { get; set; }
-        public RoomType Type { get; set; }
-        public Floor Floor { get; set; }
-    }
-    class Floor
-    {
-        public int Number { get; set; }
-        private List<Room> _rooms;
-        public IEnumerable<Room> Rooms => _rooms;
-        public Floor()
-        {
-            _rooms = new List<Room>();
-        }
-        public void AddRoom(Room room)
-        {
-            _rooms.Add(room);
-        }
-        public void Print()
-        {
-            foreach (Room room in _rooms)
-            {
-                Console.WriteLine($"Room number:{room.Number}");
-                
-            }
-        }
-}
-    [Flags]
-    enum RoomType
-    {
-        Regular = 1,
-        Math = 2,
-        Biology = 4,
-        Literature = 8,
-        Informatic = 16,
-        Gym = 32,
-        Physics = 64,
-        Hall = 128,
     }
 }
