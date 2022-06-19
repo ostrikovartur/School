@@ -6,23 +6,13 @@ Address malynivka = new()
     Street = "Вул. Шкільна 1",
     PostalCode = 22360
 };
+Student student = new("Nesteruk", "Michail", 19);
 
-Employee director = new()
-{
-    FirstName = "Володимир",
-    LastName = "Сиченко"
-};
-Employee mathTeacher = new()
-{
-    FirstName = "Крисак",
-    LastName = "Андрій",
-};
 School.School malynivskaSchool = new()
 {
     Address = malynivka,
     Name = "Малинівська школа #1",
     OpeningDate = new DateOnly(2002, 1, 1),
-    Director = director,
 };
 
 Floor firstFloor = new()
@@ -76,25 +66,27 @@ Room hallRoom = new()
     Number = 200,
     Type = RoomType.Hall
 };
+Director director = new("Сиченко", "Володимир", 30);
+
+Director fakeDirector = new("Fake", "Director", 30);
+
+Teacher mathTeacher = new("Kuchinska", "Nataliya", 35);
+
 
 malynivskaSchool.AddFloor(firstFloor);
 malynivskaSchool.AddFloor(secondFloor);
 malynivskaSchool.AddFloor(thirdFloor);
 
+malynivskaSchool.AddEmployee(director);
 malynivskaSchool.AddEmployee(mathTeacher);
+malynivskaSchool.AddEmployee(fakeDirector);
 
 firstFloor.AddRoom(mathRoom);
-
 firstFloor.AddRoom(informRoom);
-
 secondFloor.AddRoom(bioRoom);
-
 secondFloor.AddRoom(literatureRoom);
-
 thirdFloor.AddRoom(gymRoom);
-
 secondFloor.AddRoom(physicsRoom);
-
 secondFloor.AddRoom(hallRoom);
 
 malynivskaSchool.Print();
