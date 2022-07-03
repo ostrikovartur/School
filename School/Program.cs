@@ -66,27 +66,30 @@ Room hallRoom = new()
     Number = 200,
     Type = RoomType.Hall
 };
-Director director = new("Сиченко", "Володимир", 30);
 
-Director fakeDirector = new("Fake", "Director", 30);
+try
+{
+    malynivskaSchool.AddFloor(firstFloor);
+    malynivskaSchool.AddFloor(secondFloor);
+    malynivskaSchool.AddFloor(thirdFloor);
 
-Teacher mathTeacher = new("Kuchinska", "Nataliya", 35);
+    malynivskaSchool.AddDirector("Сиченко", "Володимир", 30);
+    malynivskaSchool.AddTeacher("Kuchinska", "Nataliya", 35);
+    malynivskaSchool.AddDirector("Fake", "Director", 30);
+    malynivskaSchool.AddTeacher("Kuchinska", "Olena", 38);
+    malynivskaSchool.AddTeacher("Kuchinska", "Olena", 3);
 
+    firstFloor.AddRoom(mathRoom);
+    firstFloor.AddRoom(informRoom);
+    secondFloor.AddRoom(bioRoom);
+    secondFloor.AddRoom(literatureRoom);
+    thirdFloor.AddRoom(gymRoom);
+    secondFloor.AddRoom(physicsRoom);
+    secondFloor.AddRoom(hallRoom);
 
-malynivskaSchool.AddFloor(firstFloor);
-malynivskaSchool.AddFloor(secondFloor);
-malynivskaSchool.AddFloor(thirdFloor);
-
-malynivskaSchool.AddEmployee(director);
-malynivskaSchool.AddEmployee(mathTeacher);
-malynivskaSchool.AddEmployee(fakeDirector);
-
-firstFloor.AddRoom(mathRoom);
-firstFloor.AddRoom(informRoom);
-secondFloor.AddRoom(bioRoom);
-secondFloor.AddRoom(literatureRoom);
-thirdFloor.AddRoom(gymRoom);
-secondFloor.AddRoom(physicsRoom);
-secondFloor.AddRoom(hallRoom);
-
-malynivskaSchool.Print();
+    malynivskaSchool.Print();
+}
+catch (Exception ex)
+{
+    Console.WriteLine(ex.Message);
+}

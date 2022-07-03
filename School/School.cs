@@ -18,8 +18,8 @@ class School
     public DateOnly OpeningDate { get; set; }
     public string Name { get; set; }
     public IEnumerable<Floor> Floors => _floors;
-    public Employee? Director 
-    { 
+    public Employee? Director
+    {
         get
         {
             foreach (Employee employee in _employees)
@@ -28,11 +28,12 @@ class School
                 if (director is not null)
                 {
                     return director;
-                }            
+                }
             }
             return null;
-        } 
+        }
     }
+
     public IEnumerable<Employee> Employees => _employees;
     private List<Floor> _floors;
     private List<Employee> _employees;
@@ -43,30 +44,74 @@ class School
         _employees = new List<Employee>();
         _rooms = new List<Room>();
     }
-    public void AddEmployee(Employee employee)
+
+    public void AddTeacher(string firstName, string lastName, int age)
     {
-        /* Метод має добавляти учителя і директора
-         * при цьому перевіряти, якщо діректор уже існує
-         * тоді замість добавлення вивести повідомлення з помилкою
-         * створити повідомлення з помилкою якщо директор уже існує
-         * добавити перевірку на існування директора
-         * додати код для додавання директора в випадку якщо директор не існує
-         * додати код на ігнорування додавання директора в випадку якщо він уже існує
-         * додати вчителя і перевірити виконання коду з присутністью вчителя
-         * додати вчителя в список employees
-         */ 
-        _employees.Add(employee);
+        Console.WriteLine($"Adding teacher {firstName} {lastName} with age {age}");
+        try
+        {
+            AddEmployee(new Teacher(firstName, lastName, age));
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+    }
+
+    public void AddDirector(string firstName, string lastName, int age)
+    {
+        Console.WriteLine($"Adding director {firstName} {lastName} with age {age}");
+        try
+        {
+            var director = new Director(firstName, lastName, age);
+            if (director is Director && Director is not null)
+            {
+                Console.WriteLine("Error(The director already exists)");
+                return;
+            }
+
+            AddEmployee(director);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+    }
+
+    private void AddEmployee(Employee employee)
+    {
         Console.WriteLine($"=========Employee to add:===========");
-        employee.Print();
-        if (Director is null)
+
+        if (string.IsNullOrEmpty(employee.FirstName))
         {
-            _employees.Add(Director);
+            Console.WriteLine("First name is not provided", nameof(employee.FirstName));
         }
-        else
+
+        if (string.IsNullOrEmpty(employee.LastName))
         {
-            
+            Console.WriteLine("Last name is not provided", nameof(employee.LastName));
         }
-        
+
+        if (employee.Age < 1)
+        {
+            Console.WriteLine("Age can't be less than 1", nameof(employee.Age));
+        }
+
+        if (employee.Age < 18)
+        {
+            Console.WriteLine("Employee should be", nameof(employee.Age));
+        }
+
+        for (int i = 0; i < _employees.Count; i++)
+        {
+            var emp = _employees[i];
+            if (emp.FirstName == employee.FirstName && emp.LastName == employee.LastName && emp.Age == employee.Age)
+            {
+                Console.WriteLine("Error(This employee already exists");
+                return ;
+            }
+        }
+        _employees.Add(employee);
     }
     public void AddFloor(Floor floor)
     {
