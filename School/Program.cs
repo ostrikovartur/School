@@ -66,6 +66,11 @@ Room hallRoom = new()
     Number = 200,
     Type = RoomType.Hall
 };
+Room testRoom = new()
+{
+    Number = 203, 
+    Type = RoomType.Test
+};
 
 try
 {
@@ -86,6 +91,7 @@ try
     thirdFloor.AddRoom(gymRoom);
     secondFloor.AddRoom(physicsRoom);
     secondFloor.AddRoom(hallRoom);
+    secondFloor.AddRoom(testRoom);
 
     malynivskaSchool.Print();
 }

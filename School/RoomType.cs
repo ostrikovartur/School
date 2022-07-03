@@ -11,5 +11,6 @@
         Gym = 32,
         Physics = 64,
         Hall = 128,
+        Test = 256,
     }
 }

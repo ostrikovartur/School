@@ -47,6 +47,7 @@ class School
 
     public void AddTeacher(string firstName, string lastName, int age)
     {
+        Console.WriteLine($"=========Employee to add:===========");
         Console.WriteLine($"Adding teacher {firstName} {lastName} with age {age}");
         try
         {
@@ -60,6 +61,7 @@ class School
 
     public void AddDirector(string firstName, string lastName, int age)
     {
+        Console.WriteLine($"=========Employee to add:===========");
         Console.WriteLine($"Adding director {firstName} {lastName} with age {age}");
         try
         {
@@ -80,26 +82,40 @@ class School
 
     private void AddEmployee(Employee employee)
     {
-        Console.WriteLine($"=========Employee to add:===========");
-
         if (string.IsNullOrEmpty(employee.FirstName))
         {
-            Console.WriteLine("First name is not provided", nameof(employee.FirstName));
+            Console.WriteLine("First name is not provided");
+            return;
         }
 
         if (string.IsNullOrEmpty(employee.LastName))
         {
-            Console.WriteLine("Last name is not provided", nameof(employee.LastName));
+            Console.WriteLine("Last name is not provided");
+            return;
         }
 
         if (employee.Age < 1)
         {
-            Console.WriteLine("Age can't be less than 1", nameof(employee.Age));
+            Console.WriteLine("Age can't be less than 1");
+            return;
         }
 
         if (employee.Age < 18)
         {
-            Console.WriteLine("Employee should be", nameof(employee.Age));
+            Console.WriteLine("Employee should be older than 18");
+            return;
+        }
+        
+        if (employee.Age > 65)
+        {
+            Console.WriteLine("Employee can't be older 65");
+            return;
+        }
+
+        if (employee.Age > 115)
+        {
+            Console.WriteLine("Age can't be older 115");
+            return;
         }
 
         for (int i = 0; i < _employees.Count; i++)
