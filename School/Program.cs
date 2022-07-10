@@ -1,5 +1,5 @@
 ﻿using School;
-Address malynivka = new()
+Adress malynivka = new()
 {
     Country = "Ukraine",
     City = "Malynivka",
@@ -98,4 +98,129 @@ try
 catch (Exception ex)
 {
     Console.WriteLine(ex.Message);
+}
+void PrintMenu()
+{
+    Console.WriteLine("||====================================");
+    Console.WriteLine("||Hello, what you want do? Choice!");
+    Console.WriteLine("||School=Create School");
+    Console.WriteLine("||Adress=Create Adress for School");
+    Console.WriteLine("||Floor=Add Floor");
+    Console.WriteLine("||Room=Add Room");
+    Console.WriteLine("||Employee=Add Employee");
+    Console.WriteLine("||Exit=Exit");
+    Console.WriteLine("||====================================");
+}
+string GetChoice()
+{
+    var choise = Console.ReadLine();
+    return choise;
+}
+
+void Action(string choise)
+{
+    while(true)
+    {
+        if (choise == "Floor")
+        {
+            Console.WriteLine("What's number floor?");
+            Floor floor = new Floor()
+            {
+                Number = Convert.ToInt32(Console.ReadLine())
+            };
+            Console.WriteLine($"You create new floor with number |{floor.Number}|");
+            return;
+
+        }
+        if (choise == "School")
+        {
+            Console.WriteLine($"What's name of school?");
+            School.School school = new()
+            {
+                Name = Console.ReadLine(),
+                 = 
+            };
+            Console.WriteLine($"School name is |{school.Name}|");
+            Console.WriteLine("Which country of school?");
+            Console.WriteLine("School has been created");
+            return;
+        }
+        if (choise == "Adress")
+        {
+            Console.WriteLine("Which country of your school");
+            Adress adress = new Adress()
+            {
+                Country = Console.ReadLine(),
+
+            };
+        }
+        if (choise == "Room")
+        {
+            Console.WriteLine("What's room number");
+            Room room = new Room()
+            {
+                Number = Convert.ToInt32(Console.ReadLine()),
+                //Type = 
+            };
+        }
+    }
+}
+PrintMenu();
+string choice = GetChoice();
+
+if (choice == "Exit")
+{
+    Console.WriteLine("Good luck!");
+    return;
+}
+
+Action(choice);
+while (true)
+{
+    //Console.WriteLine("||====================================");
+    //Console.WriteLine("||Hello, what you want do? Choice!");
+    //Console.WriteLine("||School=Create School");
+    //Console.WriteLine("||Floor=Add Floor");
+    //Console.WriteLine("||Room=Add Room");
+    //Console.WriteLine("||Employee=Add Employee");
+    //Console.WriteLine("||Exit=Exit");
+    //Console.WriteLine("||====================================");
+    var choise = Console.ReadLine();
+    if (choise == "Exit")
+    {
+        Console.WriteLine("Good luck!");
+        break;
+    }
+    if (choise == "Floor")
+    {
+        Console.WriteLine("What's number floor?");
+        Floor floor = new Floor()
+        {
+            Number = Convert.ToInt32(Console.ReadLine())
+        };
+    }
+    if (choise == "Room")
+    {
+        Convert.ToInt32(Console.ReadLine());
+        Console.WriteLine("What's room number");
+    }
+    if (choise == "School")
+    {
+        Console.WriteLine("What's name of school?");
+        
+    }
+    if (choise == "Employee")
+    {
+        Console.WriteLine("What's type of Employee? Choise!");
+        Console.WriteLine("1=Director");
+        Console.WriteLine("2=Teacher");
+        if (choise == "1")
+        {
+            Console.WriteLine("What's name of Director?");
+        }
+        if (choise == "2")
+        {
+            Console.WriteLine("What's name of Teacher?");
+        }
+    }
 }

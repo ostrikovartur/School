@@ -2,7 +2,7 @@
 
 class School
 {
-    public Address Address { get; set; }
+    public Adress Address { get; set; }
     public IEnumerable<Room> Rooms
     { 
         get
@@ -132,6 +132,10 @@ class School
     public void AddFloor(Floor floor)
     {
         _floors.Add(floor);
+    }
+    public void AddSchool(School school)
+    {
+        school.Name = Console.ReadLine();
     }
     public void Print()
     {
