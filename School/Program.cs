@@ -1,226 +1,176 @@
 ﻿using School;
-Adress malynivka = new()
-{
-    Country = "Ukraine",
-    City = "Malynivka",
-    Street = "Вул. Шкільна 1",
-    PostalCode = 22360
-};
-Student student = new("Nesteruk", "Michail", 19);
-
-School.School malynivskaSchool = new()
-{
-    Address = malynivka,
-    Name = "Малинівська школа #1",
-    OpeningDate = new DateOnly(2002, 1, 1),
-};
-
-Floor firstFloor = new()
-{
-    Number = 1,
-};
-
-Floor secondFloor = new()
-{
-    Number = 2,
-};
-
-Floor thirdFloor = new()
-{
-    Number = 3,
-};
-
-Room mathRoom = new()
-{
-    Number = 101,
-    Type = RoomType.Regular | RoomType.Math
-};
-
-Room bioRoom = new()
-{
-    Number = 202,
-    Type = RoomType.Regular | RoomType.Biology
-};
-Room informRoom = new()
-{
-    Number = 103,
-    Type = RoomType.Regular | RoomType.Informatic
-};
-Room literatureRoom = new()
-{
-    Number = 204,
-    Type = RoomType.Regular | RoomType.Literature
-};
-Room gymRoom = new()
-{
-    Number = 300,
-    Type = RoomType.Regular | RoomType.Gym
-};
-Room physicsRoom = new()
-{
-    Number = 203,
-    Type = RoomType.Physics
-};
-Room hallRoom = new()
-{
-    Number = 200,
-    Type = RoomType.Hall
-};
-Room testRoom = new()
-{
-    Number = 203, 
-    Type = RoomType.Test
-};
-
-try
-{
-    malynivskaSchool.AddFloor(firstFloor);
-    malynivskaSchool.AddFloor(secondFloor);
-    malynivskaSchool.AddFloor(thirdFloor);
-
-    malynivskaSchool.AddDirector("Сиченко", "Володимир", 30);
-    malynivskaSchool.AddTeacher("Kuchinska", "Nataliya", 35);
-    malynivskaSchool.AddDirector("Fake", "Director", 30);
-    malynivskaSchool.AddTeacher("Kuchinska", "Olena", 38);
-    malynivskaSchool.AddTeacher("Kuchinska", "Olena", 3);
-
-    firstFloor.AddRoom(mathRoom);
-    firstFloor.AddRoom(informRoom);
-    secondFloor.AddRoom(bioRoom);
-    secondFloor.AddRoom(literatureRoom);
-    thirdFloor.AddRoom(gymRoom);
-    secondFloor.AddRoom(physicsRoom);
-    secondFloor.AddRoom(hallRoom);
-    secondFloor.AddRoom(testRoom);
-
-    malynivskaSchool.Print();
-}
-catch (Exception ex)
-{
-    Console.WriteLine(ex.Message);
-}
+using static School.ConsoleHelpers;
+using System.Text.Json;
+using System.Text;
 void PrintMenu()
 {
     Console.WriteLine("||====================================");
-    Console.WriteLine("||Hello, what you want do? Choice!");
     Console.WriteLine("||School=Create School");
-    Console.WriteLine("||Adress=Create Adress for School");
     Console.WriteLine("||Floor=Add Floor");
     Console.WriteLine("||Room=Add Room");
     Console.WriteLine("||Employee=Add Employee");
     Console.WriteLine("||Exit=Exit");
     Console.WriteLine("||====================================");
-}
-string GetChoice()
-{
-    var choise = Console.ReadLine();
-    return choise;
-}
 
-void Action(string choise)
-{
-    while(true)
+    string GetChoice()
     {
-        if (choise == "Floor")
+        var choise = Console.ReadLine();
+        return choise;
+    }
+    while (true)
+    {
+        while (true)
         {
-            Console.WriteLine("What's number floor?");
-            Floor floor = new Floor()
-            {
-                Number = Convert.ToInt32(Console.ReadLine())
-            };
-            Console.WriteLine($"You create new floor with number |{floor.Number}|");
-            return;
+            var choise = GetMenuChoice();
 
-        }
-        if (choise == "School")
-        {
-            Console.WriteLine($"What's name of school?");
-            School.School school = new()
+            if (!choise.HasValue)
             {
-                Name = Console.ReadLine(),
-                 = 
-            };
-            Console.WriteLine($"School name is |{school.Name}|");
-            Console.WriteLine("Which country of school?");
-            Console.WriteLine("School has been created");
+                Console.WriteLine("Wrong choise");
+                continue;
+            }
+
+            if (choise == Menu.Exit)
+            {
+                Console.WriteLine("Good Bye!");
+                return;
+            }
+
+            HandleChoice(choise);
+        }
+        void HandleChoice(Menu? choice)
+        {
+            switch (choice)
+            {
+                case Menu.School:
+                    AddSchool();
+                    break;
+                case Menu.Floor:
+                    AddFloor();
+                    break;
+                case Menu.Room:
+                    AddRoom();
+                    break;
+                case Menu.Employee:
+                    AddEmployee();
+                    break;
+                    Console.WriteLine("Unknown choice");
+                    break;
+            }
+        }
+        void AddFloor()
+        {
+            var floorNumber = GetIntValueFromConsole("Enter floor number: ");
+            Floor floor = new(floorNumber);
+
+            Context.School?.AddFloor(floor);
+            Context.School?.Print();
+            Console.WriteLine();
+            PrintMenu();
+        }
+        void AddSchool()
+        {
+            var name = GetValueFromConsole("Enter school name: ");
+            //Після відкриття програми шукати файл з назвою школи, якщо знаходить - десеалізувати файл в об'єкт школи та далі працювати з нею, якщо не знаходить - продовжувати заповнення школи
+            var address = GetSchoolAddress();
+
+            var openingDate = GetOpeningDateFromConsole("Enter school opening date: ");
+
+            School.School school = new(name, address, openingDate);
+            Context.School = school;
+            string json = JsonSerializer.Serialize(school);
+            string desktopFolder = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            string schoolFileName = @$"{school.Name}.txt";
+            string fullFolder = Path.Combine(desktopFolder, schoolFileName);
+
+            File.WriteAllText(fullFolder, json);
+           
+            if (File.Exists(fullFolder))
+            {
+                Console.WriteLine("!!!!!!!!!!!!!!!!!!!!!!!!!!!!File was create!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            }
+            //using (FileStream fstream = new FileStream(fullFolder, FileMode.OpenOrCreate))
+            //{
+            //    byte[] buffer = Encoding.Default.GetBytes(json);
+            //    fstream.Write(buffer, 0, buffer.Length);
+            //    Console.WriteLine("Текст записан в файл");
+            //}
+            Console.WriteLine($"School '{school.Name}' successfully added");
+            school.Print();
+            Console.WriteLine();
+            PrintMenu();
+        }
+
+        Address GetSchoolAddress()
+        {
+            var country = GetValueFromConsole("Enter school country: ");
+            var city = GetValueFromConsole("Enter school city or town: ");
+            var street = GetValueFromConsole("Enter school street: ");
+            var postalCode = GetIntValueFromConsole("Enter school postal code: ");
+
+            return new(country, city, street, postalCode);
+        }
+        void AddRoom()
+        {
+            while (true)
+            {
+                var floorNumber = GetIntValueFromConsole("Enter floor number: ");
+                var floor = Context.School?.Floors.FirstOrDefault(f => f.Number == floorNumber);
+
+                if (floor is null)
+                {
+                    Console.WriteLine($"Floor {floorNumber} does not exists. Either add new floor or enter correct floor number");
+                    continue;
+                }
+
+                var roomNumber = GetIntValueFromConsole("Enter room number: ");
+                var roomType = GetRoomTypeFromConsole("Enter room type: ");
+
+                floor.AddRoom(new(roomNumber, roomType, floor));
+                break;
+            }
+
+            Context.School?.Print();
+            Console.WriteLine();
+            PrintMenu();
+        }
+
+        Context.School?.Print();
+        Console.WriteLine();
+        void AddEmployee()
+        {
+            var firstName = GetValueFromConsole("Enter employee first name: ");
+            var lastName = GetValueFromConsole("Enter employee last name: ");
+            var age = GetIntValueFromConsole("Enter employee age: ");
+
+            while (true)
+            {
+                var type = GetValueFromConsole("If director enter (D/d), if teacher enter (T/t): ").ToUpperInvariant();
+
+                if (type == "T")
+                {
+                    Context.School?.AddTeacher(firstName, lastName, age);
+                    break;
+                }
+                else if (type == "D")
+                {
+                    Context.School?.AddDirector(firstName, lastName, age);
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("Wrong employee type");
+                }
+            }
+            Context.School?.Print();
+            Console.WriteLine();
+            PrintMenu();
+        }
+        void Exit()
+        {
+            Console.WriteLine("Good luck!");
             return;
         }
-        if (choise == "Adress")
-        {
-            Console.WriteLine("Which country of your school");
-            Adress adress = new Adress()
-            {
-                Country = Console.ReadLine(),
 
-            };
-        }
-        if (choise == "Room")
-        {
-            Console.WriteLine("What's room number");
-            Room room = new Room()
-            {
-                Number = Convert.ToInt32(Console.ReadLine()),
-                //Type = 
-            };
-        }
     }
 }
 PrintMenu();
-string choice = GetChoice();
-
-if (choice == "Exit")
-{
-    Console.WriteLine("Good luck!");
-    return;
-}
-
-Action(choice);
-while (true)
-{
-    //Console.WriteLine("||====================================");
-    //Console.WriteLine("||Hello, what you want do? Choice!");
-    //Console.WriteLine("||School=Create School");
-    //Console.WriteLine("||Floor=Add Floor");
-    //Console.WriteLine("||Room=Add Room");
-    //Console.WriteLine("||Employee=Add Employee");
-    //Console.WriteLine("||Exit=Exit");
-    //Console.WriteLine("||====================================");
-    var choise = Console.ReadLine();
-    if (choise == "Exit")
-    {
-        Console.WriteLine("Good luck!");
-        break;
-    }
-    if (choise == "Floor")
-    {
-        Console.WriteLine("What's number floor?");
-        Floor floor = new Floor()
-        {
-            Number = Convert.ToInt32(Console.ReadLine())
-        };
-    }
-    if (choise == "Room")
-    {
-        Convert.ToInt32(Console.ReadLine());
-        Console.WriteLine("What's room number");
-    }
-    if (choise == "School")
-    {
-        Console.WriteLine("What's name of school?");
-        
-    }
-    if (choise == "Employee")
-    {
-        Console.WriteLine("What's type of Employee? Choise!");
-        Console.WriteLine("1=Director");
-        Console.WriteLine("2=Teacher");
-        if (choise == "1")
-        {
-            Console.WriteLine("What's name of Director?");
-        }
-        if (choise == "2")
-        {
-            Console.WriteLine("What's name of Teacher?");
-        }
-    }
-}

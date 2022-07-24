@@ -1,8 +1,8 @@
 ﻿namespace School;
 
-class School
+public class School
 {
-    public Adress Address { get; set; }
+    public Address Address { get; set; }
     public IEnumerable<Room> Rooms
     { 
         get
@@ -15,7 +15,7 @@ class School
             return allRooms;
         }
     }
-    public DateOnly OpeningDate { get; set; }
+    public int OpeningDate { get; set; }
     public string Name { get; set; }
     public IEnumerable<Floor> Floors => _floors;
     public Employee? Director
@@ -34,15 +34,17 @@ class School
         }
     }
 
+    private readonly List<Floor> _floors = new();
+    public IEnumerable<Floor> Floor => _floors;
+
+    private readonly List<Employee> _employees = new();
     public IEnumerable<Employee> Employees => _employees;
-    private List<Floor> _floors;
-    private List<Employee> _employees;
     private List<Room> _rooms;
-    public School()
+    public School(string name, Address address, int openingDate)
     {
-        _floors = new List<Floor>();
-        _employees = new List<Employee>();
-        _rooms = new List<Room>();
+        Name = name;
+        Address = address;
+        OpeningDate = openingDate;
     }
 
     public void AddTeacher(string firstName, string lastName, int age)
@@ -120,17 +122,28 @@ class School
 
         for (int i = 0; i < _employees.Count; i++)
         {
-            var emp = _employees[i];
+            Employee emp = _employees[i];
             if (emp.FirstName == employee.FirstName && emp.LastName == employee.LastName && emp.Age == employee.Age)
             {
-                Console.WriteLine("Error(This employee already exists");
-                return ;
+                Console.WriteLine("*This employee already exists*");
+                Console.WriteLine("---------------------------------------------");
+                return;
             }
         }
         _employees.Add(employee);
+        Console.WriteLine("---------------------------------------------");
     }
     public void AddFloor(Floor floor)
     {
+        for (int i = 0; i < _floors.Count; i++)
+        {
+            if (_floors[i].Number == floor.Number)
+            {
+                Console.WriteLine($"Floor {floor.Number} already exists");
+                return;
+            }
+        }
+
         _floors.Add(floor);
     }
     public void AddSchool(School school)
@@ -138,6 +151,22 @@ class School
         school.Name = Console.ReadLine();
     }
     public void Print()
+    {
+        Console.WriteLine();
+        Console.WriteLine($"==========Rooms==========");
+        foreach (Floor floor in _floors)
+        {
+            floor.Print();
+        }
+
+        Console.WriteLine();
+        Console.WriteLine("==========Employees==========");
+        foreach (Employee employee in _employees)
+        {
+            employee.Print();
+        }
+    }
+    public void Info()
     {
         Console.WriteLine("==========School and director names===========");
         Console.WriteLine($"Name {Name}");

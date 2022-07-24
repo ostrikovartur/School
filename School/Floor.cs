@@ -1,39 +1,45 @@
 ﻿namespace School;
 
-class Floor
+public class Floor
 {
     public int Number { get; set; }
-    public List<Room> _rooms;
+    private readonly List<Room> _rooms = new();
     public IEnumerable<Room> Rooms => _rooms;
-    public Floor()
+    public Floor(int floor)
     {
-        _rooms = new List<Room>();
+        Number = floor;
     }
+
+    public Floor GetNumber(Floor Number)
+    {
+        return Number;
+    }
+
     public void AddRoom(Room room)
     {
-        Console.WriteLine("=========Room to add:===========");
-        Console.WriteLine($"Adding room:{room.Type} with number {room.Number}");
         if (room.Number < 0)
         {
-            Console.WriteLine("Error(Room number don't write)");
+            Console.WriteLine("room number must be greater than 0");
             return;
         }
+
         for (int i = 0; i < _rooms.Count; i++)
         {
-            var rom = _rooms[i];
-            if (rom.Number == room.Number)
+            Room r = _rooms[i];
+            if (r.Number == room.Number)
             {
-                Console.WriteLine("Error(This number already used)");
+                Console.WriteLine("This room number already exists");
                 return;
             }
         }
+
         _rooms.Add(room);
         room.Floor = this;
     }
     public void Print()
     {
-        Console.WriteLine($"Floor:{Number}, Rooms:{Rooms.Count()}");
-        foreach (Room room in _rooms)
+        Console.WriteLine($"Floor: {Number} Rooms count: {Rooms.Count()}");
+        foreach (Room room in Rooms)
         {
             room.Print();
         }

@@ -10,6 +10,6 @@ public abstract class Employee : Person
     public abstract string Job { get; }
     public void Print()
     {
-        Console.WriteLine($"{FirstName} {LastName} {Age} {Job}");
+        Console.WriteLine($"{LastName} {FirstName} {Age} {Job}");
     }
 }
