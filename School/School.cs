@@ -1,5 +1,7 @@
 ﻿namespace School;
-
+using System.Text.Json;
+using System.Text;
+using System.IO;
 public class School
 {
     public Address Address { get; set; }
@@ -40,6 +42,7 @@ public class School
     private readonly List<Employee> _employees = new();
     public IEnumerable<Employee> Employees => _employees;
     private List<Room> _rooms;
+
     public School(string name, Address address, int openingDate)
     {
         Name = name;
@@ -152,19 +155,52 @@ public class School
     }
     public void Print()
     {
-        Console.WriteLine();
-        Console.WriteLine($"==========Rooms==========");
-        foreach (Floor floor in _floors)
-        {
-            floor.Print();
-        }
+        string desktopFolder = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+        string schoolFileName = @$"{Name}.json";
+        string fullFolder = Path.Combine(desktopFolder, schoolFileName);
+        string fileText = File.ReadAllText(fullFolder);
+        Console.WriteLine(fileText);
+        //if (!File.Exists(fullFolder))
+        //{
 
-        Console.WriteLine();
-        Console.WriteLine("==========Employees==========");
-        foreach (Employee employee in _employees)
-        {
-            employee.Print();
-        }
+        //}
+        //else
+        //{
+        //    Console.WriteLine(fileText);
+        //}
+        //Console.WriteLine($"==========Rooms==========");
+        //foreach (Floor floor in _floors)
+        //{
+        //    floor.Print();
+        //}
+
+        //Console.WriteLine();
+        //Console.WriteLine("==========Employees==========");
+        //foreach (Employee employee in _employees)
+        //{
+        //    employee.Print();
+        //}
+    }
+    public void Save()
+    {
+        School school = new(Name, Address, OpeningDate);
+        Context.School = school;
+        string desktopFolder = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+        string schoolFileName = @$"{Name}.json";
+        string fullFolder = Path.Combine(desktopFolder, schoolFileName);
+        string json = JsonSerializer.Serialize(school, new JsonSerializerOptions { WriteIndented = true });
+        File.WriteAllText(fullFolder, json);
+        //return File.ReadAllText(fullFolder);
+    }
+    public void OpenFile()
+    {
+        School school = new(Name, Address, OpeningDate);
+        Context.School = school;
+        string desktopFolder = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+        string schoolFileName = @$"{Name}.json";
+        string fullFolder = Path.Combine(desktopFolder, schoolFileName);
+        string json = JsonSerializer.Serialize(school, new JsonSerializerOptions { WriteIndented = true });
+        string fileContent = File.ReadAllText(fullFolder);
     }
     public void Info()
     {

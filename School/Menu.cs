@@ -7,6 +7,7 @@
         Room,
         Employee,
         Info,
+        OpenFile,
         Exit
     }
 
