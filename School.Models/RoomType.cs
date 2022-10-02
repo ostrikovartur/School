@@ -1,4 +1,19 @@
-﻿namespace School;
+﻿namespace SchoolsTest.Models;
+
+[Flags]
+public enum RoomType
+{
+    Regular = 1,
+    Math = 2,
+    Biology = 4,
+    Literature = 8,
+    Informatic = 16,
+    Gym = 32,
+    Physics = 64,
+    Hall = 128,
+    Test = 256,
+    Workshop = 512,
+}
 
 public static class RoomTypeExt
 {
@@ -13,5 +28,5 @@ public static class RoomTypeExt
         { (int)RoomType.Physics, nameof(RoomType.Physics) },
         { (int)RoomType.Hall, nameof(RoomType.Hall) },
         { (int)RoomType.Workshop, nameof(RoomType.Workshop) }
-};
+    };
 }

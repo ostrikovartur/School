@@ -1,14 +1,12 @@
-﻿namespace School
-{
-    public enum Menu
-    {
-        School,
-        Floor,
-        Room,
-        Employee,
-        Info,
-        OpenFile,
-        Exit
-    }
+﻿namespace SchoolsTest.ConsoleMane;
 
+public enum Menu
+{
+    AddSchool,
+    SelectSchool,
+    AddFloor,
+    AddRoom,
+    AddEmployee,
+    ShowAll,
+    Exit
 }

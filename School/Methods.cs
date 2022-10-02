@@ -1,10 +1,41 @@
-﻿using School;
-using System.Text.Json;
+﻿using System.Text.Json;
 using System.Text;
-namespace School;
+using SchoolsTest.Models;
+using SchoolsTest.Data;
+using SchoolsTest.ConsoleMane;
 
-public static class ConsoleHelpers
+namespace SchoolsTest.ConsoleMane;
+
+public static class Methods
 {
+    public static void ShowMenu(Context ctx)
+    {
+        Console.WriteLine();
+        Console.WriteLine("What do you want to perform?");
+
+        Dictionary<Menu, string> menuItems = new()
+        {
+            { Menu.AddSchool, "Create school" },
+            { Menu.SelectSchool, "Select school" },
+            { Menu.AddFloor, "Add floor to the school" },
+            { Menu.AddRoom, "Add room to the floor" },
+            { Menu.AddEmployee, "Add employee" },
+            { Menu.ShowAll, "Show all information" },
+            { Menu.Exit, "Exit" }
+        };
+
+        foreach (var item in menuItems)
+        {
+            Console.WriteLine($"{(int)item.Key}: {item.Value}");
+        }
+    }
+    public static Menu? GetMenuChoice()
+    {
+        return Enum.TryParse<Menu>(Console.ReadLine(), out var choice)
+            ? choice
+            : (Menu?)null;
+    }
+
     public static string GetValueFromConsole(string message)
     {
         string? consoleValue;
@@ -20,13 +51,6 @@ public static class ConsoleHelpers
         }
         return consoleValue;
     }
-    public static Menu? GetMenuChoice()
-    {
-        return Enum.TryParse<Menu>(Console.ReadLine(), out var choice)
-            ? choice
-            : (Menu?)null;
-    }
-
     public static int GetIntValueFromConsole(string message)
     {
         int intValue;
@@ -52,7 +76,7 @@ public static class ConsoleHelpers
             ShowRoomTypes();
             var strValue = GetValueFromConsole(message);
 
-            if (Enum.TryParse<RoomType>(strValue, out roomType))
+            if (Enum.TryParse(strValue, out roomType))
             {
                 return roomType;
             }
@@ -70,15 +94,15 @@ public static class ConsoleHelpers
         }
     }
 
-    public static int GetOpeningDateFromConsole(string message)
+    public static DateOnly GetOpeningDateFromConsole(string message)
     {
-        int openingDate;
+        DateOnly openingDate;
 
         while (true)
         {
             var strValue = GetValueFromConsole(message);
 
-            if (int.TryParse(strValue, out openingDate))
+            if (DateOnly.TryParse(strValue, out openingDate))
             {
                 break;
             }
