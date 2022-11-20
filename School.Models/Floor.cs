@@ -3,59 +3,49 @@ using System.Text;
 
 namespace SchoolsTest.Models;
 
-public class Floor : ILogger
+public class Floor : BaseEntity
 {
     public int Number { get; set; }
 
-    private readonly List<Room> _rooms;
-    public IEnumerable<Room> Rooms => _rooms;
+    public School School { get; set; }
+    public ICollection<Room> Rooms { get; set; } = new HashSet<Room>();
 
-    public ILogger _logger;
-    public void SetLogger(ILogger logger)
+    public Floor()
     {
-        _logger = logger;
+
     }
-    public void LogInfo(string message) => Console.WriteLine(message);
-    public void LogError(string message) => Console.WriteLine(message);
-    public Floor(int number, ILogger logger)
+
+    public Floor(int number)
         : this(number, new List<Room>())
     {
-        SetLogger(logger);
     }
 
     [JsonConstructor]
-
     public Floor(int number, IEnumerable<Room> rooms)
     {
         Number = number;
-        _rooms = rooms.ToList();
 
-        foreach (var room in _rooms)
+        foreach (var room in Rooms)
         {
             room.Floor = this;
         }
     }
 
-    public void AddRoom(Room room)
+    public (bool IsValid, string? Error) AddRoom(Room room)
     {
         if (room.Number < 0)
         {
-            _logger.LogError("room number must be greater than 0");
-            return;
+            return (false, "room number must be greater than 0");
         }
 
-        for (int i = 0; i < _rooms.Count; i++)
+        if (Rooms.Any(r => r.Number == Number))
         {
-            Room r = _rooms[i];
-            if (r.Number == room.Number)
-            {
-                _logger.LogError("This room number already exists");
-                return;
-            }
+            return (false, "This room number already exists");
         }
 
-        _rooms.Add(room);
+        Rooms.Add(room);
         room.Floor = this;
+        return (true,null);
     }
 
     public override string ToString()

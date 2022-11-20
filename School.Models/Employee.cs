@@ -1,5 +1,6 @@
 ﻿using JsonSubTypes;
 using Newtonsoft.Json;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SchoolsTest.Models;
 
@@ -9,17 +10,11 @@ namespace SchoolsTest.Models;
 [JsonSubtypes.KnownSubType(typeof(Student), nameof(Student))]
 public abstract class Employee : Person
 {
-    public ILogger _logger;
-    public void SetLogger(ILogger logger)
-    {
-        _logger = logger;
-    }
-    protected Employee(string firstName, string lastName, int age, ILogger logger)
+    protected Employee(string firstName, string lastName, int age)
         : base(firstName, lastName, age)
     {
-        SetLogger(logger);
     }
-
+    public School School { get; set; }
     public abstract string Job { get; }
     public override string ToString()
     {

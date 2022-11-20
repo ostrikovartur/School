@@ -3,12 +3,13 @@ using System.Text;
 
 namespace SchoolsTest.Models;
 
-public class School : ILogger
+public class School : BaseEntity
 {
     public string Name { get; set; }
+    public int AddressId { get; set; }
     public Address Address { get; set; }
     public DateTime OpeningDate { get; set; }
-    
+
     [JsonIgnore]
     public IEnumerable<Room> Rooms
     {
@@ -25,10 +26,10 @@ public class School : ILogger
 
     [JsonIgnore]
     public Employee? Director
-    {
+    {        
         get
         {
-            foreach (Employee employee in _employees)
+            foreach (Employee employee in Employees)
             {
                 if (employee is Director director)
                 {
@@ -39,123 +40,140 @@ public class School : ILogger
         }
     }
 
-    private readonly List<Floor> _floors;
-    public IEnumerable<Floor> Floors => _floors;
+    public ICollection<Floor> Floors { get; set; } = new HashSet<Floor>();
 
-    private readonly List<Employee> _employees;
-    public IEnumerable<Employee> Employees => _employees;
+    public ICollection<Employee> Employees { get; set; } = new HashSet<Employee>();
+    public ICollection<Student> Students { get; set; } = new HashSet<Student>();
 
     private ILogger _logger;
-    public void SetLogger (ILogger logger)
+    public void SetLogger(ILogger logger)
     {
         _logger = logger;
-
-        foreach (Floor floor in _floors)
-        {
-            floor.SetLogger(logger);
-        }
-        foreach (Employee employee in _employees)
-        {
-            employee.SetLogger(logger);
-        }
     }
-    public void LogInfo(string message) => Console.WriteLine(message);
-    public void LogError(string message) => Console.WriteLine(message);
+    public School()
+    {
+
+    }
 
     public School(string name, Address address, DateOnly openingDate, ILogger logger)
-        : this(name, address, openingDate.ToDateTime(TimeOnly.MinValue), new List<Floor>(), new List<Employee>())
+        : this(name, address, openingDate.ToDateTime(TimeOnly.MinValue), new List<Floor>(), new List<Employee>(), new List<Student>())
     {
         SetLogger(logger);
     }
 
     [JsonConstructor]
-    public School(string name, Address address, DateTime openingDate, IEnumerable<Floor> floors, IEnumerable<Employee> employees)
+    public School(string name, Address address, DateTime openingDate, IEnumerable<Floor> floors, IEnumerable<Employee> employees, IEnumerable<Student> students)
     {
         Name = name;
         Address = address;
         OpeningDate = openingDate;
-        _floors = floors.ToList();
-        _employees = employees.ToList();
+        Floors = floors.ToList();
+        Employees = employees.ToList();
+        Students = students.ToList();
     }
-    public void AddFloor(Floor floor)
+
+
+    public (bool IsValid, string? Error) AddFloor(Floor floor)
     {
-        for (int i = 0; i < _floors.Count; i++)
+        foreach (Floor flr in Floors)
         {
-            if (_floors[i].Number == floor.Number)
+            if (flr.Number == floor.Number && flr.Id == floor.Id)
             {
-                _logger.LogError($"Floor {floor.Number} already exists");
-                return;
+                return (false, $"Floor {floor.Number} already exists");
             }
         }
-
-        _floors.Add(floor);
+        Floors.Add(floor);
+        return (true, null);
     }
-    public void AddEmployee (Employee employee)
-    {
-        Console.WriteLine($"Employee {employee.Job} {employee.FirstName} {employee.LastName} with age {employee.Age}");
 
+    public (bool IsValid, string? Error) AddEmployee(Employee employee)
+    {
         if (employee is Director && Director is not null)
         {
-            _logger.LogError("Director already exist");
-            return;
+            return (false, "Director already exist");
         }
 
         if (string.IsNullOrEmpty(employee.FirstName))
         {
-            _logger.LogError("First name is not provided");
-            return;
+            return (false, "First name is not provided");
         }
 
         if (string.IsNullOrEmpty(employee.LastName))
         {
-            _logger.LogError("Last name is not provided");
-            return;
+            return (false, "Last name is not provided");
         }
 
         if (employee.Age < 18)
         {
-            _logger.LogError("Employee shouldn`t be less then 18");
-            return;
+            return (false, "Employee shouldn`t be less then 18");
         }
 
         if (employee.Age > 65)
         {
-            _logger.LogError("Employee should be less then 65");
-            return;
+            return (false, "Employee should be less then 65");
         }
-
-        for (int i = 0; i < _employees.Count; i++)
+        foreach (Employee emp in Employees)
         {
-            Employee emp = _employees[i];
             if (emp.FirstName == employee.FirstName && emp.LastName == employee.LastName && emp.Age == employee.Age)
             {
-                _logger.LogError("*This employee already exists*");
-                return;
+                return (false, "This employee already exist");
             }
         }
-        _employees.Add(employee);
-        _logger.LogInfo("Director add");
+        Employees.Add(employee);
+        return (true, null);
     }
+    public (bool IsValid, string? Error) AddStudent(Student student)//додати студента,
+    {
+
+        if (string.IsNullOrEmpty(student.FirstName))
+        {
+            return (false, "First name is not provided");
+        }
+
+        if (string.IsNullOrEmpty(student.LastName))
+        {
+            return (false, "Last name is not provided");
+        }
+
+        if (student.Age < 16)
+        {
+            return (false, "Student shouldn`t be less then 16");
+        }
+
+        foreach (Student std in Students)
+        {
+            if (std.FirstName == student.FirstName && std.LastName == student.LastName && std.Age == student.Age)
+            {
+                return (false, "This student already exist");
+            }
+        }
+        Students.Add(student);
+        return (true, null);
+    }
+
 
     public override string ToString()
     {
-        StringBuilder sb = new ();
+        StringBuilder sb = new();
+        sb.AppendLine("++++++++++++++++++++++++++++");
         sb.AppendLine($"School {Name}:");
-        sb.AppendLine($"Total floors: {Floors.Count()}:");
+        sb.AppendLine($"Total floors: {Floors.Count}:");
         sb.AppendLine($"Total rooms: {Rooms.Count()}:");
+        sb.AppendLine($"Total employees: {Employees.Count}:");
         sb.AppendLine();
         sb.AppendLine("==========Rooms==========");
-        foreach (Floor floor in _floors)
+        foreach (Floor floor in Floors)
         {
             sb.AppendLine(floor.ToString());
         }
 
         sb.AppendLine();
         sb.AppendLine("==========Employees==========");
-        foreach (Employee employee in _employees)
+        foreach (Employee employee in Employees)
         {
             sb.AppendLine(employee.ToString());
         }
+        sb.AppendLine("++++++++++++++++++++++++++++");
         return sb.ToString();
     }
 }

@@ -1,6 +1,5 @@
 ﻿namespace SchoolsTest.Models;
 
-[Flags]
 public enum RoomType
 {
     Regular = 1,

@@ -2,7 +2,7 @@
 
 namespace SchoolsTest.Models;
 
-public class Room
+public class Room : BaseEntity
 {
     public int Number { get; set; }
 
@@ -10,6 +10,10 @@ public class Room
     public Floor Floor { get; set; }
 
     public RoomType Type { get; set; }
+    public Room()
+    {
+
+    }
 
     public Room(int number, RoomType type, Floor floor)
     {

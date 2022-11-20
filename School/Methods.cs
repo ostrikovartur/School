@@ -8,7 +8,7 @@ namespace SchoolsTest.ConsoleMane;
 
 public static class Methods
 {
-    public static void ShowMenu(Context ctx)
+    public static void ShowMenu(AppDbContext dbContext)
     {
         Console.WriteLine();
         Console.WriteLine("What do you want to perform?");
@@ -20,6 +20,7 @@ public static class Methods
             { Menu.AddFloor, "Add floor to the school" },
             { Menu.AddRoom, "Add room to the floor" },
             { Menu.AddEmployee, "Add employee" },
+            { Menu.AddStudent, "Add student"},
             { Menu.ShowAll, "Show all information" },
             { Menu.Exit, "Exit" }
         };

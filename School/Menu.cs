@@ -7,6 +7,7 @@ public enum Menu
     AddFloor,
     AddRoom,
     AddEmployee,
+    AddStudent,
     ShowAll,
     Exit
 }

@@ -117,6 +117,7 @@ CREATE TABLE [dbo].[Employee](
 	[FirstName] [nvarchar](50) NOT NULL,
 	[LastName] [nvarchar](50) NOT NULL,
 	[Age] [int] NOT NULL,
+	[SchoolID] [int] NOT NULL,
  CONSTRAINT [PK_Employee] PRIMARY KEY CLUSTERED 
 (
 	[ID] ASC

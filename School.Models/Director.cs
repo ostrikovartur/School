@@ -1,12 +1,10 @@
-﻿namespace SchoolsTest.Models
+﻿namespace SchoolsTest.Models;
+
+public class Director : Employee
 {
-    public class Director : Employee
+    public Director(string firstName, string lastName, int age)
+        : base(firstName, lastName, age)
     {
-        public Director(string firstName, string lastName, int age, ILogger logger)
-            : base(firstName, lastName, age, logger)
-        {
-            SetLogger(logger);
-        }
-        public override string Job => "Director";
     }
+    public override string Job => nameof(Director);
 }
