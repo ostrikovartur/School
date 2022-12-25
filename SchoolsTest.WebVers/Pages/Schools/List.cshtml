@@ -1,0 +1,22 @@
+﻿@page "/schools"
+
+@model SchoolsList
+@{
+}
+<h1>List schools</h1>
+<table align="left" width="500px" border="1">
+    @foreach (var school in Model.Schools)
+    {
+        <tr>
+            <td>@school.Name</td>
+            <td>|</td>
+            <td>@school.Id</td>
+            <td>|</td>
+            @*<td>@school.Director.FirstName @school.Director.LastName</td>*@
+            <td><a asp-page="School" asp-route-id="@school.Id">Select school</a></td>
+            <td>|</td>
+            <td><a asp-page="Edit" asp-route-id="@school.Id">Edit school</a></td>
+        </tr>
+    }
+    <h2><a asp-page="Add">Add new school</a></h2>
+</table>

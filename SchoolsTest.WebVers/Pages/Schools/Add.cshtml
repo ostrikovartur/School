@@ -1,0 +1,36 @@
+﻿@page "/schools/addSchool"
+@model AddSchool
+@{
+}
+<h2>@Model.Message</h2>
+<form method="post" >
+    <table align="left">
+        <tr>
+            <td>Name</td>
+            <td><input type="text" name="name"/></td>
+        </tr>
+        <tr>
+            <td>Country</td>
+            <td><input type="text" name="country"/></td>
+        </tr>
+        <tr>
+            <td>City</td>
+            <td><input type="text" name="city"/></td>      
+        </tr>
+        <tr>
+            <td>Street</td>
+            <td><input type="text" name="street"/></td>      
+        </tr>
+        <tr>
+            <td>Postal code</td>
+            <td><input type="text" name="postalCode"/></td>      
+        </tr>
+        <tr>
+            <td>Opening date</td>
+            <td><input type="date" name="openingDate"/></td>      
+        </tr>
+        <tr>
+            <td><input type="submit" value="Save"/></td>
+        </tr>
+    </table>
+</form>
