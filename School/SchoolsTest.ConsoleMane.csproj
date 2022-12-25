@@ -11,6 +11,7 @@
 		<ProjectReference Include="..\School.Data\SchoolsTest.Data.csproj" />
 		<ProjectReference Include="..\School.Models\SchoolsTest.Models.csproj" />
 		<PackageReference Include="JsonSubTypes" Version="1.9.0" />
+		<PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.0" />
 	</ItemGroup>
 
 </Project>

@@ -7,11 +7,10 @@ public class Teacher : Employee
     private readonly List<string> _subjects;
     public ICollection<string> Subjects => _subjects;
 
-    public Teacher(string firstName, string lastName, int age, ILogger logger)
-        : base(firstName, lastName, age, logger)
+    public Teacher(string firstName, string lastName, int age)
+        : base(firstName, lastName, age)
     {
         _subjects = new List<string>();
-        SetLogger(logger);
     }
 
     public void AddSubject(string subject)

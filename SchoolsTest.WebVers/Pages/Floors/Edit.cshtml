@@ -1,0 +1,20 @@
+﻿@page "/floors/edit"
+@model Edit
+@{
+}
+<h2>Edit floor</h2>
+<form method="post" >
+    <table align="left"> 
+        <tr>
+            <td>Number: </td>
+            <td><input type="number" asp-for="Floor.Number"/></td>
+        </tr>
+        <tr>
+            <td><a asp-page="List"> <input type="submit" value="Save" asp-page-handler="Save" /> </a></td>
+        </tr>
+        <tr>
+            <td><a asp-page="List"> <input type="submit" value="Delete" asp-page-handler="Delete" /> </a></td>
+        </tr>
+    </table>
+    <input type="hidden" asp-for="Floor.Id" />
+</form>

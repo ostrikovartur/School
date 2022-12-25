@@ -1,4 +1,4 @@
-﻿namespace SchoolsTest.Models;
+﻿namespace SchoolsTest.Models.Interfaces;
 
 public interface ILogger
 {

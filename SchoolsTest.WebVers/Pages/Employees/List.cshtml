@@ -1,0 +1,21 @@
+﻿@page "/employees"
+@model EmployeesList
+@{
+}
+<h1>List employees</h1>
+<table align="left" width="300px" border="1">
+    @foreach (var employee in Model.Employees)
+    {
+        <tr>
+            <td>@employee.Id</td>
+            <td>|</td>
+            <td>@employee.FirstName</td>
+            <td>|</td>
+            <td>@employee.LastName</td>
+            <td>|</td>
+            <td>@employee.Age</td>
+            <td>|</td>
+            <td>@employee.Job</td>
+        </tr>
+    }
+</table>

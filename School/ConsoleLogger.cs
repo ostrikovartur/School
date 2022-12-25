@@ -1,4 +1,4 @@
-﻿using SchoolsTest.Models;
+﻿using SchoolsTest.Models.Interfaces;
 
 namespace SchoolsTest.ConsoleMane;
 

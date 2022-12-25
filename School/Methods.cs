@@ -1,14 +1,10 @@
-﻿using System.Text.Json;
-using System.Text;
-using SchoolsTest.Models;
-using SchoolsTest.Data;
-using SchoolsTest.ConsoleMane;
+﻿using SchoolsTest.Models;
 
 namespace SchoolsTest.ConsoleMane;
 
 public static class Methods
 {
-    public static void ShowMenu(Context ctx)
+    public static void ShowMenu()
     {
         Console.WriteLine();
         Console.WriteLine("What do you want to perform?");
@@ -94,15 +90,15 @@ public static class Methods
         }
     }
 
-    public static DateOnly GetOpeningDateFromConsole(string message)
+    public static DateTime GetOpeningDateFromConsole(string message)
     {
-        DateOnly openingDate;
+        DateTime openingDate;
 
         while (true)
         {
             var strValue = GetValueFromConsole(message);
 
-            if (DateOnly.TryParse(strValue, out openingDate))
+            if (DateTime.TryParse(strValue, out openingDate))
             {
                 break;
             }

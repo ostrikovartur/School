@@ -1,0 +1,19 @@
+﻿@page "/students"
+@model StudentsList
+@{
+}
+<h1>List students</h1>
+<table align="left" width="300px" border="1">
+    @foreach (var student in Model.Students)
+    {
+        <tr>
+            <td>@student.Id</td>
+            <td>|</td>
+            <td>@student.FirstName</td>
+            <td>|</td>
+            <td>@student.LastName</td>
+            <td>|</td>
+            <td>@student.Age</td>
+        </tr>
+    }
+</table>

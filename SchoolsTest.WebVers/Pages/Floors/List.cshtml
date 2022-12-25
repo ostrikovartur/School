@@ -1,0 +1,19 @@
+﻿@page "/floors"
+@model FloorsList
+@{
+}
+<h1>List floors</h1>
+<table align="left" width="500px" border="1">
+    @foreach (var floor in Model.Floors)
+    {
+        <tr>
+            <td>@floor.Id</td>
+            <td>|</td>
+            <td>@floor.Number</td>
+            <td>|</td>
+            <td><a asp-page="Floor" asp-route-floorId="@floor.Id">Selected floor</a></td>
+            <td>|</td>
+            <td><a asp-page="Edit" asp-route-floorId="@floor.Id">Edit floor</a></td>
+        </tr>
+    }
+</table>

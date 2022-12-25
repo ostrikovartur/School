@@ -2,10 +2,9 @@
 {
     public class Director : Employee
     {
-        public Director(string firstName, string lastName, int age, ILogger logger)
-            : base(firstName, lastName, age, logger)
+        public Director(string firstName, string lastName, int age)
+            : base(firstName, lastName, age)
         {
-            SetLogger(logger);
         }
         public override string Job => "Director";
     }
