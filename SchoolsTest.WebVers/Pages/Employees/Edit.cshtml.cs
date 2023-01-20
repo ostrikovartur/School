@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using SchoolsTest.Models;
 using SchoolsTest.Models.Interfaces;
 
-namespace SchoolsTest.WebVers.Pages.Schools;
+namespace SchoolsTest.WebVers.Pages.Employees;
 
 public class Edit : PageModel
 {

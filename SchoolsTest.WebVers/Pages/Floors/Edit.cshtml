@@ -10,11 +10,12 @@
             <td><input type="number" asp-for="Floor.Number"/></td>
         </tr>
         <tr>
-            <td><a asp-page="List"> <input type="submit" value="Save" asp-page-handler="Save" /> </a></td>
+            <td><a asp-page="List"> <input type="submit" value="Update" asp-page-handler="Update" /> </a></td>
         </tr>
         <tr>
             <td><a asp-page="List"> <input type="submit" value="Delete" asp-page-handler="Delete" /> </a></td>
         </tr>
     </table>
     <input type="hidden" asp-for="Floor.Id" />
+    <input type="hidden" asp-for="School.Id" />
 </form>

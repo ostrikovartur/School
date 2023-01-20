@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using SchoolsTest.Models;
 using SchoolsTest.Models.Interfaces;
 
@@ -13,5 +14,10 @@ public class SchoolRepository : Repository<School>, ISchoolRepository
     public School? GetSchoolWithAddress(int id)
     {
         return _dbContext.Set<School>().Include(s => s.Address).SingleOrDefault(s => s.Id == id);
+    }
+    public School? GetSchoolId()
+    {
+        School? schoolId = .Request.Cookies["SchoolId"];
+        return schoolId;
     }
 }

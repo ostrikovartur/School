@@ -9,6 +9,10 @@ public class Floor : BaseEntity
     public ICollection<Room> Rooms { get; set; } = new HashSet<Room>();
     public School School { get; set; }
 
+    public Floor()
+    {
+
+    }
     public Floor(int number)
         : this(number, new List<Room>())
     {

@@ -8,22 +8,22 @@ namespace SchoolsTest.WebVers.Pages.Floors;
 
 public class Edit : PageModel
 {
-    AppDbContext _dbcontext;
     private readonly IRepository<Floor> _repository;
-    public IEnumerable<Floor> Schools { get; set; }
+    public IEnumerable<Floor> Floors { get; set; }
+    public School School { get; set; }
+    //public IEnumerable<Floor> Floors { get; set; }
     public Floor Floor { get; set; }
-    public string Message { get; private set; } = "";
 
-    public Edit(IRepository<Floor> repository, AppDbContext dbContext)
+    public Edit(IRepository<Floor> repository)
     {
         _repository = repository;
-        _dbcontext = dbContext;
     }
-    public void OnGet()
+    public void OnGet(var sId)
     {
-        Schools = _repository.GetAll();
+        Floors = _repository.GetAll();
+        sId = HttpContext.Request.Cookies["SchoolId"];
     }
-    public IActionResult OnPostSave(Floor floor)
+    public IActionResult OnPostUpdate(Floor floor)
     {
         _repository.Update(floor);
         return Redirect($"/floors");
