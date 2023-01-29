@@ -20,7 +20,7 @@ public class RoomConfig : IEntityTypeConfiguration<Room>
         builder.Property(t => t.Type)
             .HasColumnType<RoomType>("tinyint");
 
-        builder.HasOne(t => t.Floor)
+        builder.HasOne(t => t.FloorNumber)
             .WithMany(t => t.Rooms);
     }
 }

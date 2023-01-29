@@ -7,7 +7,7 @@
     <table align="left">
         <tr>
             <td>Room number:</td>
-            <td><input type="number" name="roomNumber" /></td>
+            <td><input type="number" asp-for="Room.Number" /></td>
         </tr>
         <tr>
             <td>Room type:</td>
@@ -19,6 +19,10 @@
                     <input type="checkbox" name="roomTypes[]" value="@type.Value" /></td>
                 </tr>
         }
+        <tr>
+            <td>Floor number:</td>
+            <td><input type="number" name="floorNumber" /></td>
+        </tr>
         <tr>
             <td><input type="submit" /> </td>
         </tr>

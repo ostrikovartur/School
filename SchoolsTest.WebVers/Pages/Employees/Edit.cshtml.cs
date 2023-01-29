@@ -1,3 +1,4 @@
+using Azure;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using SchoolsTest.Models;
@@ -47,9 +48,8 @@ public class Edit : BasePageModel
             return NotFound("Employee is not found");
         }
 
-        employee.FirstName = employeeToUpdate.FirstName;
-        employee.LastName = employeeToUpdate.LastName;
-        employee.Age = employeeToUpdate.Age;
+        employeeToUpdate.SetNames(employee.FirstName, employee.LastName);
+        employeeToUpdate.SetAge(employee.Age);
 
         _repository.Update(employeeToUpdate);
         return Redirect($"/employees");
@@ -63,10 +63,6 @@ public class Edit : BasePageModel
         {
             return NotFound("Employee is not found");
         }
-
-        employee.FirstName = employeeToDelete.FirstName;
-        employee.LastName = employeeToDelete.LastName;
-        employee.Age = employeeToDelete.Age;
 
         _repository.Delete(employeeToDelete);
         return Redirect($"/employees");

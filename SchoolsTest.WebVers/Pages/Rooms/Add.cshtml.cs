@@ -26,11 +26,11 @@ public class RoomAdd : PageModel
     }
     public IActionResult OnPost(int floorId, int roomNumber, RoomType[] roomTypes)
     {
-        var currentFloor = _dbcontext.Floors
+        var floor = _dbcontext.Floors
             .Where(floor => floor.Id == floorId)
             .SingleOrDefault();
 
-        if (currentFloor is null)
+        if (floor is null)
         {
             return NotFound("Floor not found");
         }
@@ -41,7 +41,7 @@ public class RoomAdd : PageModel
             roomType |= rt;
         }
 
-        var (valid, error) = currentFloor.AddRoom(new Room(roomNumber, roomType, currentFloor));
+        var (valid, error) = floor.AddRoom(new Room(roomNumber, roomType, floor));
         if (!valid)
         {
             return BadRequest(error);

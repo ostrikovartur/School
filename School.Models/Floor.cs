@@ -28,7 +28,7 @@ public class Floor : BaseEntity
 
         foreach (var room in Rooms)
         {
-            room.Floor = this;
+            room.FloorNumber = this;
         }
     }
 
@@ -45,7 +45,7 @@ public class Floor : BaseEntity
         }
 
         Rooms.Add(room);
-        room.Floor = this;
+        room.FloorNumber = this;
         return (true, null);
     }
 

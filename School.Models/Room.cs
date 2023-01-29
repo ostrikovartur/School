@@ -7,7 +7,7 @@ public class Room : BaseEntity
     public int Number { get; set; }
 
     [JsonIgnore]
-    public Floor Floor { get; set; }
+    public Floor FloorNumber { get; set; }
 
     public RoomType Type { get; set; }
 
@@ -19,7 +19,7 @@ public class Room : BaseEntity
     {
         Number = number;
         Type = type;
-        Floor = floor;
+        FloorNumber = floor;
     }
     public override string ToString()
     {

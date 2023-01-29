@@ -7,15 +7,15 @@
     <table align="left"> 
         <tr>
             <td>First Name: </td>
-            <td><input type="text" name="firstName" /></td>
+            <td><input type="text" asp-for="Student.FirstName" /></td>
         </tr>
         <tr>
             <td>Last Name: </td>
-            <td><input type="text" name="lastName" /></td>
+            <td><input type="text" asp-for="Student.LastName" /></td>
         </tr>
         <tr>
             <td>Age: </td>
-            <td><input type="number" name="age" /></td>
+            <td><input type="number" asp-for="Student.Age" /></td>
         </tr>
         <tr>
             <td><a asp-page="List"> <input type="submit" value="Update" asp-page-handler="Update" /> </a></td>
@@ -24,4 +24,6 @@
             <td><a asp-page="List"> <input type="submit" value="Delete" asp-page-handler="Delete" /> </a></td>
         </tr>
     </table>
+    <input type="hidden" asp-for="Student.Id" />
+    <input type="hidden" asp-for="Student.SchoolId" />
 </form>

@@ -32,16 +32,16 @@ public class DirectorAdd : PageModel
         {
             return NotFound("Incorrect school Id");
         }
+
         var currentSchool = _dbcontext.Schools
             .Where(school => school.Id == schoolId)
             .SingleOrDefault();
+        //if (currentSchool.Director is not null)
+        //{
+        //    throw new Exception("Director already exist");
+        //}
         Models.Director director = new(firstName, lastName, age);
         var (valid, error) = currentSchool.AddEmployee(director);
-        if (director != null)
-        {
-            //error = "Director already exist";
-            
-        }
         _dbcontext.SaveChanges();
         return Redirect($"/schools/{schoolId}");
     }
