@@ -15,9 +15,9 @@ public class SchoolRepository : Repository<School>, ISchoolRepository
     {
         return _dbContext.Set<School>().Include(s => s.Address).SingleOrDefault(s => s.Id == id);
     }
-    public School? GetSchoolId()
-    {
-        School? schoolId = .Request.Cookies["SchoolId"];
-        return schoolId;
-    }
+    //public School? GetSchoolId(int id)
+    //{
+    //    id = Request.Cookies;
+    //    return 
+    //}
 }

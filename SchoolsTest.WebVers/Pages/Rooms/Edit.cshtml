@@ -1,4 +1,26 @@
-﻿@page
-@model SchoolsTest.WebVers.Pages.Rooms.EditModel
+﻿@page ""
+@model SchoolsTest.WebVers.Pages.Rooms.Edit
 @{
 }
+<h2>Edit room</h2>
+<form method="post">
+    <table align="left">
+        <tr>
+            <td>Room number:</td>
+            <td><input type="number" name="roomNumber" /></td>
+        </tr>
+        <tr>
+            <td>Room type:</td>
+        </tr>
+        @foreach (var type in Model.RoomType)
+        {
+                <tr>
+                    <td>@type.Value
+                    <input type="checkbox" name="roomTypes[]" value="@type.Value" /></td>
+                </tr>
+        }
+        <tr>
+            <td><input type="submit" /> </td>
+        </tr>
+    </table>
+</form>

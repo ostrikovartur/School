@@ -11,9 +11,9 @@
             <td>|</td>
             <td>@floor.Number</td>
             <td>|</td>
-            <td><a asp-page="Floor" asp-route-floorId="@floor.Id">Selected floor</a></td>
+            <td><a asp-page="Floor" asp-route-id="@floor.Id" asp-route-schoolId="@floor.SchoolId">Selected floor</a></td>
             <td>|</td>
-            <td><a asp-page="Edit" asp-route-floorId="@floor.Id">Edit floor</a></td>
+            <td><a asp-page="Edit" asp-route-id="@floor.Id" asp-route-schoolId="@floor.SchoolId">Edit floor</a></td>
         </tr>
     }
 </table>

@@ -25,6 +25,11 @@ public class Repository<TEntity> : IRepository<TEntity> where TEntity : BaseEnti
             .ToArray();
     }
 
+    public TEntity Get(int id)
+    {
+        return _dbContext.Set<TEntity>().Find(id);
+    }
+
     public void Add(TEntity entity)
     {
         _dbContext.Set<TEntity>().Add(entity);

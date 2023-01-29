@@ -16,6 +16,8 @@
             <td>@employee.Age</td>
             <td>|</td>
             <td>@employee.Job</td>
+            <td>|</td>
+            <td><a asp-page="Edit" asp-route-id="@employee.Id" asp-route-schoolId="@employee.SchoolId">Edit employee</a></td>
         </tr>
     }
 </table>

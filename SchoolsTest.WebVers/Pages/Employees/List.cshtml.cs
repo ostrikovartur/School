@@ -7,10 +7,10 @@ namespace SchoolsTest.WebVers.Pages.Employees;
 
 public class EmployeesList : PageModel
 {
-    private readonly IRepository<Employee> _repository;
-    public IEnumerable<Employee> Employees { get; set; }
+    private readonly IRepository<Models.Employee> _repository;
+    public IEnumerable<Models.Employee> Employees { get; set; }
 
-    public EmployeesList(IRepository<Employee> repository)
+    public EmployeesList(IRepository<Models.Employee> repository)
     {
         _repository = repository;
     }

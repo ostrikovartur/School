@@ -1,16 +1,12 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using SchoolsTest.Data;
-using SchoolsTest.Models;
-using SchoolsTest.Models.Interfaces;
 
-namespace SchoolsTest.WebVers.Pages.Floors;
+namespace SchoolsTest.WebVers.Pages.Employees;
 
-public class SelectedFloor : PageModel
+public class Employee : BasePageModel
 {
     public int SchoolId { get; set; }
     public int Id { get; set; }
-    public string Message { get; private set; } = "";
     public void OnGet(int schoolId, int id)
     {
         SchoolId = schoolId;

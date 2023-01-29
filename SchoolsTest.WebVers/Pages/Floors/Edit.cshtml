@@ -1,4 +1,4 @@
-﻿@page "/floors/edit"
+﻿@page "/floors/edit/{id}"
 @model Edit
 @{
 }
@@ -17,5 +17,5 @@
         </tr>
     </table>
     <input type="hidden" asp-for="Floor.Id" />
-    <input type="hidden" asp-for="School.Id" />
+    <input type="hidden" asp-for="Floor.SchoolId" />
 </form>

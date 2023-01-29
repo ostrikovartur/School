@@ -11,4 +11,8 @@ public abstract class Person : BaseEntity
         LastName = lastName;
         Age = age;
     }
+    public Person()
+    {
+
+    }
 }

@@ -6,22 +6,35 @@ using SchoolsTest.Models.Interfaces;
 
 namespace SchoolsTest.WebVers.Pages.Floors;
 
-public class Edit : PageModel
+public class Edit : BasePageModel
 {
     private readonly IRepository<Floor> _repository;
     public IEnumerable<Floor> Floors { get; set; }
+    public IEnumerable<School> Schools { get; set; }
     public School School { get; set; }
-    //public IEnumerable<Floor> Floors { get; set; }
     public Floor Floor { get; set; }
 
     public Edit(IRepository<Floor> repository)
     {
         _repository = repository;
     }
-    public void OnGet(var sId)
+    public IActionResult OnGet(int id)
     {
-        Floors = _repository.GetAll();
-        sId = HttpContext.Request.Cookies["SchoolId"];
+        var schoolId = GetSchoolId();
+
+        if (schoolId == null)
+        {
+            return Redirect("/schools");
+        }
+
+        Floor = _repository.Get(id);
+
+        if (Floor is null)
+        {
+            return NotFound("Floor is not found");
+        }
+
+        return Page();
     }
     public IActionResult OnPostUpdate(Floor floor)
     {

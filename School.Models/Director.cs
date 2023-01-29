@@ -6,6 +6,7 @@
             : base(firstName, lastName, age)
         {
         }
+        public Director() { }
         public override string Job => "Director";
     }
 }

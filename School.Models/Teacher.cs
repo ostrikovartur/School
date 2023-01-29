@@ -12,6 +12,7 @@ public class Teacher : Employee
     {
         _subjects = new List<string>();
     }
+    public Teacher() { }
 
     public void AddSubject(string subject)
     {

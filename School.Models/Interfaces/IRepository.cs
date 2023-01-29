@@ -10,4 +10,6 @@ public interface IRepository<TEntity> where TEntity : BaseEntity
     IEnumerable<TEntity> GetAll();
     IEnumerable<TEntity> GetAll(Expression<Func<TEntity, bool>> predicate);
     void Update(TEntity entity);
+
+    TEntity Get(int id);
 }

@@ -13,9 +13,19 @@ public abstract class Employee : Person
         : base(firstName, lastName, age)
     {
     }
+    protected Employee()
+    {
 
+    }
     public School School { get; set; }
+    public int SchoolId { get; set; }
     public abstract string Job { get; }
+    protected Employee(School school, int schoolId)
+    {
+        School = school;
+        SchoolId = schoolId;
+    }
+
     public override string ToString()
     {
         return $"{LastName} {FirstName} {Age} {Job}";

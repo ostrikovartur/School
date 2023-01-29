@@ -10,6 +10,10 @@ public class Student : Person
     {
         _subjects = new List<string>();
     }
+    public Student()
+    {
+
+    }
     public void AddSubject(string subject)
     {
         _subjects.Add(subject);
