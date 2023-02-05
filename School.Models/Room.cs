@@ -5,9 +5,8 @@ namespace SchoolsTest.Models;
 public class Room : BaseEntity
 {
     public int Number { get; set; }
-
-    [JsonIgnore]
-    public Floor FloorNumber { get; set; }
+    public int FloorId { get; set; }
+    public Floor Floor { get; set; }
 
     public RoomType Type { get; set; }
 
@@ -19,7 +18,7 @@ public class Room : BaseEntity
     {
         Number = number;
         Type = type;
-        FloorNumber = floor;
+        Floor = floor;
     }
     public override string ToString()
     {

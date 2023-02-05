@@ -47,6 +47,6 @@ public class RoomAdd : PageModel
             return BadRequest(error);
         }
         _dbcontext.SaveChanges();
-        return Redirect($"/floors/{floorId}/rooms");
+        return Redirect($"/{floorId}/rooms");
     }
 }

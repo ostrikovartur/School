@@ -11,7 +11,7 @@ public class RoomsList : PageModel
     public IEnumerable<Room> Rooms { get; set; }
 
     public int FloorId { get; set; }
-    public Floor FloorNumber { get; set; }
+    public int FloorNumber { get; set; }
 
     public RoomsList(IRepository<Room> repository)
     {
@@ -21,6 +21,6 @@ public class RoomsList : PageModel
     public void OnGet(int floorId)
     {
         FloorId = floorId;
-        Rooms = _repository.GetAll(r => r.FloorNumber.Id == floorId);
+        Rooms = _repository.GetAll(r => r.Floor.Id == floorId);
     }
 }

@@ -1,77 +1,81 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using SchoolsTest.Data;
-using SchoolsTest.Models.Interfaces;
 using SchoolsTest.Models;
+using SchoolsTest.Models.Interfaces;
 
 namespace SchoolsTest.WebVers.Pages.Rooms;
 
 public class Edit : BasePageModel
 {
-    private readonly IRepository<Room> _repository;
+    private readonly IRepository<Room> _roomRepository;
+    private readonly IRepository<Floor> _floorRepository;
+
     public IEnumerable<Room> Rooms { get; set; }
 
     public IDictionary<int, string> RoomType = RoomTypeExt.RoomTypes;
     public IEnumerable<Floor> Floors { get; set; }
-    public Floor Floor { get; set; }
     public Room Room { get; set; }
+    public Floor Floor { get; set; }
 
-    public Edit(IRepository<Room> repository)
+    public Edit(IRepository<Room> roomRepository, IRepository<Floor> floorRepository)
     {
-        _repository = repository;
+        _roomRepository = roomRepository;
+        _floorRepository = floorRepository;
     }
+
     public IActionResult OnGet(int id)
     {
-        var floorId = GetSchoolId();
-
-        if (floorId == null)
+        var schoolId = GetSchoolId();
+        if (schoolId == null)
         {
             return Redirect("/floors");
         }
 
-        Room = _repository.Get(id);
+        Room = _roomRepository.Get(id);
 
         if (Room is null)
         {
             return NotFound("Room is not found");
         }
 
+        Floors = _floorRepository.GetAll(f => f.SchoolId == schoolId);
+
         return Page();
     }
-    //public IActionResult OnPostUpdate(int floorId, int roomNumber, RoomType[] roomTypes)
-    //{
-    //    var currentFloor = _dbcontext.Floors
-    //        .Where(floor => floor.Id == floorId)
-    //        .SingleOrDefault();
-
-    //    if (currentFloor is null)
-    //    {
-    //        return NotFound("Floor not found");
-    //    }
-
-    //    RoomType roomType = 0;
-    //    foreach (var rt in roomTypes)
-    //    {
-    //        roomType |= rt;
-    //    }
-
-    //    var (valid, error) = currentFloor.AddRoom(new Room(roomNumber, roomType, currentFloor));
-    //    if (!valid)
-    //    {
-    //        return BadRequest(error);
-    //    }
-    //    _dbcontext.SaveChanges();
-    //    return Redirect($"/floors/{floorId}/rooms");
-    //}
-    public IActionResult OnPostUpdate(Room room)
+    public IActionResult OnPostUpdate(Room room, RoomType[] roomTypes)
     {
-        _repository.Update(room);
-        return Redirect($"/rooms");
+        var roomId = room.Id;
+
+        var roomToUpdate = _roomRepository.Get(roomId);
+        if (roomToUpdate is null)
+        {
+            return NotFound("Room is not found");
+        }
+
+        var floorId = room.FloorId;
+        if (floorId != roomToUpdate.FloorId) 
+        {
+            var floor = _floorRepository.Get(floorId);
+            if (floor is not null)
+            {
+                roomToUpdate.Floor = floor;
+            }
+        }
+
+        roomToUpdate.Number = room.Number;
+        RoomType roomType = 0;
+        foreach (var rt in roomTypes)
+        {
+            roomType |= rt;
+        }
+        roomToUpdate.Type = roomType;
+
+        _roomRepository.Update(roomToUpdate);
+        return Redirect($"/{floorId}/rooms");
     }
 
     public IActionResult OnPostDelete(Room room)
     {
-        _repository.Delete(room);
-        return Redirect($"/rooms");
+        _roomRepository.Delete(room);
+        return Redirect($"/{Floor.Id}/rooms");
     }
 }

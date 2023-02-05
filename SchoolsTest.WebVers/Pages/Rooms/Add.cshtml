@@ -1,4 +1,4 @@
-﻿@page "/floors/{floorId}/addroom"
+﻿@page "/{floorId}/addroom"
 @model RoomAdd
 @{
 }
@@ -19,10 +19,6 @@
                 <input type="checkbox" name="roomTypes[]" value="@type.Value" /></td>
             </tr>
         }
-        <tr>
-            <td>Floor number:</td>
-            <td><input type="number" name="floorNumber" /></td>
-        </tr>
         <tr>
             <td><input type="submit" /> </td>
         </tr>

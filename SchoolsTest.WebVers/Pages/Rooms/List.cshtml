@@ -1,4 +1,4 @@
-﻿@page "/floors/{floorId}/rooms"
+﻿@page "/{floorId}/rooms"
 @model RoomsList
 @{
 }
@@ -11,10 +11,11 @@
             <td>|</td>
             <td>@room.Number</td>
             <td>|</td>
-            <td>@room.FloorNumber</td>
-            <td>|</td>
+@*            <td>@room.Floor.Number</td>
+            <td>|</td>*@
             <td>@room.Type</td>
-            @*<td><a asp-page="Room" asp-route-schoolId="@Model.SchoolId" asp-route-floorId="@floor.Id">Selected floor</a></td>*@
+            <td>|</td>
+            <td><a asp-page="Edit" asp-route-id="@room.Id">Edit</a></td>
         </tr>
     }
 </table>

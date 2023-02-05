@@ -1,4 +1,5 @@
-﻿@page ""
+﻿@page "/rooms/{id}/edit"
+@using SchoolsTest.Models;
 @model SchoolsTest.WebVers.Pages.Rooms.Edit
 @{
 }
@@ -16,15 +17,27 @@
         {
                 <tr>
                     <td>@type.Value
-                    <input type="checkbox" name="roomTypes[]" value="@type.Value" /></td>
+                    <input type="checkbox" name="roomTypes[]" value="@type.Key" checked="@Model.Room.Type.HasFlag((RoomType)type.Key)" /></td>
                 </tr>
         }
         <tr>
             <td>Floor number:</td>
-            <td><input type="number" name="floorNumber" /></td>
+            <td>
+                <select asp-for="Room.FloorId">
+                    @foreach (var floor in Model.Floors)
+                    {
+                        <option value="@floor.Id">@floor.Number</option>
+                    }
+                </select>
+            </td>
         </tr>
         <tr>
-            <td><input type="submit" /> </td>
+            <td><a asp-page="List"> <input type="submit" value="Update" asp-page-handler="Update" /> </a></td>
+        </tr>
+        <tr>
+            <td><a asp-page="List"> <input type="submit" value="Delete" asp-page-handler="Delete" /> </a></td>
         </tr>
     </table>
+    <input type="hidden" asp-for="Room.Floor.Id" />
+    <input type="hidden" asp-for="Room.Id" />
 </form>
