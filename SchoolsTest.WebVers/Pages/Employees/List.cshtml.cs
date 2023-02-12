@@ -26,7 +26,8 @@ public class EmployeesList : PageModel
         {
             return NotFound("Incorrect school Id");
         }
-        Employees = _repository.GetAll(e => e.School.Id == schoolId);
+
+        Employees = _repository.GetAll(e => e.Schools.All(s => s.Id == schoolId));
         return Page();
     }
 }

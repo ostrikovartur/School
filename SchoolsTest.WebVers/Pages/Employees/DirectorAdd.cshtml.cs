@@ -10,6 +10,7 @@ public class DirectorAdd : PageModel
 {
     AppDbContext _dbcontext;
     private readonly IRepository<Director> _repository;
+    public IEnumerable<Employee> Employee { get; set; }
     public string Message { get; private set; } = "";
 
     public DirectorAdd(IRepository<Director> repository, AppDbContext dbContext)
@@ -36,10 +37,10 @@ public class DirectorAdd : PageModel
         var currentSchool = _dbcontext.Schools
             .Where(school => school.Id == schoolId)
             .SingleOrDefault();
-        //if (currentSchool.Director is not null)
-        //{
-        //    throw new Exception("Director already exist");
-        //}
+        if (currentSchool.Director is not null)
+        {
+            throw new Exception("Director already exist");
+        }
         Models.Director director = new(firstName, lastName, age);
         var (valid, error) = currentSchool.AddEmployee(director);
         _dbcontext.SaveChanges();

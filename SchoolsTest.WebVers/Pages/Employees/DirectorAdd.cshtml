@@ -17,6 +17,16 @@
             <td>Age: </td>
             <td><input type="number" name="age" /></td>
         </tr>
+@*        <tr>
+            <td>Or select exist employee:</td>
+                <select asp-for="Employee">
+                    @foreach (var employee in Model.Employee)
+                    {
+                        <option value="@employee.FirstName">@employee.FirstName</option>
+                    }
+                </select>
+            </td>
+        </tr>*@
         <tr>
             <td><input type="submit" /> </td>
         </tr>

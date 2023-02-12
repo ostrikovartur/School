@@ -73,9 +73,27 @@ public class Edit : BasePageModel
         return Redirect($"/{floorId}/rooms");
     }
 
-    public IActionResult OnPostDelete(Room room)
+    public IActionResult OnPostDelete(Room room, RoomType[] roomTypes)
     {
-        _roomRepository.Delete(room);
-        return Redirect($"/{Floor.Id}/rooms");
+        var roomId = room.Id;
+
+        var roomToUpdate = _roomRepository.Get(roomId);
+        if (roomToUpdate is null)
+        {
+            return NotFound("Room is not found");
+        }
+
+        var floorId = room.FloorId;
+        if (floorId != roomToUpdate.FloorId)
+        {
+            var floor = _floorRepository.Get(floorId);
+            if (floor is not null)
+            {
+                roomToUpdate.Floor = floor;
+            }
+        }
+
+        _roomRepository.Delete(roomToUpdate);
+        return Redirect($"/{floorId}/rooms");
     }
 }

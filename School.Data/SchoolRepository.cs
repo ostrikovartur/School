@@ -15,6 +15,17 @@ public class SchoolRepository : Repository<School>, ISchoolRepository
     {
         return _dbContext.Set<School>().Include(s => s.Address).SingleOrDefault(s => s.Id == id);
     }
+    //public School? DeleteDirector(int schoolId)
+    //{
+    //    var school = _dbContext.Set<School>().Include(s => s.Employees).SingleOrDefault(s => s.Id == schoolId);
+
+    //    //school.Employees.Remove(school.Director);
+    //    school.DeleteDirector();
+
+    //    _dbContext.SaveChanges();
+
+    //    return school;
+    //}
     //public School? GetSchoolId(int id)
     //{
     //    id = Request.Cookies;

@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using SchoolsTest.Models.Interfaces;
 using System.Text;
 
 namespace SchoolsTest.Models;
@@ -113,6 +114,21 @@ public class School : BaseEntity
         Employees.Add(employee);
         return (true, null);
     }
+
+    public (bool IsValid, string? Error) DeleteDirector()
+    {
+        var director = Director;
+
+        if (director is null)
+        {
+            return (false, "Director not found");
+        }
+
+        Employees.Remove(director);
+
+        return (true, null);
+    }
+
     public (bool IsValid, string? Error) AddStudent(Student student)
     {
 

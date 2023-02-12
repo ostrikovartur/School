@@ -24,7 +24,7 @@ public class SchoolConfig : IEntityTypeConfiguration<School>
             .HasColumnType("date");
 
         builder.HasMany(t => t.Employees)
-            .WithOne(t => t.School);
+            .WithMany(t => t.Schools);
 
         builder.HasMany(t => t.Students)
             .WithOne(t => t.School);

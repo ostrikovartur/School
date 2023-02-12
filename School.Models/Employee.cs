@@ -17,13 +17,11 @@ public abstract class Employee : Person
     {
 
     }
-    public School School { get; set; }
-    public int SchoolId { get; set; }
+    public ICollection<School> Schools { get; set; } = new HashSet<School>();
     public abstract string Job { get; }
     protected Employee(School school, int schoolId)
     {
-        School = school;
-        SchoolId = schoolId;
+        Schools.Add(school);
     }
 
     public override string ToString()

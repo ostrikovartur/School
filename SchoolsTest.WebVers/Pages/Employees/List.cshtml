@@ -3,7 +3,7 @@
 @{
 }
 <h1>List employees</h1>
-<table align="left" width="300px" border="1">
+<table align="left" width="350px" border="1">
     @foreach (var employee in Model.Employees)
     {
         <tr>
@@ -17,7 +17,7 @@
             <td>|</td>
             <td>@employee.Job</td>
             <td>|</td>
-            <td><a asp-page="Edit" asp-route-id="@employee.Id" asp-route-schoolId="@employee.SchoolId">Edit employee</a></td>
+            <td><a asp-page="Edit" asp-route-id="@employee.Id">Edit employee</a></td>
         </tr>
     }
 </table>
