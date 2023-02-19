@@ -17,18 +17,33 @@
             <td>Age: </td>
             <td><input type="number" name="age" /></td>
         </tr>
-@*        <tr>
+        <tr>
             <td>Or select exist employee:</td>
-                <select asp-for="Employee">
-                    @foreach (var employee in Model.Employee)
-                    {
-                        <option value="@employee.FirstName">@employee.FirstName</option>
-                    }
-                </select>
+            <select name="DirectorId">
+                @foreach (var employee in Model.Directors)
+                {
+                <option value="@employee.Id">@employee.FirstName, @employee.LastName, @employee.Age</option>
+                }
+            </select>
             </td>
-        </tr>*@
+            <td>
+                <select name="Teacher">
+                @foreach (var employee in Model.Teachers)
+                {
+                <option value="@employee.Id">@employee.FirstName, @employee.LastName, @employee.Age</option>
+                }
+            </select>
+            </td>
+        </tr>
         <tr>
             <td><input type="submit" /> </td>
         </tr>
     </table>
 </form>
+
+@*                <select asp-for="Employee">
+                    @foreach (var employee in Model.Employees)
+                    {
+                        <option value="@employee.FirstName">@employee.FirstName</option>
+                    }
+                </select>*@

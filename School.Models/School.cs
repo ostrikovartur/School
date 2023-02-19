@@ -41,7 +41,7 @@ public class School : BaseEntity
     }
 
     public ICollection<Floor> Floors { get; set; } = new HashSet<Floor>();
-
+    public ICollection<Teacher> Teachers { get; set; } = new HashSet<Teacher>();
     public ICollection<Employee> Employees { get; set; } = new HashSet<Employee>();
     public ICollection<Student> Students { get; set; } = new HashSet<Student>();
 
