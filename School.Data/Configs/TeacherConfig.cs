@@ -12,7 +12,7 @@ public class TeacherConfig : IEntityTypeConfiguration<Teacher>
 
         builder.HasBaseType(typeof(Employee));
 
-        builder.HasMany(t => t.Schools)
+        builder.HasOne(t => t.School)
             .WithMany(t => t.Teachers);
     }
 }

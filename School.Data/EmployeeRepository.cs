@@ -27,4 +27,8 @@ public class EmployeeRepository : Repository<Employee>, IEmployeeRepository
 
         return employees;
     }
+    //public IEnumerable<Employee> CheckEmployee(int schoolId)
+    //{
+    //    return ;
+    //}
 }

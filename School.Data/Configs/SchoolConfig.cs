@@ -23,9 +23,6 @@ public class SchoolConfig : IEntityTypeConfiguration<School>
         builder.Property(t => t.OpeningDate)
             .HasColumnType("date");
 
-        builder.HasMany(t => t.Employees)
-            .WithMany(t => t.Schools);
-
         builder.HasMany(t => t.Students)
             .WithOne(t => t.School);
 

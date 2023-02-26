@@ -25,20 +25,7 @@ public class School : BaseEntity
     }
 
     [JsonIgnore]
-    public Employee? Director
-    {
-        get
-        {
-            foreach (Employee employee in Employees)
-            {
-                if (employee is Director director)
-                {
-                    return director;
-                }
-            }
-            return null;
-        }
-    }
+    public Director? Director { get; set; } 
 
     public ICollection<Floor> Floors { get; set; } = new HashSet<Floor>();
     public ICollection<Teacher> Teachers { get; set; } = new HashSet<Teacher>();

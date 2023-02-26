@@ -52,7 +52,9 @@ public class DirectorAdd : PageModel
 
 
         Models.Director director = new(directorDto.FirstName, directorDto.LastName, directorDto.Age);
+        //if (director.FirstName == currentSchool.Employee.FirstName)
         var (valid, error) = currentSchool.AddEmployee(director);
+        director.School = currentSchool;
         _dbcontext.SaveChanges();
         return Redirect($"/schools/{schoolId}");
     }

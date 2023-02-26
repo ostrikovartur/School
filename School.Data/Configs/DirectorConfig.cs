@@ -12,7 +12,7 @@ public class DirectorConfig : IEntityTypeConfiguration<Director>
 
         builder.HasBaseType(typeof(Employee));
 
-        builder.HasMany(t => t.Schools)
+        builder.HasOne(t => t.School)
             .WithOne(t => t.Director);
 
     }

@@ -41,6 +41,7 @@ public class TeacherAdd : PageModel
         {
             Message = $"Teacher first and last name:{firstName} {lastName}";
         }
+        teacher.School = currentSchool;
         _dbcontext.SaveChanges();
         return Redirect($"/schools/{schoolId}");
     }
