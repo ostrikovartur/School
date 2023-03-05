@@ -1,10 +1,9 @@
-﻿@*@page "/addTeacher"
-@model TeacherAdd
+﻿@*@page "/add"
+@model SchoolsTest.WebVers.Pages.Employees.Add
 @{
 }
-<h2>@Model.Message</h2>
-<form method="post" >
-    <table align="left"> 
+<form method="post">
+    <table align="left">
         <tr>
             <td>First Name: </td>
             <td><input type="text" name="firstName" /></td>
@@ -16,6 +15,14 @@
         <tr>
             <td>Age: </td>
             <td><input type="number" name="age" /></td>
+        </tr>
+        <tr>
+            <td>Type: </td>
+            <select name="type">
+                <option value="Director">Director</option>
+                <option value="Teacher">Teacher</option>
+            </select>
+
         </tr>
         <tr>
             <td><input type="submit" /> </td>

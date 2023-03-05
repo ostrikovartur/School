@@ -10,10 +10,10 @@ public class AppDbContext : DbContext
     public DbSet<Floor> Floors { get; set; } = null!;
     public DbSet<Room> Rooms { get; set; } = null!;
     public DbSet<Employee> Employees { get; set; } = null!;
-    public DbSet<Director> Directors { get; set; } = null!;
-    public DbSet<Teacher> Teachers { get; set; } = null!;
+    //public DbSet<Director> Directors { get; set; } = null!;
+    //public DbSet<Teacher> Teachers { get; set; } = null!;
     public DbSet<Student> Students { get; set; } = null!;
-
+    public DbSet<Position> Positions { get; set; } = null !;
     public Models.School? CurrentSchool { get; set; }
 
     //public Models.School? CurrentFloor { get; set; }
@@ -32,10 +32,16 @@ public class AppDbContext : DbContext
         modelBuilder.ApplyConfiguration(new Configs.SchoolConfig());
         modelBuilder.ApplyConfiguration(new Configs.FloorConfig());
         modelBuilder.ApplyConfiguration(new Configs.RoomConfig());
-        modelBuilder.ApplyConfiguration(new Configs.DirectorConfig());
+        //modelBuilder.ApplyConfiguration(new Configs.DirectorConfig());
         modelBuilder.ApplyConfiguration(new Configs.EmployeeConfig());
-        modelBuilder.ApplyConfiguration(new Configs.TeacherConfig());
+        modelBuilder.ApplyConfiguration(new Configs.PositionConfig());
+        //modelBuilder.ApplyConfiguration(new Configs.TeacherConfig());
         modelBuilder.ApplyConfiguration(new Configs.StudentConfig());
+
+        modelBuilder.Entity<Employee>()
+            .HasMany(t => t.Positions)
+            .WithMany(t => t.Employees)
+            .UsingEntity(j => j.ToTable("EmployeePosition"));
     }
     //public void SetSchools(IEnumerable<Models.School> schools)
     //{

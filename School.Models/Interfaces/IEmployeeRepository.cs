@@ -2,5 +2,5 @@
 
 public interface IEmployeeRepository : IRepository<Employee>
 {
-    IEnumerable<Employee> GetSchoolEmployees(int schoolId);
+    //IEnumerable<Employee> GetSchoolEmployees(int schoolId);
 }

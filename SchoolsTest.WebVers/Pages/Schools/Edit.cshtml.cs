@@ -10,20 +10,20 @@ public class Edit : PageModel
 {
     private readonly ISchoolRepository _repository;
 
-    private readonly IRepository<Director> _directorRepository;
+    //private readonly IRepository<Director> _directorRepository;
     public School School { get; set; }
-    public Director Director { get; set; }
+    //public Director Director { get; set; }
 
-    public Edit(ISchoolRepository repository, IRepository<Director> directorRepository)
+    public Edit(ISchoolRepository repository /*IRepository<Director> directorRepository*/)
     {
         _repository = repository;
-        _directorRepository = directorRepository;
+        //_directorRepository = directorRepository;
     }
 
     public IActionResult OnGet(int id)
     {
         School = _repository.GetSchoolWithAddress(id);
-        Director = _directorRepository.Get(id);
+        //Director = _directorRepository.Get(id);
         if (School is null)
         {
             return NotFound($"School {id} not found");

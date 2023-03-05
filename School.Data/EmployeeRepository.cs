@@ -11,22 +11,22 @@ public class EmployeeRepository : Repository<Employee>, IEmployeeRepository
     {
         _dbContext = dbContext;
     }
-    public IEnumerable<Employee> GetSchoolEmployees(int schoolId)
-    {
-        Employee[] directors = _dbContext.Set<Director>()
-            .Where(d => d.SchoolId == schoolId)
-            .ToArray();
+    //public IEnumerable<Employee> GetSchoolEmployees(int schoolId)
+    //{
+    //    Employee[] directors = _dbContext.Set<Director>()
+    //        .Where(d => d.SchoolId == schoolId)
+    //        .ToArray();
 
-        Employee[] teachers = _dbContext.Set<Teacher>()
-            .Where(d => d.SchoolId == schoolId)
-            .ToArray();
+    //    Employee[] teachers = _dbContext.Set<Teacher>()
+    //        .Where(d => d.SchoolId == schoolId)
+    //        .ToArray();
 
-        var employees = new List<Employee>();
-        employees.AddRange(teachers);
-        employees.AddRange(directors);
+    //    var employees = new List<Employee>();
+    //    employees.AddRange(teachers);
+    //    employees.AddRange(directors);
 
-        return employees;
-    }
+    //    return employees;
+    //}
     //public IEnumerable<Employee> CheckEmployee(int schoolId)
     //{
     //    return ;

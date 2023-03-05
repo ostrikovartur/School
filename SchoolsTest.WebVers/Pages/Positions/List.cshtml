@@ -1,0 +1,19 @@
+﻿@page "/positions"
+@model SchoolsTest.WebVers.Pages.Positions.List
+@{
+}
+<h1>List floors</h1>
+<table align="left" width="500px" border="1">
+    @foreach (var position in Model.Positions)
+    {
+        <tr>
+            <td>@position.Id</td>
+            <td>|</td>
+            <td>@position.Name</td>
+            <td>|</td>
+            <td><a asp-page="Floor" asp-route-id="@position.Id">Select floor</a></td>
+            <td>|</td>
+            <td><a asp-page="Edit" asp-route-id="@position.Id">Edit floor</a></td>
+        </tr>
+    }
+</table>

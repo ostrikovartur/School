@@ -23,14 +23,14 @@ public class School : BaseEntity
             return allRooms;
         }
     }
+    public Position Director { get; set; }
 
     [JsonIgnore]
-    public Director? Director { get; set; } 
 
     public ICollection<Floor> Floors { get; set; } = new HashSet<Floor>();
-    public ICollection<Teacher> Teachers { get; set; } = new HashSet<Teacher>();
     public ICollection<Employee> Employees { get; set; } = new HashSet<Employee>();
     public ICollection<Student> Students { get; set; } = new HashSet<Student>();
+    public ICollection<Position> Positions { get; set; } = new HashSet<Position>();
 
     public School()
     {
@@ -67,10 +67,10 @@ public class School : BaseEntity
 
     public (bool IsValid, string? Error) AddEmployee(Employee employee)
     {
-        if (employee is Director && Director is not null)
-        {
-            return (false, "Director already exist");
-        }
+        //if (employee is Director && Director is not null)
+        //{
+        //    return (false, "Director already exist");
+        //}
 
         if (string.IsNullOrEmpty(employee.FirstName))
         {
@@ -102,19 +102,19 @@ public class School : BaseEntity
         return (true, null);
     }
 
-    public (bool IsValid, string? Error) DeleteDirector()
-    {
-        var director = Director;
+    //public (bool IsValid, string? Error) DeleteDirector()
+    //{
+    //    var director = Director;
 
-        if (director is null)
-        {
-            return (false, "Director not found");
-        }
+    //    if (director is null)
+    //    {
+    //        return (false, "Director not found");
+    //    }
 
-        Employees.Remove(director);
+    //    Employees.Remove(director);
 
-        return (true, null);
-    }
+    //    return (true, null);
+    //}
 
     public (bool IsValid, string? Error) AddStudent(Student student)
     {
@@ -142,6 +142,23 @@ public class School : BaseEntity
             }
         }
         Students.Add(student);
+        return (true, null);
+    }
+    public (bool IsValid, string? Error) AddPosition(Position position)
+    {
+        foreach (Position pst in Positions)
+        {
+            if (pst.Name == position.Name)
+            {
+                return (false, "This position already exist");
+            }
+
+            if (string.IsNullOrEmpty(position.Name))
+            {
+                return (false, "Name is not provided");
+            }
+        }
+        Positions.Add(position);
         return (true, null);
     }
 

@@ -202,7 +202,7 @@ void AddEmployee()
 
         if (type == "T")
         {
-            employee = new Teacher(firstName, lastName, age);
+            //employee = new Teacher(firstName, lastName, age);
             //var (isValid, error) = currentSchool.AddEmployee(employee);
             //if (!isValid)
             //{
@@ -218,7 +218,7 @@ void AddEmployee()
         }
         else if (type == "D")
         {
-            employee = new Director(firstName, lastName, age);
+            //employee = new Director(firstName, lastName, age);
             //var (isValid, error) = currentSchool.AddEmployee(employee);
             //if (!isValid)
             //{
