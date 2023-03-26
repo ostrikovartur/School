@@ -1,4 +1,6 @@
-﻿namespace SchoolsTest.WebVers.ViewModels;
+﻿using SchoolsTest.Models;
+
+namespace SchoolsTest.WebVers.ViewModels;
 
 public class EmployeeDto
 {
@@ -6,4 +8,5 @@ public class EmployeeDto
     public string FirstName { get; set; }
     public string LastName { get; set; }
     public int Age { get; set; }
+    public int[] PositionIds { get; set; }
 }

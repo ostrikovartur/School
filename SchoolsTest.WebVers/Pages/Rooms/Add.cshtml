@@ -15,8 +15,10 @@
         @foreach (var type in Model.RoomType)
         {
             <tr>
-                <td>@type.Value
-                <input type="checkbox" name="roomTypes[]" value="@type.Value" /></td>
+                <td>
+                    @type.Value
+                    <input type="checkbox" name="roomTypes[]" value="@type.Value" />
+                </td>
             </tr>
         }
         <tr>

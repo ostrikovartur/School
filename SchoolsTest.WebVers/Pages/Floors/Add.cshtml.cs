@@ -35,7 +35,7 @@ public class FloorAdd : PageModel
             return NotFound("Incorrect school Id");
         }
 
-        var currentSchool = _dbcontext.Schools
+        var currentSchool = _dbcontext.Set<School>()
             .Where(school => school.Id == schoolId)
             .SingleOrDefault();
         Models.Floor floor = new (number);
