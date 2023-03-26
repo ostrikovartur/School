@@ -1,4 +1,19 @@
-﻿@page
-@model SchoolsTest.WebVers.Pages.Positions.EditModel
+﻿@page "/positions/{id}/edit"
+@model Edit
 @{
 }
+<form method="post">
+    <table align="left">
+        <tr>
+            <td>Name: </td>
+            <td><input type="text" asp-for="Position.Name" /></td>
+        </tr>
+        <tr>
+            <td><a asp-page="List"> <input type="submit" value="Update" asp-page-handler="Update" /> </a></td>
+        </tr>
+        <tr>
+            <td><a asp-page="List"> <input type="submit" value="Delete" asp-page-handler="Delete" /> </a></td>
+        </tr>
+    </table>
+    <input type="hidden" asp-for="Position.Id" />
+</form>
