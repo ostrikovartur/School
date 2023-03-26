@@ -26,6 +26,12 @@ public class SchoolConfig : IEntityTypeConfiguration<School>
         builder.HasMany(t => t.Students)
             .WithOne(t => t.School);
 
+        builder.HasMany(t => t.Employees)
+            .WithMany(t => t.Schools);
+
+        builder.HasMany(t => t.Positions)
+            .WithMany(t => t.Schools);
+
         //builder.HasMany(t => t.Persons)
         //    .WithOne(t => t.School);
 

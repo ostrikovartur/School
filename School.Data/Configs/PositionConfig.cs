@@ -16,23 +16,5 @@ public class PositionConfig : IEntityTypeConfiguration<Position>
 
         builder.Property(t => t.Name)
             .IsRequired();
-
-        //builder.HasMany(t => t.Employees)
-        //    .WithMany(t => t.Positions)
-        //    .UsingEntity(j => j.ToTable("EmployeePosition"));
-            //.UsingEntity(
-            //    jt => jt.HasOne(typeof(Position))
-            //        .WithMany()
-            //        .HasForeignKey("PositionId")
-            //        .HasConstraintName("FK_EmployeePosition_PositionId")
-            //        .OnDelete(DeleteBehavior.NoAction),
-            //    jt => jt.HasOne(typeof(Employee))
-            //        .WithMany()
-            //        .HasForeignKey("EmployeeId")
-            //        .HasConstraintName("FK_EmployeePosition_EmployeeId")
-            //        .OnDelete(DeleteBehavior.NoAction),
-            //    b => b.ToTable("EmployeePosition")
-            //        .HasKey("EmployeeId", "PositionId")
-            //    );
     }
 }

@@ -10,7 +10,6 @@ public class EmployeeConfig : IEntityTypeConfiguration<Employee>
     {
         builder.ToTable("Employee");
 
-        //builder.HasBaseType(typeof(Person));
         builder.HasKey(t => t.Id);
         builder.Property(t => t.Id)
             .ValueGeneratedOnAdd();
@@ -26,10 +25,13 @@ public class EmployeeConfig : IEntityTypeConfiguration<Employee>
         builder.Property(t => t.Age)
             .IsRequired();
 
-        builder.HasOne(t => t.School)
+        builder.HasMany(t => t.Positions)
             .WithMany(t => t.Employees);
 
-        //builder.HasMany(t => t.Schools)
+        //builder.Property(t => t.Position)
+        //    .HasColumnType<Position>("tinyint");
+
+        //builder.HasOne(t => t.School)
         //    .WithMany(t => t.Employees);
     }
 }
