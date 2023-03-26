@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using SchoolsTest.Models.Interfaces;
+using System.Reflection.Metadata;
 using System.Text;
 
 namespace SchoolsTest.Models;
@@ -23,7 +24,7 @@ public class School : BaseEntity
             return allRooms;
         }
     }
-    public Position Director { get; set; }
+    public Position? Director => Positions.Where(p => p.Id == Constants.DirectorPosition && p.Schools.Any(s => s.Id == Id)).FirstOrDefault();
 
     [JsonIgnore]
 

@@ -1,6 +1,6 @@
 ﻿namespace SchoolsTest.Models;
 
-public abstract class Person : BaseEntity
+public class Person : BaseEntity
 {
     public string FirstName { get; private set; }
     public string LastName { get; private set; }
