@@ -1,68 +1,52 @@
-//using Microsoft.AspNetCore.Mvc;
-//using Microsoft.AspNetCore.Mvc.RazorPages;
-//using SchoolsTest.Data;
-//using SchoolsTest.Models.Interfaces;
-//using SchoolsTest.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using SchoolsTest.Data;
+using SchoolsTest.Models.Interfaces;
+using SchoolsTest.Models;
+using SchoolsTest.WebVers.ViewModels;
+using System.IO;
 
-//namespace SchoolsTest.WebVers.Pages.Employees;
+namespace SchoolsTest.WebVers.Pages.Employees;
 
-//public class Add : PageModel
-//{
-//    AppDbContext _dbcontext;
-//    //private readonly IRepository<Director> _directorRepository;
+public class Add : PageModel
+{
+    AppDbContext _dbcontext;
+    private readonly IRepository<Position> _positionsRepository;
+    public IEnumerable<Position> Positions { get; set; }
+    public Add(IRepository<Position> positionsRepository, AppDbContext dbContext)
+    {
+        _positionsRepository = positionsRepository;
+        _dbcontext = dbContext;
+    }
+    public void OnGet()
+    {
+        Positions = _positionsRepository.GetAll();
+    }
 
-//    //private readonly IRepository<Teacher> _teacherRepository;
-//    //public IEnumerable<Director> Directors { get; set; }
-//    //public IEnumerable<Teacher> Teachers { get; set; }
-//    public Employee Employee { get; set; }
+    public IActionResult OnPost(EmployeeDto employeeDto)
+    {
+        if (!Request.Cookies.TryGetValue("schoolId", out string? schoolIdStr))
+        {
+            return NotFound("School not found");
+        }
 
-//    public Add(IRepository<Director> directorRepository, IRepository<Teacher> teacherRepository, AppDbContext dbContext)
-//    {
-//        _directorRepository = directorRepository;
-//        _teacherRepository = teacherRepository;
-//        _dbcontext = dbContext;
-//    }
-//    public void OnGet()
-//    {
-//        Directors = _directorRepository.GetAll();
-//        Teachers = _teacherRepository.GetAll();
-//    }
+        if (!int.TryParse(schoolIdStr, out var schoolId))
+        {
+            return NotFound("Incorrect school Id");
+        }
+        
+        var currentSchool = _dbcontext.Schools
+            .Where(school => school.Id == schoolId)
+            .SingleOrDefault();
 
-//    public IActionResult OnPost()
-//    {
-//        if (!Request.Cookies.TryGetValue("schoolId", out string? schoolIdStr))
-//        {
-//            return NotFound("School not found");
-//        }
+        var positions = _positionsRepository.GetAll(p => employeeDto.PositionIds.Contains(p.Id));
 
-//        if (!int.TryParse(schoolIdStr, out var schoolId))
-//        {
-//            return NotFound("Incorrect school Id");
-//        }
-//        //if (Employee.Job == )
-//        //{
+        Models.Employee employee = new(employeeDto.FirstName, employeeDto.LastName, employeeDto.Age, positions);
+        var (valid, error) = currentSchool.AddEmployee(employee);
 
-//        //}
-//        //if ()
-//        //{
-
-//        //}
-
-//        var currentSchool = _dbcontext.Schools
-//            .Where(school => school.Id == schoolId)
-//            .SingleOrDefault();
-//        if (currentSchool.Director is not null)
-//        {
-//            throw new Exception("Director already exist");
-//        }
-
-
-//        //Models.Director director = new(directorDto.FirstName, directorDto.LastName, directorDto.Age);
-//        //if (director.FirstName == currentSchool.Employee.FirstName)
-//        //var (valid, error) = currentSchool.AddEmployee(director);
-//        //director.School = currentSchool;
-//        _dbcontext.SaveChanges();
-//        return Redirect($"/employees");
-//    }
-//}
+        //employee.School = currentSchool;
+        _dbcontext.SaveChanges();
+        return Redirect($"/employees");
+    }
+}
 

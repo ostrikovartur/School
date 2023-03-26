@@ -1,4 +1,4 @@
-﻿@*@page "/add"
+﻿@page "/add"
 @model SchoolsTest.WebVers.Pages.Employees.Add
 @{
 }
@@ -17,15 +17,16 @@
             <td><input type="number" name="age" /></td>
         </tr>
         <tr>
-            <td>Type: </td>
-            <select name="type">
-                <option value="Director">Director</option>
-                <option value="Teacher">Teacher</option>
-            </select>
-
+            <td>Position: </td>
+            <td>
+                @foreach (var position in Model.Positions)
+                {
+                    <input type="checkbox" name="position[]" value="@position.Id"/> @position.Name
+                }
+            </td>
         </tr>
         <tr>
             <td><input type="submit" /> </td>
         </tr>
     </table>
-</form>*@
+</form>
