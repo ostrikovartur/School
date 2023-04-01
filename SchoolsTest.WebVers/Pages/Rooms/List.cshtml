@@ -3,6 +3,7 @@
 @{
 }
 <h1>List rooms</h1>
+<h3><a asp-page="../Rooms/Add" asp-route-floorId="@Model.FloorId">Add room</a></h3>
 <table align="left" width="300px" border="1">
     @foreach (var room in Model.Rooms)
     {

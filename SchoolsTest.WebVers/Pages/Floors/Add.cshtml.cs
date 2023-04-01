@@ -45,6 +45,6 @@ public class FloorAdd : PageModel
             Message = $"Floor number:{number}";
         }
         _dbcontext.SaveChanges();
-        return Redirect($"/schools/{schoolId}");
+        return Redirect($"/floors");
     }
 }

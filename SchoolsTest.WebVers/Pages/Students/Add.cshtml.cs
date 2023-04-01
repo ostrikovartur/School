@@ -42,6 +42,6 @@ public class StudentsAdd : PageModel
             Message = $"Student first and last name:{firstName} {lastName}";
         }
         _dbcontext.SaveChanges();
-        return Redirect($"/schools/{schoolId}");
+        return Redirect($"/students");
     }
 }
