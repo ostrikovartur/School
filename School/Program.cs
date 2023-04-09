@@ -236,7 +236,7 @@ void AddEmployee()
             continue;
         }
         var (isValid, error) = currentSchool!.AddEmployee(employee);
-        logger.LogInfo($"Employee {employee.Job} {employee.FirstName} {employee.LastName} with age {employee.Age}");
+        logger.LogInfo($"Employee {employee.FirstName} {employee.LastName} with age {employee.Age}");
 
         //var (isValid, error) = currentSchool.AddEmployee(employee);
         //if (!isValid)
