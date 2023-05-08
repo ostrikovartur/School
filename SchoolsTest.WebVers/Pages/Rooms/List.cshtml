@@ -14,7 +14,17 @@
             <td>|</td>
 @*            <td>@room.Floor.Number</td>
             <td>|</td>*@
-            <td>@room.Type</td>
+            <td>
+                @foreach (var roomType in Model.RoomTypes)
+                {
+                    var labelId = $"rt-{roomType.Id}";
+
+                    <label for="@labelId">
+                        <input id="@labelId" name="roomTypeIds[]" value="@roomType.Id" />
+                        @roomType.Name
+                    </label>
+                }
+            </td>
             <td>|</td>
             <td><a asp-page="Edit" asp-route-id="@room.Id">Edit</a></td>
         </tr>

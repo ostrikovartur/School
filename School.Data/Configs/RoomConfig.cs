@@ -17,8 +17,11 @@ public class RoomConfig : IEntityTypeConfiguration<Room>
         builder.Property(t => t.Number)
             .IsRequired();
 
-        builder.Property(t => t.Type)
-            .HasColumnType<RoomType>("tinyint");
+        //builder.Property(t => t.Type)
+        //    .HasColumnType<RoomType>("tinyint");
+
+        builder.HasMany(t => t.RoomTypes)
+            .WithMany(t => t.Rooms);
 
         builder.HasOne(t => t.Floor)
             .WithMany(t => t.Rooms);

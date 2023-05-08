@@ -32,6 +32,7 @@ public class School : BaseEntity
     public ICollection<Employee> Employees { get; set; } = new HashSet<Employee>();
     public ICollection<Student> Students { get; set; } = new HashSet<Student>();
     public ICollection<Position> Positions { get; set; } = new HashSet<Position>();
+    public ICollection<RoomType> RoomTypes { get; set; } = new HashSet<RoomType>();
 
     public School()
     {
@@ -160,6 +161,23 @@ public class School : BaseEntity
             }
         }
         Positions.Add(position);
+        return (true, null);
+    }
+    public (bool IsValid, string? Error) AddRoomType(RoomType roomType)
+    {
+        foreach (RoomType rmtp in RoomTypes)
+        {
+            if (rmtp.Name == roomType.Name)
+            {
+                return (false, "This room type already exist");
+            }
+
+            if (string.IsNullOrEmpty(roomType.Name))
+            {
+                return (false, "Name is not provided");
+            }
+        }
+        RoomTypes.Add(roomType);
         return (true, null);
     }
 

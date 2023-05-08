@@ -34,6 +34,7 @@ public class AppDbContext : DbContext
         modelBuilder.ApplyConfiguration(new Configs.SchoolConfig());
         modelBuilder.ApplyConfiguration(new Configs.FloorConfig());
         modelBuilder.ApplyConfiguration(new Configs.RoomConfig());
+        modelBuilder.ApplyConfiguration(new Configs.RoomTypeConfig());
         //modelBuilder.ApplyConfiguration(new Configs.EmployeePositionConfig());
         //modelBuilder.ApplyConfiguration(new Configs.DirectorConfig());
         modelBuilder.ApplyConfiguration(new Configs.EmployeeConfig());

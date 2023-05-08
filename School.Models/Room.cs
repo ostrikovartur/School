@@ -4,24 +4,23 @@ namespace SchoolsTest.Models;
 
 public class Room : BaseEntity
 {
+    public IEnumerable<RoomType> RoomTypes { get; set; }
     public int Number { get; set; }
     public int FloorId { get; set; }
     public Floor Floor { get; set; }
-
-    public RoomType Type { get; set; }
 
     public Room()
     {
 
     }
-    public Room(int number, RoomType type, Floor floor)
+    public Room(int number, IEnumerable<RoomType> type, Floor floor)
     {
         Number = number;
-        Type = type;
+        RoomTypes = type;
         Floor = floor;
     }
     public override string ToString()
     {
-        return $"Room: {Number}, {Type}";
+        return $"Room: {Number}, {RoomTypes}";
     }
 }

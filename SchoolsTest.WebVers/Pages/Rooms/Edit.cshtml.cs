@@ -6,20 +6,24 @@ namespace SchoolsTest.WebVers.Pages.Rooms;
 
 public class Edit : BasePageModel
 {
-    private readonly IRepository<Room> _roomRepository;
+    private readonly IRoomRepository _roomRepository;
     private readonly IRepository<Floor> _floorRepository;
-
+    private readonly IRepository<RoomType> _roomTypeRepository;
     public IEnumerable<Room> Rooms { get; set; }
-
-    public IDictionary<int, string> RoomType = RoomTypeExt.RoomTypes;
+    public IEnumerable<RoomType> RoomTypes { get; set; }
     public IEnumerable<Floor> Floors { get; set; }
-    public Room Room { get; set; }
+    public Room? Room { get; set; }
     public Floor Floor { get; set; }
+    public RoomType RoomType { get; set; }
 
-    public Edit(IRepository<Room> roomRepository, IRepository<Floor> floorRepository)
+    public Edit(
+        IRoomRepository roomRepository,
+        IRepository<Floor> floorRepository,
+        IRepository<RoomType> roomTypeRepository)
     {
         _roomRepository = roomRepository;
         _floorRepository = floorRepository;
+        _roomTypeRepository = roomTypeRepository;
     }
 
     public IActionResult OnGet(int id)
@@ -30,7 +34,7 @@ public class Edit : BasePageModel
             return Redirect("/floors");
         }
 
-        Room = _roomRepository.Get(id);
+        Room = _roomRepository.GetRoomWithRoomTypes(id);
 
         if (Room is null)
         {
@@ -38,10 +42,11 @@ public class Edit : BasePageModel
         }
 
         Floors = _floorRepository.GetAll(f => f.SchoolId == schoolId);
+        //RoomTypes = _roomTypeRepository.GetAll();
 
         return Page();
     }
-    public IActionResult OnPostUpdate(Room room, RoomType[] roomTypes)
+    public IActionResult OnPostUpdate(Room room)
     {
         var roomId = room.Id;
 
@@ -62,18 +67,14 @@ public class Edit : BasePageModel
         }
 
         roomToUpdate.Number = room.Number;
-        RoomType roomType = 0;
-        foreach (var rt in roomTypes)
-        {
-            roomType |= rt;
-        }
-        roomToUpdate.Type = roomType;
+
+        roomToUpdate.RoomTypes = room.RoomTypes;
 
         _roomRepository.Update(roomToUpdate);
         return Redirect($"/{floorId}/rooms");
     }
 
-    public IActionResult OnPostDelete(Room room, RoomType[] roomTypes)
+    public IActionResult OnPostDelete(Room room)
     {
         var roomId = room.Id;
 

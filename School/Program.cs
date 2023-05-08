@@ -173,8 +173,8 @@ void AddRoom()
 
         var roomNumber = GetIntValueFromConsole("Enter room number: ");
         var roomType = GetRoomTypeFromConsole("Enter room type: ");
-        Room room = new(roomNumber, roomType, curFloor);
-        var (isValid, error) = curFloor.AddRoom(room);
+        //Room room = new(roomNumber, roomType, curFloor);
+        //var (isValid, error) = curFloor.AddRoom(room);
         dbContext.SaveChanges();
         break;
     }

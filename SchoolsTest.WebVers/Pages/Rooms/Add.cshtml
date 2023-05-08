@@ -12,15 +12,12 @@
         <tr>
             <td>Room type:</td>
         </tr>
-        @foreach (var type in Model.RoomType)
-        {
-            <tr>
-                <td>
-                    @type.Value
-                    <input type="checkbox" name="roomTypes[]" value="@type.Value" />
-                </td>
-            </tr>
-        }
+            <td>
+                @foreach (var roomType in Model.RoomTypes)
+                {
+                    <input type="checkbox" name="roomTypeIds[]" value="@roomType.Id" /> @roomType.Name
+                }
+            </td>
         <tr>
             <td><input type="submit" /> </td>
         </tr>

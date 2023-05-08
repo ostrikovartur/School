@@ -65,29 +65,30 @@ public static class Methods
 
     public static RoomType GetRoomTypeFromConsole(string message)
     {
-        RoomType roomType;
+        //RoomType roomType;
 
-        while (true)
-        {
-            ShowRoomTypes();
-            var strValue = GetValueFromConsole(message);
+        //while (true)
+        //{
+        //    ShowRoomTypes();
+        //    var strValue = GetValueFromConsole(message);
 
-            if (Enum.TryParse(strValue, out roomType))
-            {
-                return roomType;
-            }
-            Console.WriteLine($"Incorrect room type: {strValue}");
-        }
+        //    if (Enum.TryParse(strValue, out roomType))
+        //    {
+        //        return roomType;
+        //    }
+        //    Console.WriteLine($"Incorrect room type: {strValue}");
+        //}
 
-        void ShowRoomTypes()
-        {
-            foreach (var type in RoomTypeExt.RoomTypes)
-            {
-                Console.WriteLine($"{type.Key} - {type.Value}");
-            }
+        //void ShowRoomTypes()
+        //{
+        //    foreach (var type in RoomTypeExt.RoomTypes)
+        //    {
+        //        Console.WriteLine($"{type.Key} - {type.Value}");
+        //    }
 
-            Console.WriteLine("Please choose the room type. If there could be more than one type you combine them by adding numbers. For example: 'Regular' and 'Biology' will be 1 + 4 = 5");
-        }
+        //    Console.WriteLine("Please choose the room type. If there could be more than one type you combine them by adding numbers. For example: 'Regular' and 'Biology' will be 1 + 4 = 5");
+        //}
+        return null;
     }
 
     public static DateTime GetOpeningDateFromConsole(string message)

@@ -13,13 +13,18 @@
         <tr>
             <td>Room type:</td>
         </tr>
-        @foreach (var type in Model.RoomType)
-        {
-                <tr>
-                    <td>@type.Value
-                    <input type="checkbox" name="roomTypes[]" value="@type.Key" checked="@Model.Room.Type.HasFlag((RoomType)type.Key)" /></td>
-                </tr>
-        }
+            <td>
+                @foreach (var roomType in Model.RoomTypes)
+                {
+                    var labelId = $"rt-{roomType.Id}";
+                    var cheched = Model.Room.RoomTypes.Contains(roomType);
+
+                    <label for="@labelId">
+                        <input id="@labelId" type="checkbox" name="roomTypeIds[]" value="@roomType.Id" checked="@cheched" />
+                        @roomType.Name
+                    </label>
+                }
+            </td>
         <tr>
             <td>Floor number:</td>
             <td>
