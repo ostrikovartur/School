@@ -19,10 +19,10 @@ public class AddSchool : PageModel
     {
         Message = "Write data about youre school";
     }
-    public void OnPost(string name, Address address, DateTime openingDate)
+    public IActionResult OnPost(string name, Address address, DateTime openingDate)
     {
         School school = new(name, address, openingDate);
         _repository.Add(school);
-        Redirect($"/schools");
+        return Redirect($"/schools");
     }
 }
