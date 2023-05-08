@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using SchoolsTest.Models;
+﻿using SchoolsTest.Models;
 using SchoolsTest.Models.Interfaces;
 using System.Linq.Expressions;
 
@@ -7,7 +6,7 @@ namespace SchoolsTest.Data;
 
 public class Repository<TEntity> : IRepository<TEntity> where TEntity : BaseEntity
 {
-    public readonly AppDbContext _dbContext;
+    protected readonly AppDbContext _dbContext;
 
     public Repository(AppDbContext dbContext)
     {

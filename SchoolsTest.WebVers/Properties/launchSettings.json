@@ -11,7 +11,10 @@
     "SchoolsTest.WebVers": {
       "commandName": "Project",
       "dotnetRunMessages": true,
+      "hotReloadEnabled": true,
+      "nativeDebugging": false,
       "launchBrowser": true,
+      "launchUrl": "schools",
       "applicationUrl": "http://localhost:5267",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"

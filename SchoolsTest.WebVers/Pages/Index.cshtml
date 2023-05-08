@@ -1,7 +1,7 @@
 ﻿@page
 @model IndexModel
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = Model.Title;
 }
 
 <div class="text-center">
@@ -10,3 +10,4 @@
     <h2>View <a asp-page="Schools/List">Schools list</a></h2>
     @*<h2> <a href="http://localhost:5267/FloorAdd">Add floor to school</a></h2>*@
 </div>
+

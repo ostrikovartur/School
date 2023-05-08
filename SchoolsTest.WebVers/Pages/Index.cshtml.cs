@@ -7,6 +7,8 @@ namespace SchoolsTest.WebVers.Pages
     {
         private readonly ILogger<IndexModel> _logger;
 
+        public string Title { get; set; }
+
         public IndexModel(ILogger<IndexModel> logger)
         {
             _logger = logger;
@@ -14,7 +16,7 @@ namespace SchoolsTest.WebVers.Pages
 
         public void OnGet()
         {
-
+            Title = "Home Page Hot";
         }
     }
 }
