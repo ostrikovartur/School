@@ -19,7 +19,10 @@
         </tr>
         <tr>
             <td>Positions:</td>
-            <td><input type="checkbox" asp-for="Employee.Positions"/></td>
+            @foreach (var position in Model.Positions)
+            {
+                <input type="checkbox" name="positionsIds[]" value="@position.Id"/> @position.Name
+            }
         </tr>
         <tr>
             <td><a asp-page="List"> <input type="submit" value="Update" asp-page-handler="Update" /> </a></td>

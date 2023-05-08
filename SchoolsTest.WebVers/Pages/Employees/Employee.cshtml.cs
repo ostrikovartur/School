@@ -11,7 +11,7 @@ public class Employee : BasePageModel
     public string FirstName { get; set; }
     public string LastName { get; set; }
     public int Age { get; set; }
-    public Position Positions { get; set; }
+    public IEnumerable<Position> Positions { get; set; }
     public void OnGet(int schoolId, int id)
     {
         SchoolId = schoolId;

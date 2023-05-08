@@ -41,7 +41,7 @@ public class Add : PageModel
 
         var positions = _positionsRepository.GetAll(p => employeeDto.PositionIds.Contains(p.Id));
 
-        Models.Employee employee = new(employeeDto.FirstName, employeeDto.LastName, employeeDto.Age, positions);
+        Models.Employee employee = new(employeeDto.FirstName, employeeDto.LastName, employeeDto.Age, employeeDto.PositionIds);
         var (valid, error) = currentSchool.AddEmployee(employee);
 
         //employee.School = currentSchool;

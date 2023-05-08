@@ -21,7 +21,7 @@
             <td>
                 @foreach (var position in Model.Positions)
                 {
-                    <input type="checkbox" name="position[]" value="@position.Id"/> @position.Name
+                    <input type="checkbox" name="positionIds[]" value="@position.Id"/> @position.Name
                 }
             </td>
         </tr>
