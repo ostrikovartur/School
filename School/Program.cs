@@ -69,7 +69,7 @@ void HandleChoice(Menu? choice)
             break;
         case Menu.ShowAll:
             // show all
-            foreach (var school in dbContext.Schools)
+            foreach (var school in schoolRepository.GetAll())
             {
                 logger.LogInfo(school.ToString());
             }
@@ -136,7 +136,7 @@ void AddFloor()
     var floorNumber = GetIntValueFromConsole("Enter floor number: ");
 
     Floor floor = new(floorNumber);
-    var school = dbContext.Schools.Where(s => s.Id == dbContext.CurrentSchool.Id).SingleOrDefault();
+    var school = dbContext.Set<School>().Where(s => s.Id == dbContext.CurrentSchool.Id).SingleOrDefault();
 
     if (school is null)
     {
@@ -164,7 +164,9 @@ void AddRoom()
     while (true)
     {
         var floorNumber = GetIntValueFromConsole("Enter floor number: ");
-        var curFloor = dbContext.Floors.Where(f => f.School.Id == dbContext.CurrentSchool.Id && f.Number == floorNumber).SingleOrDefault();
+        var curFloor = dbContext.Set<Floor>()
+            .Where(f => f.School.Id == dbContext.CurrentSchool.Id && f.Number == floorNumber)
+            .SingleOrDefault();
         if (curFloor is null)
         {
             logger.LogError($"Floor {floorNumber} does not exists. Either add new floor or enter correct floor number");
@@ -186,7 +188,7 @@ void AddRoom()
 
 void AddEmployee()
 {
-    var currentSchool = dbContext.Schools
+    var currentSchool = dbContext.Set<School>()
         .Include(t => t.Employees)
         .Where(t => t.Id == dbContext.CurrentSchool.Id)
         .SingleOrDefault();
@@ -261,7 +263,7 @@ void AddEmployee()
 
 void AddStudent()
 {
-    var currentSchool = dbContext.Schools
+    var currentSchool = dbContext.Set<School>()
         .Include(t => t.Students)
         .Where(t => t.Id == dbContext.CurrentSchool.Id)
         .SingleOrDefault();
