@@ -2,21 +2,25 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using SchoolsTest.Data;
 using SchoolsTest.Models.Interfaces;
-using SchoolsTest.Models;
 
 namespace SchoolsTest.WebVers.Pages.RoomTypes;
 
 public class Add : PageModel
 {
-    AppDbContext _dbcontext;
+    private readonly ISchoolRepository _schoolRepository;
+    private readonly AppDbContext _dbContext;
 
-    public Add(AppDbContext dbContext)
+    public Add(ISchoolRepository schoolRepository,
+        AppDbContext dbContext)
     {
-        _dbcontext = dbContext;
+        _schoolRepository = schoolRepository;
+        _dbContext = dbContext;
     }
+
     public void OnGet()
     {
     }
+
     public IActionResult OnPost(string name)
     {
         if (!Request.Cookies.TryGetValue("schoolId", out string? schoolIdStr))
@@ -29,12 +33,13 @@ public class Add : PageModel
             return NotFound("Incorrect school Id");
         }
 
-        var currentSchool = _dbcontext.Schools
-            .Where(school => school.Id == schoolId)
-            .SingleOrDefault();
+        var currentSchool = _schoolRepository.Get(schoolId);
+
         Models.RoomType roomType = new(name);
         var (valid, error) = currentSchool.AddRoomType(roomType);
-        _dbcontext.SaveChanges();
+
+        _dbContext.SaveChanges();
+
         return Redirect($"/roomTypes");
     }
 }

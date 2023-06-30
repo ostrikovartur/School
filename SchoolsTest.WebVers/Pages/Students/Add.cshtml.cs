@@ -8,14 +8,19 @@ namespace SchoolsTest.WebVers.Pages.Students;
 
 public class StudentsAdd : PageModel
 {
-    AppDbContext _dbcontext;
-    private readonly IRepository<Student> _repository;
+    private readonly IRepository<Student> _studentRepository;
+    private readonly ISchoolRepository _schoolRepository;
+    private readonly AppDbContext _dbContext;
+    
     public string Message { get; private set; } = "";
 
-    public StudentsAdd(IRepository<Student> repository, AppDbContext dbContext)
+    public StudentsAdd(IRepository<Student> repository,
+        ISchoolRepository schoolRepository,
+        AppDbContext dbContext)
     {
-        _repository = repository;
-        _dbcontext = dbContext;
+        _studentRepository = repository;
+        _schoolRepository = schoolRepository;
+        _dbContext = dbContext;
     }
     public void OnGet()
     {
@@ -32,16 +37,14 @@ public class StudentsAdd : PageModel
         {
             return NotFound("Incorrect school Id");
         }
-        var currentSchool = _dbcontext.Schools
-            .Where(school => school.Id == schoolId)
-            .SingleOrDefault();
+        var currentSchool = _schoolRepository.Get(schoolId);
         Models.Student student = new(firstName, lastName, age);
         var (valid, error) = currentSchool.AddStudent(student);
         if (valid)
         {
             Message = $"Student first and last name:{firstName} {lastName}";
         }
-        _dbcontext.SaveChanges();
+        _dbContext.SaveChanges();
         return Redirect($"/students");
     }
 }

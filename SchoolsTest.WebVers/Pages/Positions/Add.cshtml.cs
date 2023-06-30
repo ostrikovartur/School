@@ -8,11 +8,14 @@ namespace SchoolsTest.WebVers.Pages.Positions;
 
 public class Add : PageModel
 {
-    AppDbContext _dbcontext;
+    private readonly ISchoolRepository _schoolRepository;
+    private readonly AppDbContext _dbContext;
 
-    public Add(AppDbContext dbContext)
+    public Add(ISchoolRepository schoolRepository,
+        AppDbContext dbContext)
     {
-        _dbcontext = dbContext;
+        _schoolRepository = schoolRepository;
+        _dbContext = dbContext;
     }
     public void OnGet()
     {
@@ -29,12 +32,10 @@ public class Add : PageModel
             return NotFound("Incorrect school Id");
         }
 
-        var currentSchool = _dbcontext.Schools
-            .Where(school => school.Id == schoolId)
-            .SingleOrDefault();
+        var currentSchool = _schoolRepository.Get(schoolId);
         Models.Position position = new(name);
         var (valid, error) = currentSchool.AddPosition(position);
-        _dbcontext.SaveChanges();
+        _dbContext.SaveChanges();
         return Redirect($"/positions");
     }
 }
