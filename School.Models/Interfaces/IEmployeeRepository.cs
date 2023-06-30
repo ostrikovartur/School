@@ -2,5 +2,6 @@
 
 public interface IEmployeeRepository : IRepository<Employee>
 {
-    //IEnumerable<Employee> GetSchoolEmployees(int schoolId);
+    Task<IEnumerable<Employee>> GetEmployeesWithPositions(int schoolId);
+    Employee GetEmployeeWithPositions(int employeeId);
 }
