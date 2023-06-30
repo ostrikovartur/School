@@ -8,7 +8,7 @@ public class EmployeeConfig : IEntityTypeConfiguration<Employee>
 {
     public void Configure(EntityTypeBuilder<Employee> builder)
     {
-        builder.ToTable("Employee");
+        builder.ToTable("Employees");
 
         builder.HasKey(t => t.Id);
         builder.Property(t => t.Id)
@@ -27,11 +27,5 @@ public class EmployeeConfig : IEntityTypeConfiguration<Employee>
 
         builder.HasMany(t => t.Positions)
             .WithMany(t => t.Employees);
-
-        //builder.Property(t => t.Position)
-        //    .HasColumnType<Position>("tinyint");
-
-        //builder.HasOne(t => t.School)
-        //    .WithMany(t => t.Employees);
     }
 }
