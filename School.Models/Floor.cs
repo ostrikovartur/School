@@ -6,9 +6,10 @@ namespace SchoolsTest.Models;
 public class Floor : BaseEntity
 {
     public int Number { get; set; }
-    public ICollection<Room> Rooms { get; set; } = new HashSet<Room>();
+    public ICollection<Room> Rooms { get; set; }
     public School School { get; set; }
     public int SchoolId { get; set; }
+
 
     public Floor()
     {
