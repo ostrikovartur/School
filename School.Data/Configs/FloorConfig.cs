@@ -8,7 +8,7 @@ public class FloorConfig : IEntityTypeConfiguration<Floor>
 {
     public void Configure(EntityTypeBuilder<Floor> builder)
     {
-        builder.ToTable("Floor");
+        builder.ToTable("Floors");
 
         builder.HasKey(t => t.Id);
         builder.Property(t => t.Id)
@@ -18,6 +18,10 @@ public class FloorConfig : IEntityTypeConfiguration<Floor>
             .IsRequired();
 
         builder.HasOne(t => t.School)
-            .WithMany(t => t.Floors);
+            .WithMany(t => t.Floors)
+            .HasForeignKey(t => t.SchoolId);
+
+        builder.HasMany(t => t.Rooms)
+            .WithOne(t => t.Floor);
     }
 }

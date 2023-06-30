@@ -8,7 +8,7 @@ public class RoomTypeConfig : IEntityTypeConfiguration<RoomType>
 {
     public void Configure(EntityTypeBuilder<RoomType> builder)
     {
-        builder.ToTable("RoomType");
+        builder.ToTable("RoomTypes");
 
         builder.HasKey(t => t.Id);
         builder.Property(t => t.Id)
@@ -17,7 +17,10 @@ public class RoomTypeConfig : IEntityTypeConfiguration<RoomType>
         builder.Property(t => t.Name)
             .IsRequired();
 
-        //builder.HasMany(t => t.Rooms)
-        //    .WithMany(t => t.RoomTypes);
+        builder.HasMany(t => t.Schools)
+            .WithMany(t => t.RoomTypes);
+
+        builder.HasMany(t => t.Rooms)
+            .WithMany(t => t.RoomTypes);
     }
 }

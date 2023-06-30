@@ -8,7 +8,7 @@ public class RoomConfig : IEntityTypeConfiguration<Room>
 {
     public void Configure(EntityTypeBuilder<Room> builder)
     {
-        builder.ToTable("Room");
+        builder.ToTable("Rooms");
 
         builder.HasKey(t => t.Id);
         builder.Property(t => t.Id)
@@ -17,13 +17,8 @@ public class RoomConfig : IEntityTypeConfiguration<Room>
         builder.Property(t => t.Number)
             .IsRequired();
 
-        //builder.Property(t => t.Type)
-        //    .HasColumnType<RoomType>("tinyint");
-
-        builder.HasMany(t => t.RoomTypes)
-            .WithMany(t => t.Rooms);
-
         builder.HasOne(t => t.Floor)
-            .WithMany(t => t.Rooms);
+            .WithMany(t => t.Rooms)
+            .HasForeignKey(t => t.FloorId);
     }
 }

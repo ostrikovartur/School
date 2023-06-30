@@ -8,7 +8,7 @@ public class SchoolConfig : IEntityTypeConfiguration<School>
 {
     public void Configure(EntityTypeBuilder<School> builder)
     {
-        builder.ToTable("School");
+        builder.ToTable("Schools");
 
         builder.HasKey(t => t.Id);
         builder.Property(t => t.Id).ValueGeneratedOnAdd();
@@ -32,22 +32,6 @@ public class SchoolConfig : IEntityTypeConfiguration<School>
         builder.HasMany(t => t.Positions)
             .WithMany(t => t.Schools);
 
-        //builder.HasMany(t => t.Persons)
-        //    .WithOne(t => t.School);
-
-        //builder.Ignore(t => t.Rooms);
-        //builder.Ignore(t => t.Floors);
-        //builder.Ignore(t => t.Director);
-        //builder.Ignore(t => t.Employees);
-        //builder.Ignore(t => t.Teacher);
-
-        //builder.Property(t => t.Employees)
-        //    .IsRequired();
-
-        //builder.HasOne(t => t.Director)
-        //    .WithOne();
-
-        //builder.Property(t => t.Teacher)
-        //    .IsRequired();
+        builder.Ignore(t => t.Rooms);
     }
 }
