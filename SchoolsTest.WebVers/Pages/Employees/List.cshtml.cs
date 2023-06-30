@@ -1,33 +1,29 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using SchoolsTest.Models;
 using SchoolsTest.Models.Interfaces;
 
 namespace SchoolsTest.WebVers.Pages.Employees;
 
-public class EmployeesList : PageModel
+public class EmployeesList : BasePageModel
 {
-    private readonly IRepository<Models.Employee> _repository;
+    private readonly IEmployeeRepository _repository;
+
     public IEnumerable<Models.Employee> Employees { get; set; }
 
-    public EmployeesList(IRepository<Models.Employee> repository)
+    public EmployeesList(IEmployeeRepository repository)
     {
         _repository = repository;
     }
 
-    public IActionResult OnGet()
+    public async Task<IActionResult> OnGetAsync()
     {
-        if (!Request.Cookies.TryGetValue("schoolId", out string? schoolIdStr))
+        var schoolId = GetSchoolId();
+        if (schoolId == null)
         {
-            return NotFound("School not found");
+            return Redirect("/schools");
         }
 
-        if (!int.TryParse(schoolIdStr, out var schoolId))
-        {
-            return NotFound("Incorrect school Id");
-        }
+        Employees = await _repository.GetEmployeesWithPositions(schoolId.Value);
 
-        Employees = _repository.GetAll(/*e => e.Schools.All(s => s.Id == schoolId)*/);
         return Page();
     }
 }
