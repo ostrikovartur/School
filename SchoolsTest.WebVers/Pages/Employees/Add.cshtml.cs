@@ -10,14 +10,21 @@ namespace SchoolsTest.WebVers.Pages.Employees;
 
 public class Add : PageModel
 {
-    AppDbContext _dbcontext;
     private readonly IRepository<Position> _positionsRepository;
+    private readonly ISchoolRepository _schoolRepository;
+    private readonly AppDbContext _dbContext;
+
     public IEnumerable<Position> Positions { get; set; }
-    public Add(IRepository<Position> positionsRepository, AppDbContext dbContext)
+
+    public Add(IRepository<Position> positionsRepository,
+        ISchoolRepository schoolRepository,
+        AppDbContext dbContext)
     {
         _positionsRepository = positionsRepository;
-        _dbcontext = dbContext;
+        _schoolRepository = schoolRepository;
+        _dbContext = dbContext;
     }
+
     public void OnGet()
     {
         Positions = _positionsRepository.GetAll();
@@ -35,17 +42,16 @@ public class Add : PageModel
             return NotFound("Incorrect school Id");
         }
         
-        var currentSchool = _dbcontext.Schools
-            .Where(school => school.Id == schoolId)
-            .SingleOrDefault();
+        var currentSchool = _schoolRepository.Get(schoolId);
 
         var positions = _positionsRepository.GetAll(p => employeeDto.PositionIds.Contains(p.Id));
 
-        Models.Employee employee = new(employeeDto.FirstName, employeeDto.LastName, employeeDto.Age, employeeDto.PositionIds);
+        Models.Employee employee = new(employeeDto.FirstName, employeeDto.LastName, employeeDto.Age, positions.ToArray());
         var (valid, error) = currentSchool.AddEmployee(employee);
 
         //employee.School = currentSchool;
-        _dbcontext.SaveChanges();
+        _dbContext.SaveChanges();
+
         return Redirect($"/employees");
     }
 }
