@@ -38,10 +38,18 @@
         <td><input type="date" asp-for="School.OpeningDate"/></td>      
     </tr>
     <tr>
-        <td><a asp-page="List"> <input type="submit" value="Update" asp-page-handler="Update" /> </a></td>
+        <td>
+            <button type="button">
+                <a asp-page="List"> <input type="submit" value="Update" asp-page-handler="Update" class="btn btn-success link-dark" /> </a>
+            </button>
+        </td>
     </tr>
     <tr>
-        <td><a asp-page="List"> <input type="submit" value="Delete" asp-page-handler="Delete" /> </a></td>
+        <td>
+            <button type="button">
+                <a asp-page="List"> <input type="submit" value="Delete" asp-page-handler="Delete" class="btn btn-danger link-dark" /> </a>
+            </button>
+        </td>
     </tr>
 </table>
 <input type="hidden" asp-for="School.Id" />

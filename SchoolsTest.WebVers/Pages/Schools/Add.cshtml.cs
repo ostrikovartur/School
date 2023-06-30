@@ -19,6 +19,7 @@ public class AddSchool : PageModel
     {
         Message = "Write data about youre school";
     }
+
     public IActionResult OnPost(string name, Address address, DateTime openingDate)
     {
         School school = new(name, address, openingDate);
