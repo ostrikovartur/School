@@ -1,4 +1,5 @@
-﻿using SchoolsTest.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using SchoolsTest.Models;
 using SchoolsTest.Models.Interfaces;
 
 namespace SchoolsTest.Data;
@@ -6,29 +7,26 @@ namespace SchoolsTest.Data;
 public class EmployeeRepository : Repository<Employee>, IEmployeeRepository
 {
     private readonly AppDbContext _dbContext;
+
     public EmployeeRepository(AppDbContext dbContext) 
         : base(dbContext)
     {
         _dbContext = dbContext;
     }
-    //public IEnumerable<Employee> GetSchoolEmployees(int schoolId)
-    //{
-    //    Employee[] directors = _dbContext.Set<Director>()
-    //        .Where(d => d.SchoolId == schoolId)
-    //        .ToArray();
 
-    //    Employee[] teachers = _dbContext.Set<Teacher>()
-    //        .Where(d => d.SchoolId == schoolId)
-    //        .ToArray();
+    public async Task<IEnumerable<Employee>> GetEmployeesWithPositions(int schoolId)
+    {
+        var employees = await _dbContext.Set<Employee>()
+            .Include(e => e.Positions)
+            .Where(e => e.Schools.All(s => s.Id == schoolId))
+            .ToListAsync();
 
-    //    var employees = new List<Employee>();
-    //    employees.AddRange(teachers);
-    //    employees.AddRange(directors);
-
-    //    return employees;
-    //}
-    //public IEnumerable<Employee> CheckEmployee(int schoolId)
-    //{
-    //    return ;
-    //}
+        return employees;
+    }
+    public Employee? GetEmployeeWithPositions(int employeeId)
+    {
+        return _dbContext.Set<Employee>()
+            .Include(p => p.Positions)
+            .FirstOrDefault(e => e.Id == employeeId);
+    }
 }
