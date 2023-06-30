@@ -1,0 +1,26 @@
+﻿@page "/rooms"
+@model RoomsInSchoolList
+
+<h1>List all rooms in the school</h1>
+
+<table align="left" width="300px" border="1">
+    @foreach (var room in Model.Rooms)
+    {
+        <tr>
+            <td>@room.Id</td>
+            <td>|</td>
+            <td>@room.Number</td>
+            <td>|</td>
+            <td>
+                <ul>
+                    @foreach (var roomType in room.RoomTypes)
+                    {
+                        <li> @roomType.Name </li>
+                    }
+                </ul>
+            </td>
+            <td>|</td>
+            <td><a asp-page="Edit" asp-route-id="@room.Id">Edit</a></td>
+        </tr>
+    }
+</table>

@@ -1,8 +1,8 @@
 ﻿@page "/{floorId}/rooms"
-@model RoomsList
-@{
-}
-<h1>List rooms</h1>
+
+@model RoomsOnFloorList
+
+<h1>List rooms on floor</h1>
 <h3><a asp-page="../Rooms/Add" asp-route-floorId="@Model.FloorId">Add room</a></h3>
 <table align="left" width="300px" border="1">
     @foreach (var room in Model.Rooms)
@@ -12,18 +12,13 @@
             <td>|</td>
             <td>@room.Number</td>
             <td>|</td>
-@*            <td>@room.Floor.Number</td>
-            <td>|</td>*@
             <td>
-                @foreach (var roomType in Model.RoomTypes)
-                {
-                    var labelId = $"rt-{roomType.Id}";
-
-                    <label for="@labelId">
-                        <input id="@labelId" name="roomTypeIds[]" value="@roomType.Id" />
-                        @roomType.Name
-                    </label>
-                }
+                <ul>
+                    @foreach (var roomType in room.RoomTypes)
+                    {
+                        <li> @roomType.Name </li>
+                    }
+                </ul>
             </td>
             <td>|</td>
             <td><a asp-page="Edit" asp-route-id="@room.Id">Edit</a></td>
