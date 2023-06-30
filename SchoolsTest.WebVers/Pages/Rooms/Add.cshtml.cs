@@ -13,6 +13,8 @@ public class RoomAdd : PageModel
     private readonly IRepository<RoomType> _repositoryRoomType;
     public IEnumerable<Floor> Floors { get; set; }
     public IEnumerable<RoomType> RoomTypes { get; set; }
+    public int SchoolId { get; set; }
+    public int FloorId { get; set; }
     public string Message { get; private set; } = "";
 
     public RoomAdd(IRepository<Floor> repository,IRepository<RoomType> repositoryRoomType, AppDbContext dbContext)
@@ -29,18 +31,20 @@ public class RoomAdd : PageModel
     }
     public IActionResult OnPost(int floorId, int roomNumber, IEnumerable<RoomType> roomType)
     {
-        var floor = _dbcontext.Floors
+        var currentFloor = _dbcontext.Set<Floor>()
             .Where(floor => floor.Id == floorId)
             .SingleOrDefault();
+        //FloorId = floorId;
 
-        if (floor is null)
+        if (currentFloor is null)
         {
             return NotFound("Floor not found");
         }
 
         roomType = RoomTypes;
 
-        var (valid, error) = floor.AddRoom(new Room(roomNumber, roomType, floor));
+        Models.Room room = new(roomNumber, roomType,currentFloor);
+        var (valid, error) = currentFloor.AddRoom(room);
         if (!valid)
         {
             return BadRequest(error);
