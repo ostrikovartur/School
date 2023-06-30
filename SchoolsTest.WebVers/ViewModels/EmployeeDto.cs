@@ -8,5 +8,5 @@ public class EmployeeDto
     public string FirstName { get; set; }
     public string LastName { get; set; }
     public int Age { get; set; }
-    public int[] PositionIds { get; set; }
+    public int[] PositionIds { get; set; } = Array.Empty<int>();
 }
