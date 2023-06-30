@@ -1,4 +1,5 @@
 ﻿@page "/employees"
+@using SchoolsTest.Models;
 @model EmployeesList
 @{
 }
@@ -16,7 +17,14 @@
             <td>|</td>
             <td>@employee.Age</td>
             <td>|</td>
-            <td>@employee.Positions</td>
+            <td>
+                <ul>
+                    @foreach (var position in employee.Positions ?? Array.Empty<Position>())
+                    {
+                        <li> @position.Name </li>
+                    }
+                </ul>
+            </td>
             <td>|</td>
             <td><a asp-page="Edit" asp-route-id="@employee.Id">Edit employee</a></td>
         </tr>
