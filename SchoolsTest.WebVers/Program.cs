@@ -31,4 +31,19 @@ app.UseAuthorization();
 
 app.MapRazorPages();
 
+var scope = app.Services.CreateScope();
+var services = scope.ServiceProvider;
+
+try
+{
+    var context = services.GetRequiredService<AppDbContext>();
+    context.Database.EnsureCreated();
+    context.Database.Migrate();
+}
+catch(Exception ex)
+{
+    var logger = services.GetRequiredService<ILogger<Program>>();
+    logger.LogError(ex, "An error occurred with create DB");
+}
+
 app.Run();

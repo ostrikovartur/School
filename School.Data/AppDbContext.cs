@@ -12,9 +12,6 @@ public class AppDbContext : DbContext
     public AppDbContext(DbContextOptions<AppDbContext> options)
         : base(options)
     {
-        //Database.EnsureCreated();
-        Database.GetMigrations();
-        Database.Migrate();
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
