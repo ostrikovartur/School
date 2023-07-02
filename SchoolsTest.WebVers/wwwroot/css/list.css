@@ -6,8 +6,9 @@
 	text-align:left;
 }
 button {
-	width: 250px;
+	width: 200px;
 	background-color: rgba(var(--bs-tertiary-color-rgb), .3);
+	font-size: 2em;
 }
 .site {
 	width: 100%;
@@ -17,4 +18,7 @@ table {
 }
 table button {
 	align-content:center;
+}
+.link {
+	width: 90%;
 }
