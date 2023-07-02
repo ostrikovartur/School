@@ -34,7 +34,7 @@ namespace SchoolsTest.WebVers.Migrations
 
                     b.HasIndex("PositionsId");
 
-                    b.ToTable("EmployeePosition");
+                    b.ToTable("EmployeePosition", (string)null);
                 });
 
             modelBuilder.Entity("EmployeeSchool", b =>
@@ -49,7 +49,7 @@ namespace SchoolsTest.WebVers.Migrations
 
                     b.HasIndex("SchoolsId");
 
-                    b.ToTable("EmployeeSchool");
+                    b.ToTable("EmployeeSchool", (string)null);
                 });
 
             modelBuilder.Entity("PositionSchool", b =>
@@ -64,7 +64,7 @@ namespace SchoolsTest.WebVers.Migrations
 
                     b.HasIndex("SchoolsId");
 
-                    b.ToTable("PositionSchool");
+                    b.ToTable("PositionSchool", (string)null);
                 });
 
             modelBuilder.Entity("RoomRoomType", b =>
@@ -79,7 +79,7 @@ namespace SchoolsTest.WebVers.Migrations
 
                     b.HasIndex("RoomsId");
 
-                    b.ToTable("RoomRoomType");
+                    b.ToTable("RoomRoomType", (string)null);
                 });
 
             modelBuilder.Entity("RoomTypeSchool", b =>
@@ -94,7 +94,7 @@ namespace SchoolsTest.WebVers.Migrations
 
                     b.HasIndex("SchoolsId");
 
-                    b.ToTable("RoomTypeSchool");
+                    b.ToTable("RoomTypeSchool", (string)null);
                 });
 
             modelBuilder.Entity("SchoolsTest.Models.Address", b =>
