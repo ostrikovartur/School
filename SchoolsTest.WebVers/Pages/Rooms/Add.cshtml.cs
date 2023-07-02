@@ -3,21 +3,21 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using SchoolsTest.Data;
 using SchoolsTest.Models;
 using SchoolsTest.Models.Interfaces;
+using SchoolsTest.WebVers.ViewModels;
 
 namespace SchoolsTest.WebVers.Pages.Rooms;
 
 public class RoomAdd : PageModel
 {
     AppDbContext _dbcontext;
-    private readonly IRepository<Floor> _repository;
+    private readonly IFloorRepository _repository;
     private readonly IRepository<RoomType> _repositoryRoomType;
     public IEnumerable<Floor> Floors { get; set; }
     public IEnumerable<RoomType> RoomTypes { get; set; }
-    public int SchoolId { get; set; }
     public int FloorId { get; set; }
     public string Message { get; private set; } = "";
 
-    public RoomAdd(IRepository<Floor> repository,IRepository<RoomType> repositoryRoomType, AppDbContext dbContext)
+    public RoomAdd(IFloorRepository repository,IRepository<RoomType> repositoryRoomType, AppDbContext dbContext)
     {
         _repository = repository;
         _dbcontext = dbContext;
@@ -29,11 +29,12 @@ public class RoomAdd : PageModel
         Message = "Write data about room";
         Floors = _repository.GetAll();
     }
-    public IActionResult OnPost(int floorId, int roomNumber, IEnumerable<RoomType> roomType)
+    public IActionResult OnPost(RoomDto roomDto, int floorId /*int roomNumber, IEnumerable<RoomType> roomType*/)
     {
-        var currentFloor = _dbcontext.Set<Floor>()
-            .Where(floor => floor.Id == floorId)
-            .SingleOrDefault();
+        var currentFloor = _repository.Get(floorId);
+        //var currentFloor = _dbcontext.Set<Floor>()
+        //    .Where(floor => floor.Id == FloorId)
+        //    .SingleOrDefault();
         //FloorId = floorId;
 
         if (currentFloor is null)
@@ -41,15 +42,21 @@ public class RoomAdd : PageModel
             return NotFound("Floor not found");
         }
 
-        roomType = RoomTypes;
+        var roomType = _repositoryRoomType.GetAll(rt => roomDto.RoomTypeIds.Contains(rt.Id));
+        //var currentSchool = _schoolRepository.Get(schoolId);
 
-        Models.Room room = new(roomNumber, roomType,currentFloor);
+        //var positions = _positionsRepository.GetAll(p => employeeDto.PositionIds.Contains(p.Id));
+
+        //Models.Employee employee = new(employeeDto.FirstName, employeeDto.LastName, employeeDto.Age, positions.ToArray());
+        //var (valid, error) = currentSchool.AddEmployee(employee);
+
+        Models.Room room = new(roomDto.Number, roomType,currentFloor);
         var (valid, error) = currentFloor.AddRoom(room);
         if (!valid)
         {
             return BadRequest(error);
         }
         _dbcontext.SaveChanges();
-        return Redirect($"/{floorId}/rooms");
+        return Redirect($"/{currentFloor}/rooms");
     }
 }

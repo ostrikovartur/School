@@ -20,8 +20,9 @@ public class RoomsOnFloorList : BasePageModel
         _roomRepository = roomRepository;
     }
 
-    public async Task<IActionResult> OnGetAsync()
+    public async Task<IActionResult> OnGetAsync(int floorId)
     {
+        FloorId = floorId;
         var schoolId = GetSchoolId();
         if (schoolId == null)
         {
