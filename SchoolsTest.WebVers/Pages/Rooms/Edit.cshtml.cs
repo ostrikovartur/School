@@ -42,7 +42,7 @@ public class Edit : BasePageModel
         }
 
         Floors = _floorRepository.GetAll(f => f.SchoolId == schoolId);
-        //RoomTypes = _roomTypeRepository.GetAll();
+        RoomTypes = _roomTypeRepository.GetAll();
 
         return Page();
     }

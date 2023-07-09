@@ -25,7 +25,7 @@
                     </label>
                 }
             </td>
-        <tr>
+@*        <tr>
             <td>Floor number:</td>
             <td>
                 <select asp-for="Room.FloorId">
@@ -35,12 +35,12 @@
                     }
                 </select>
             </td>
+        </tr>*@
+        <tr>
+            <td><a asp-page="List"> <input type="submit" value="Update" asp-page-handler="Update" class="btn btn-success text-dark"/> </a></td>
         </tr>
         <tr>
-            <td><a asp-page="List"> <input type="submit" value="Update" asp-page-handler="Update" /> </a></td>
-        </tr>
-        <tr>
-            <td><a asp-page="List"> <input type="submit" value="Delete" asp-page-handler="Delete" /> </a></td>
+            <td><a asp-page="List"> <input type="submit" value="Delete" asp-page-handler="Delete" class="btn btn-danger text-dark" /> </a></td>
         </tr>
     </table>
     <input type="hidden" asp-for="Room.Floor.Id" />
