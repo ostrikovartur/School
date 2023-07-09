@@ -3,20 +3,18 @@
 @model EmployeesList
 @{
 }
-<h1>List employees</h1>
-<h3><a asp-page="../Employees/Add">Add employee</a></h3>
-<table align="left" width="350px" border="1">
+<h1>
+    List employees
+    <a asp-page="../Employees/Add" class="btn btn-lg btn-info">Add employee</a>
+</h1>
+<table align="left" width="90%" class="table-bordered border-primary-subtle bg-light border-3 float-lg-start">
     @foreach (var employee in Model.Employees)
     {
-        <tr>
+        <tr class="text-center fw-semibold">
             <td>@employee.Id</td>
-            <td>|</td>
             <td>@employee.FirstName</td>
-            <td>|</td>
             <td>@employee.LastName</td>
-            <td>|</td>
             <td>@employee.Age</td>
-            <td>|</td>
             <td>
                 <ul>
                     @foreach (var position in employee.Positions ?? Array.Empty<Position>())
@@ -25,8 +23,7 @@
                     }
                 </ul>
             </td>
-            <td>|</td>
-            <td><a asp-page="Edit" asp-route-id="@employee.Id">Edit employee</a></td>
+            <td><a asp-page="Edit" asp-route-id="@employee.Id" class="btn btn-warning">Edit employee</a></td>
         </tr>
     }
 </table>

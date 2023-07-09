@@ -2,19 +2,18 @@
 @model FloorsList
 @{
 }
-<h1>List floors</h1>
-<h3><a asp-page="../Floors/Add">Add floor</a></h3>
-<table align="left" width="500px" border="1">
+<h1>
+    List floors
+    <a asp-page="../Floors/Add" class="btn btn-lg btn-info">Add floor</a>
+</h1>
+<table align="left" width="90%" class="table-bordered border-primary-subtle bg-light border-3 float-lg-start">
     @foreach (var floor in Model.Floors)
     {
-        <tr>
+        <tr class="text-center fw-semibold">
             <td>@floor.Id</td>
-            <td>|</td>
             <td>@floor.Number</td>
-            <td>|</td>
-            <td><a asp-page="Floor" asp-route-id="@floor.Id">Select floor</a></td>
-            <td>|</td>
-            <td><a asp-page="Edit" asp-route-id="@floor.Id">Edit floor</a></td>
+            <td><a asp-page="Floor" asp-route-id="@floor.Id" class="btn-success btn text-dark">Select floor</a></td>
+            <td><a asp-page="Edit" asp-route-id="@floor.Id" class="btn btn-warning">Edit floor</a></td>
         </tr>
     }
 </table>

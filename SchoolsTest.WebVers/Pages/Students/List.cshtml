@@ -2,21 +2,19 @@
 @model StudentsList
 @{
 }
-<h1>List students</h1>
-<h3><a asp-page="../Students/Add">Add student</a></h3>
-<table align="left" width="300px" border="1">
+<h1>
+    List students
+    <a asp-page="../Students/Add" class="btn btn-lg btn-info">Add student</a>
+</h1>
+<table align="left" width="90%" class="table-bordered border-primary-subtle bg-light border-3 float-lg-start">
     @foreach (var student in Model.Students)
     {
-        <tr>
+        <tr class="text-center fw-semibold">
             <td>@student.Id</td>
-            <td>|</td>
             <td>@student.FirstName</td>
-            <td>|</td>
             <td>@student.LastName</td>
-            <td>|</td>
             <td>@student.Age</td>
-            <td>|</td>
-            <td><a asp-page="Edit" asp-route-id="@student.Id">Edit student</a></td>
+            <td><a asp-page="Edit" asp-route-id="@student.Id" class="btn btn-warning">Edit student</a></td>
         </tr>
     }
 </table>

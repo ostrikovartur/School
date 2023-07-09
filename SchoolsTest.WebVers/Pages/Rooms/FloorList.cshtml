@@ -2,16 +2,16 @@
 
 @model RoomsOnFloorList
 
-<h1>List rooms on floor</h1>
-<h3><a asp-page="../Rooms/Add" asp-route-floorId="@Model.FloorId">Add room</a></h3>
-<table align="left" width="300px" border="1">
+<h1>
+    List rooms on floor
+    <a asp-page="../Rooms/Add" asp-route-floorId="@Model.FloorId" class="btn btn-lg btn-info">Add room</a>
+</h1>
+<table align="left" width="90%" class="table-bordered border-primary-subtle bg-light border-3 float-lg-start">
     @foreach (var room in Model.Rooms)
     {
-        <tr>
+        <tr class="text-center fw-semibold">
             <td>@room.Id</td>
-            <td>|</td>
             <td>@room.Number</td>
-            <td>|</td>
             <td>
                 <ul>
                     @foreach (var roomType in room.RoomTypes)
@@ -20,8 +20,7 @@
                     }
                 </ul>
             </td>
-            <td>|</td>
-            <td><a asp-page="Edit" asp-route-id="@room.Id">Edit</a></td>
+            <td><a asp-page="Edit" asp-route-id="@room.Id" class="btn btn-warning">Edit</a></td>
         </tr>
     }
 </table>

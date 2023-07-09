@@ -2,19 +2,19 @@
 @model SchoolsTest.WebVers.Pages.RoomTypes.List
 @{
 }
-<h1>List room types</h1>
-<h3><a asp-page="../RoomTypes/Add">Add room type</a></h3>
-<table align="left" width="500px" border="1">
+<h1>
+    List room types
+    <a asp-page="../RoomTypes/Add" class="btn btn-lg btn-info">Add room type</a>
+</h1>
+<table align="left" width="90%" class="table-bordered border-primary-subtle bg-light border-3 float-lg-start">
     @foreach (var roomType in Model.RoomTypes)
     {
-        <tr>
+        <tr class="text-center fw-semibold">
             <td>@roomType.Id</td>
-            <td>|</td>
             <td>@roomType.Name</td>
-            <td>|</td>
             @*            <td><a asp-page="Floor" asp-route-id="@position.Id">Select position</a></td>
         <td>|</td>*@
-            <td><a asp-page="Edit" asp-route-id="@roomType.Id">Edit room type</a></td>
+            <td><a asp-page="Edit" asp-route-id="@roomType.Id" class="btn btn-warning">Edit room type</a></td>
         </tr>
     }
 </table>
