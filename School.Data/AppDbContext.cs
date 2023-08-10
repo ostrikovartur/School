@@ -8,6 +8,14 @@ namespace SchoolsTest.Data;
 public class AppDbContext : DbContext
 {
     public School? CurrentSchool { get; set; }
+    public DbSet<Address> Addresses { get; set; }
+    public DbSet<School> Schools { get; set; }
+    public DbSet<Floor> Floors { get; set; }
+    public DbSet<Room> Rooms { get; set; }
+    public DbSet<RoomType> RoomTypes { get; set; }
+    public DbSet<Employee> Employees { get; set; }
+    public DbSet<Position> Positions { get; set; }
+    public DbSet<Student> Students { get; set; }
 
     public AppDbContext(DbContextOptions<AppDbContext> options)
         : base(options)
