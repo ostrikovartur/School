@@ -7,17 +7,19 @@
     <table align="left">
         <tr>
             <td>Room number:</td>
-            <td><input type="number" name="roomNumber" /></td>
+            <td><input type="number" name="Number" /></td>
         </tr>
         <tr>
             <td>Room type:</td>
         </tr>
+        <tr>
             <td>
                 @foreach (var roomType in Model.RoomTypes)
                 {
                     <input type="checkbox" name="roomTypeIds[]" value="@roomType.Id" /> @roomType.Name
                 }
             </td>
+        </tr>
         <tr>
             <td><input type="submit" /> </td>
         </tr>

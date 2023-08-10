@@ -17,10 +17,10 @@
                 @foreach (var roomType in Model.RoomTypes)
                 {
                     var labelId = $"rt-{roomType.Id}";
-                    var cheched = Model.Room.RoomTypes.Contains(roomType);
+                    var cheched = Model.Room.RoomTypeIds.Contains(roomType.Id);
 
                     <label for="@labelId">
-                        <input id="@labelId" type="checkbox" name="roomTypeIds[]" value="@roomType.Id" checked="@cheched" />
+                        <input id="@labelId" type="checkbox" name="room.roomTypeIds[]" value="@roomType.Id" checked="@cheched" />
                         @roomType.Name
                     </label>
                 }
@@ -43,6 +43,6 @@
             <td><a asp-page="List"> <input type="submit" value="Delete" asp-page-handler="Delete" class="btn btn-danger text-dark" /> </a></td>
         </tr>
     </table>
-    <input type="hidden" asp-for="Room.Floor.Id" />
     <input type="hidden" asp-for="Room.Id" />
+    <input type="hidden" asp-for="Room.FloorId" />
 </form>
