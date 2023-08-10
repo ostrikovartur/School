@@ -15,7 +15,6 @@ builder.Services.AddScoped<ISchoolRepository, SchoolRepository>();
 builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 builder.Services.AddScoped<IRoomRepository, RoomRepository>();
 
-
 var app = builder.Build();
 
 //app.MapGet("/", (AppDbContext dbContext) => dbContext.Schools.ToList());
@@ -31,16 +30,17 @@ app.UseAuthorization();
 
 app.MapRazorPages();
 
-var scope = app.Services.CreateScope();
+using var scope = app.Services.CreateScope();
 var services = scope.ServiceProvider;
 
 try
 {
-    var context = services.GetRequiredService<AppDbContext>();
+    using var context = services.GetRequiredService<AppDbContext>();
     context.Database.EnsureCreated();
     context.Database.Migrate();
+    await DBSeeder.SeedDB(context);
 }
-catch(Exception ex)
+catch (Exception ex)
 {
     var logger = services.GetRequiredService<ILogger<Program>>();
     logger.LogError(ex, "An error occurred with create DB");
