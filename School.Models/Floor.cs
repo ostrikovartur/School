@@ -22,7 +22,7 @@ public class Floor : BaseEntity
 
     [JsonConstructor]
 
-    public Floor(int number, IEnumerable<Room> rooms)
+    public Floor(int number, ICollection<Room> rooms)
     {
         Number = number;
         Rooms = rooms.ToList();
