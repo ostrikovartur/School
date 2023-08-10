@@ -21,7 +21,8 @@ public class Employee : Person
 
     }
 
-    public Employee(string firstName, string lastName, int age) : base(firstName, lastName, age)
+    public Employee(string firstName, string lastName, int age) 
+        : base(firstName, lastName, age)
     {
     }
 
