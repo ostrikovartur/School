@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using SchoolsTest.Models.Interfaces;
 using SchoolsTest.Models;
+using SchoolsTest.WebVers.ViewModels;
 
 namespace SchoolsTest.WebVers.Pages.Positions;
 
@@ -35,7 +36,7 @@ public class Edit : BasePageModel
 
         return Page();
     }
-    public IActionResult OnPostUpdate(Position position)
+    public IActionResult OnPostUpdate(PositionDto position)
     {
         var positionId = position.Id;
 
@@ -51,7 +52,7 @@ public class Edit : BasePageModel
         return Redirect($"/positions");
     }
 
-    public IActionResult OnPostDelete(Position position)
+    public IActionResult OnPostDelete(PositionDto position)
     {
         var positionId = position.Id;
 

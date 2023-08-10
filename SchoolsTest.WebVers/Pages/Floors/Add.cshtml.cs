@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using SchoolsTest.Data;
 using SchoolsTest.Models;
 using SchoolsTest.Models.Interfaces;
+using SchoolsTest.WebVers.ViewModels;
 
 namespace SchoolsTest.WebVers.Pages.Floors;
 
@@ -23,7 +24,7 @@ public class FloorAdd : PageModel
         Message = "Write data about floor";
         Schools = _repository.GetAll();
     }
-    public IActionResult OnPost(int number)
+    public IActionResult OnPost(FloorDto floorDto)
     {
         if (!Request.Cookies.TryGetValue("schoolId", out string? schoolIdStr))
         {
@@ -38,11 +39,11 @@ public class FloorAdd : PageModel
         var currentSchool = _dbcontext.Set<School>()
             .Where(school => school.Id == schoolId)
             .SingleOrDefault();
-        Models.Floor floor = new (number);
+        Models.Floor floor = new (floorDto.Number);
         var (valid,error) = currentSchool.AddFloor(floor);
         if (valid)
         {
-            Message = $"Floor number:{number}";
+            Message = $"Floor number:{floorDto.Number}";
         }
         _dbcontext.SaveChanges();
         return Redirect($"/floors");

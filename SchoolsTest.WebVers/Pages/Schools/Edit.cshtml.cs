@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using SchoolsTest.Models;
 using SchoolsTest.Models.Interfaces;
+using SchoolsTest.WebVers.ViewModels;
 using System.Drawing;
 
 namespace SchoolsTest.WebVers.Pages.Schools;
@@ -31,9 +32,17 @@ public class Edit : PageModel
         return Page();
     }
 
-    public IActionResult OnPostUpdate(School school)
+    public IActionResult OnPostUpdate(SchoolDto school/*, AddressDto addressDto*/)
     {
         var schoolId = school.Id;
+
+        //Address address = new()
+        //{
+        //    Country = addressDto.Country,
+        //    City = addressDto.City,
+        //    Street = addressDto.Street,
+        //    PostalCode = addressDto.PostalCode,
+        //};
 
         var schoolToUpdate = _repository.Get(schoolId);
         if (schoolToUpdate is null)
@@ -43,13 +52,17 @@ public class Edit : PageModel
 
         schoolToUpdate.Name = school.Name;
         schoolToUpdate.OpeningDate = school.OpeningDate;
-        schoolToUpdate.Address = school.Address;
+        //schoolToUpdate.Address = address;
+        schoolToUpdate.Address.Country = school.Country;
+        schoolToUpdate.Address.City = school.City;
+        schoolToUpdate.Address.Street = school.Street;
+        schoolToUpdate.Address.PostalCode = school.PostalCode;
 
         _repository.Update(schoolToUpdate);
         return Redirect($"/schools");
     }
 
-    public IActionResult OnPostDelete(School school)
+    public IActionResult OnPostDelete(SchoolDto school)
     {
         var schoolId = school.Id;
 

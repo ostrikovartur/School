@@ -4,6 +4,7 @@ using SchoolsTest.Data;
 using SchoolsTest.Models;
 using SchoolsTest.Models.Interfaces;
 using SchoolsTest.WebVers.Pages.Employees;
+using SchoolsTest.WebVers.ViewModels;
 
 namespace SchoolsTest.WebVers.Pages.Floors;
 
@@ -37,7 +38,7 @@ public class Edit : BasePageModel
 
         return Page();
     }
-    public IActionResult OnPostUpdate(Floor floor)
+    public IActionResult OnPostUpdate(FloorDto floor)
     {
         var floorId = floor.Id;
 
@@ -53,7 +54,7 @@ public class Edit : BasePageModel
         return Redirect($"/floors");
     }
 
-    public IActionResult OnPostDelete(Floor floor)
+    public IActionResult OnPostDelete(FloorDto floor)
     {
         var floorId = floor.Id;
 

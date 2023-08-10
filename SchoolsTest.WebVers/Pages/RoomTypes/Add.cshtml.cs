@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using SchoolsTest.Data;
 using SchoolsTest.Models.Interfaces;
+using SchoolsTest.WebVers.ViewModels;
 
 namespace SchoolsTest.WebVers.Pages.RoomTypes;
 
@@ -21,7 +22,7 @@ public class Add : PageModel
     {
     }
 
-    public IActionResult OnPost(string name)
+    public IActionResult OnPost(RoomTypeDto roomTypeDto)
     {
         if (!Request.Cookies.TryGetValue("schoolId", out string? schoolIdStr))
         {
@@ -35,7 +36,7 @@ public class Add : PageModel
 
         var currentSchool = _schoolRepository.Get(schoolId);
 
-        Models.RoomType roomType = new(name);
+        Models.RoomType roomType = new(roomTypeDto.Name);
         var (valid, error) = currentSchool.AddRoomType(roomType);
 
         _dbContext.SaveChanges();

@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using SchoolsTest.Models.Interfaces;
 using SchoolsTest.Models;
+using SchoolsTest.WebVers.ViewModels;
 
 namespace SchoolsTest.WebVers.Pages.RoomTypes;
 
@@ -35,7 +36,7 @@ public class Edit : BasePageModel
 
         return Page();
     }
-    public IActionResult OnPostUpdate(RoomType roomType)
+    public IActionResult OnPostUpdate(RoomTypeDto roomType)
     {
         var roomTypeId = roomType.Id;
 
@@ -51,7 +52,7 @@ public class Edit : BasePageModel
         return Redirect($"/roomTypes");
     }
 
-    public IActionResult OnPostDelete(RoomType roomType)
+    public IActionResult OnPostDelete(RoomTypeDto roomType)
     {
         var roomTypeId = roomType.Id;
 
