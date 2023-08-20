@@ -14,7 +14,7 @@ public class FloorsList : BasePageModel
         _repository = repository;
     }
 
-    public IActionResult OnGet()
+    public async Task<IActionResult> OnGet()
     {
         var schoolId = GetSchoolId();
         if (schoolId is null)
@@ -22,7 +22,7 @@ public class FloorsList : BasePageModel
             return NotFound("School not found");
         }
 
-        Floors = _repository.GetAll(f => f.School.Id == schoolId);
+        Floors = await _repository.GetAll(f => f.School.Id == schoolId);
 
         return Page();
     }

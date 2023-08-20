@@ -23,12 +23,12 @@ public class Context
         SetSchools(schools);
     }
 
-    public void SetSchools(IEnumerable<Models.School> schools)
+    public async Task SetSchools(IEnumerable<Models.School> schools)
     {
         _schools = schools.ToList();
     }
 
-    public void AddSchool(Models.School school)
+    public async Task AddSchool(Models.School school)
     {
         _schools.Add(school);
     }

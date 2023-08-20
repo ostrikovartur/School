@@ -11,11 +11,11 @@ public class RoomRepository : Repository<Room>, IRoomRepository
     {
     }
 
-    public Room? GetRoomWithRoomTypes(int roomId)
+    public async Task<Room?> GetRoomWithRoomTypes(int roomId)
     {
-        return _dbContext.Set<Room>()
+        return await _dbContext.Set<Room>()
             .Include(r => r.RoomTypes)
-            .FirstOrDefault(r => r.Id == roomId);
+            .FirstOrDefaultAsync(r => r.Id == roomId);
     }
     public async Task<IEnumerable<Room>> GetRoomsWithTypes(int schoolId)
     {

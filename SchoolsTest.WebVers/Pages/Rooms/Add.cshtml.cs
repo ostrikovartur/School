@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using SchoolsTest.Data;
 using SchoolsTest.Models;
 using SchoolsTest.Models.Interfaces;
-using SchoolsTest.WebVers.ViewModels;
 
 namespace SchoolsTest.WebVers.Pages.Rooms;
 
@@ -25,16 +24,16 @@ public class RoomAdd : PageModel
         _floorRepository = floorRepository;
         _repositoryRoomType = repositoryRoomType;
     }
-    public void OnGet()
+    public async Task OnGet()
     {
         Message = "Write data about room";
-        RoomTypes = _repositoryRoomType.GetAll();
+        RoomTypes = await _repositoryRoomType.GetAll();
     }
 
     [ValidateAntiForgeryToken]
-    public IActionResult OnPost(RoomDto roomDto, int floorId /*int roomNumber, IEnumerable<RoomType> roomType*/)
+    public async Task<IActionResult> OnPost(RoomAddDto roomDto, int floorId /*int roomNumber, IEnumerable<RoomType> roomType*/)
     {
-        var currentFloor = _floorRepository.Get(floorId);
+        var currentFloor = await _floorRepository.Get(floorId);
         //var currentFloor = _dbcontext.Set<Floor>()
         //    .Where(floor => floor.Id == FloorId)
         //    .SingleOrDefault();
@@ -45,7 +44,7 @@ public class RoomAdd : PageModel
             return NotFound("Floor not found");
         }
 
-        var roomType = _repositoryRoomType.GetAll(rt => roomDto.RoomTypeIds.Contains(rt.Id));
+        var roomType = await _repositoryRoomType.GetAll(rt => roomDto.RoomTypeIds.Contains(rt.Id));
 
         Models.Room room = new(roomDto.Number, roomType.ToArray(), currentFloor);
         var (valid, error) = currentFloor.AddRoom(room);

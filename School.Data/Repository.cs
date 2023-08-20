@@ -1,4 +1,5 @@
-﻿using SchoolsTest.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using SchoolsTest.Models;
 using SchoolsTest.Models.Interfaces;
 using System.Linq.Expressions;
 
@@ -12,36 +13,36 @@ public class Repository<TEntity> : IRepository<TEntity> where TEntity : BaseEnti
     {
         _dbContext = dbContext;
     }
-    public IEnumerable<TEntity> GetAll()
+    public async Task<IEnumerable<TEntity>> GetAll()
     {
-        return _dbContext.Set<TEntity>().ToArray();
+        return await _dbContext.Set<TEntity>().ToArrayAsync();
     }
 
-    public IEnumerable<TEntity> GetAll(Expression<Func<TEntity, bool>> predicate)
+    public async Task<IEnumerable<TEntity>> GetAll(Expression<Func<TEntity, bool>> predicate)
     {
-        return _dbContext.Set<TEntity>()
+        return await _dbContext.Set<TEntity>()
             .Where(predicate)
-            .ToArray();
+            .ToArrayAsync();
     }
 
-    public TEntity Get(int id)
+    public async Task<TEntity> Get(int id)
     {
-        return _dbContext.Set<TEntity>().Find(id);
+        return await _dbContext.Set<TEntity>().FindAsync(id);
     }
 
-    public void Add(TEntity entity)
+    public async Task Add(TEntity entity)
     {
         _dbContext.Set<TEntity>().Add(entity);
-        _dbContext.SaveChanges();
+        await _dbContext.SaveChangesAsync();
     }
-    public void Update(TEntity entity)
+    public async Task Update(TEntity entity)
     {
         _dbContext.Update(entity);
-        _dbContext.SaveChanges();
+        await _dbContext.SaveChangesAsync();
     }
-    public void Delete(TEntity entity)
+    public async Task Delete(TEntity entity)
     {
         _dbContext.Remove(entity);
-        _dbContext.SaveChanges();
+        await _dbContext.SaveChangesAsync();
     }
 }

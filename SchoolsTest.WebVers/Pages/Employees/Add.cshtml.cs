@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using SchoolsTest.Data;
 using SchoolsTest.Models.Interfaces;
 using SchoolsTest.Models;
-using SchoolsTest.WebVers.ViewModels;
 using System.IO;
 
 namespace SchoolsTest.WebVers.Pages.Employees;
@@ -25,12 +24,12 @@ public class Add : PageModel
         _dbContext = dbContext;
     }
 
-    public void OnGet()
+    public async Task OnGet()
     {
-        Positions = _positionsRepository.GetAll();
+        Positions = await _positionsRepository.GetAll();
     }
 
-    public IActionResult OnPost(EmployeeDto employeeDto)
+    public async Task<IActionResult> OnPost(EmployeeAddDto employeeDto)
     {
         if (!Request.Cookies.TryGetValue("schoolId", out string? schoolIdStr))
         {
@@ -42,9 +41,9 @@ public class Add : PageModel
             return NotFound("Incorrect school Id");
         }
         
-        var currentSchool = _schoolRepository.Get(schoolId);
+        var currentSchool = await _schoolRepository.Get(schoolId);
 
-        var positions = _positionsRepository.GetAll(p => employeeDto.PositionIds.Contains(p.Id));
+        var positions = await _positionsRepository.GetAll(p => employeeDto.PositionIds.Contains(p.Id));
 
         Models.Employee employee = new(employeeDto.FirstName, employeeDto.LastName, employeeDto.Age, positions.ToArray());
         var (valid, error) = currentSchool.AddEmployee(employee);

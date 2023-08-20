@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using SchoolsTest.Data;
 using SchoolsTest.Models;
 using SchoolsTest.Models.Interfaces;
-using SchoolsTest.WebVers.ViewModels;
 
 namespace SchoolsTest.WebVers.Pages.Students;
 
@@ -23,11 +22,11 @@ public class StudentsAdd : PageModel
         _schoolRepository = schoolRepository;
         _dbContext = dbContext;
     }
-    public void OnGet()
+    public async Task OnGet()
     {
         Message = "Write data about student";
     }
-    public IActionResult OnPost(StudentDto studentDto)
+    public async Task<IActionResult> OnPost(StudentAddDto studentDto)
     {
         if (!Request.Cookies.TryGetValue("schoolId", out string? schoolIdStr))
         {
@@ -38,7 +37,7 @@ public class StudentsAdd : PageModel
         {
             return NotFound("Incorrect school Id");
         }
-        var currentSchool = _schoolRepository.Get(schoolId);
+        var currentSchool = await _schoolRepository.Get(schoolId);
         Models.Student student = new(studentDto.FirstName, studentDto.LastName, studentDto.Age);
         var (valid, error) = currentSchool.AddStudent(student);
         if (valid)

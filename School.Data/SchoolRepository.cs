@@ -11,9 +11,9 @@ public class SchoolRepository : Repository<School>, ISchoolRepository
     {
     }
 
-    public School? GetSchoolWithAddress(int id)
+    public async Task<School?> GetSchoolWithAddress(int id)
     {
-        return _dbContext.Set<School>().Include(s => s.Address).SingleOrDefault(s => s.Id == id);
+        return await _dbContext.Set<School>().Include(s => s.Address).SingleOrDefaultAsync(s => s.Id == id);
     }
 
 }

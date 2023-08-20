@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using SchoolsTest.Models;
 using SchoolsTest.Models.Interfaces;
-using SchoolsTest.WebVers.ViewModels;
 
 namespace SchoolsTest.WebVers.Pages.Employees;
 
@@ -13,7 +12,7 @@ public class Edit : BasePageModel
     public IEnumerable<Models.Employee> Employees { get; set; }
     public IEnumerable<Position> Positions { get; set; }
     public School School { get; set; }
-    public EmployeeDto Employee { get; set; }
+    public EmployeeEditDto Employee { get; set; }
 
     public Edit(IEmployeeRepository repository, IRepository<Position> positionRepository)
     {
@@ -21,7 +20,7 @@ public class Edit : BasePageModel
         _positionsRepository = positionRepository;
     }
 
-    public IActionResult OnGet(int id)
+    public async Task<IActionResult> OnGet(int id)
     {
         var schoolId = GetSchoolId();
 
@@ -30,7 +29,7 @@ public class Edit : BasePageModel
             return Redirect("/schools");
         }
 
-        var employee = _repository.GetEmployeeWithPositions(id);
+        var employee = await _repository.GetEmployeeWithPositions(id);
         if (employee is null)
         {
             return NotFound("Employee is not found");
@@ -45,7 +44,7 @@ public class Edit : BasePageModel
             PositionIds = employee.PositionIds,
         };
        
-        Positions = _positionsRepository.GetAll();
+        Positions = await _positionsRepository.GetAll();
 
         //if (Positions == null)
         //{
@@ -55,34 +54,34 @@ public class Edit : BasePageModel
         return Page();
     }
 
-    public IActionResult OnPostUpdate(EmployeeDto employee)
+    public async Task<IActionResult> OnPostUpdate(EmployeeEditDto employee)
     {
-        var employeeToUpdate = _repository.GetEmployeeWithPositions(employee.Id);
+        var employeeToUpdate = await _repository.GetEmployeeWithPositions(employee.Id);
         if (employeeToUpdate is null)
         {
             return NotFound("Employee is not found");
         }
 
-        var positions = _positionsRepository.GetAll(p => employee.PositionIds.Contains(p.Id));
+        var positions = await _positionsRepository.GetAll(p => employee.PositionIds.Contains(p.Id));
 
         employeeToUpdate.SetNames(employee.FirstName, employee.LastName);
         employeeToUpdate.SetAge(employee.Age);
         employeeToUpdate.SetPositions(positions.ToArray());
 
-        _repository.Update(employeeToUpdate);
+        await _repository.Update(employeeToUpdate);
         return Redirect($"/employees");
     }
 
-    public IActionResult OnPostDelete(EmployeeDto employee)
+    public async Task<IActionResult> OnPostDelete(EmployeeEditDto employee)
     {
-        var employeeToDelete = _repository.Get(employee.Id);
+        var employeeToDelete = await _repository.Get(employee.Id);
 
         if (employeeToDelete is null)
         {
             return NotFound("Employee is not found");
         }
 
-        _repository.Delete(employeeToDelete);
+        await _repository.Delete(employeeToDelete);
         return Redirect($"/employees");
     }
 }

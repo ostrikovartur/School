@@ -10,7 +10,7 @@ public class RoomModel : PageModel
     public int FloorId { get; set; }
     public int Id { get; set; }
     public IEnumerable<RoomType> RoomTypes { get; set; }
-    public void OnGet(int schoolId,int floorId, int id)
+    public async Task OnGet(int schoolId,int floorId, int id)
     {
         SchoolId = schoolId;
         FloorId = floorId;

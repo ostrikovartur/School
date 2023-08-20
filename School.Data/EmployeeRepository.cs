@@ -23,10 +23,12 @@ public class EmployeeRepository : Repository<Employee>, IEmployeeRepository
 
         return employees;
     }
-    public Employee? GetEmployeeWithPositions(int employeeId)
+    public async Task<Employee?> GetEmployeeWithPositions(int employeeId)
     {
-        return _dbContext.Set<Employee>()
+        var employee = await _dbContext.Set<Employee>()
             .Include(p => p.Positions)
-            .FirstOrDefault(e => e.Id == employeeId);
+            .FirstOrDefaultAsync(e => e.Id == employeeId);
+
+        return employee;
     }
 }

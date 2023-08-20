@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using SchoolsTest.Data;
 using SchoolsTest.Models;
 using SchoolsTest.Models.Interfaces;
-using SchoolsTest.WebVers.ViewModels;
 
 namespace SchoolsTest.WebVers.Pages.Floors;
 
@@ -19,12 +18,12 @@ public class FloorAdd : PageModel
         _repository = repository;
         _dbcontext = dbContext;
     }
-    public void OnGet()
+    public async Task OnGet()
     {
         Message = "Write data about floor";
-        Schools = _repository.GetAll();
+        Schools = await _repository.GetAll();
     }
-    public IActionResult OnPost(FloorDto floorDto)
+    public async Task<IActionResult> OnPost(FloorAddDto floorDto)
     {
         if (!Request.Cookies.TryGetValue("schoolId", out string? schoolIdStr))
         {

@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using SchoolsTest.Models.Interfaces;
 using SchoolsTest.Models;
-using SchoolsTest.WebVers.ViewModels;
 
 namespace SchoolsTest.WebVers.Pages.RoomTypes;
 
@@ -18,7 +17,7 @@ public class Edit : BasePageModel
     {
         _roomTypeRepository = repository;
     }
-    public IActionResult OnGet(int id)
+    public async Task<IActionResult> OnGet(int id)
     {
         var schoolId = GetSchoolId();
 
@@ -27,7 +26,7 @@ public class Edit : BasePageModel
             return Redirect("/schools");
         }
 
-        RoomType = _roomTypeRepository.Get(id);
+        RoomType = await _roomTypeRepository.Get(id);
 
         if (RoomType is null)
         {
@@ -36,11 +35,11 @@ public class Edit : BasePageModel
 
         return Page();
     }
-    public IActionResult OnPostUpdate(RoomTypeDto roomType)
+    public async Task<IActionResult> OnPostUpdate(RoomTypeEditDto roomType)
     {
         var roomTypeId = roomType.Id;
 
-        var roomTypeToUpdate = _roomTypeRepository.Get(roomTypeId);
+        var roomTypeToUpdate = await _roomTypeRepository.Get(roomTypeId);
         if (roomTypeToUpdate is null)
         {
             return NotFound("Room type is not found");
@@ -48,21 +47,21 @@ public class Edit : BasePageModel
 
         roomTypeToUpdate.Name = roomType.Name;
 
-        _roomTypeRepository.Update(roomTypeToUpdate);
+        await _roomTypeRepository.Update(roomTypeToUpdate);
         return Redirect($"/roomTypes");
     }
 
-    public IActionResult OnPostDelete(RoomTypeDto roomType)
+    public async Task<IActionResult> OnPostDelete(RoomTypeEditDto roomType)
     {
         var roomTypeId = roomType.Id;
 
-        var roomTypeToUpdate = _roomTypeRepository.Get(roomTypeId);
+        var roomTypeToUpdate = await _roomTypeRepository.Get(roomTypeId);
         if (roomTypeToUpdate is null)
         {
             return NotFound("Room type is not found");
         }
 
-        _roomTypeRepository.Delete(roomTypeToUpdate);
+        await _roomTypeRepository.Delete(roomTypeToUpdate);
         return Redirect($"/roomTypes");
     }
 }

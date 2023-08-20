@@ -14,8 +14,8 @@ public class SchoolsList : PageModel
         _repository = repository;
     }
 
-    public void OnGet()
+    public async Task OnGet()
     {
-        Schools = _repository.GetAll();
+        Schools = await _repository.GetAll();
     }
 }

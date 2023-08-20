@@ -3,7 +3,6 @@ using SchoolsTest.Data;
 using SchoolsTest.Models;
 using SchoolsTest.Models.Interfaces;
 using SchoolsTest.WebVers.Pages.Employees;
-using SchoolsTest.WebVers.ViewModels;
 
 namespace SchoolsTest.WebVers.Pages.Rooms;
 
@@ -14,7 +13,7 @@ public class Edit : BasePageModel
     public IEnumerable<Room> Rooms { get; set; }
     public IEnumerable<RoomType> RoomTypes { get; set; }
     public IEnumerable<Floor> Floors { get; set; }
-    public RoomDto Room { get; set; }
+    public RoomEditDto Room { get; set; }
     public Floor Floor { get; set; }
     //public RoomType RoomType { get; set; }
 
@@ -26,7 +25,7 @@ public class Edit : BasePageModel
         _roomTypeRepository = roomTypeRepository;
     }
 
-    public IActionResult OnGet(int id)
+    public async Task<IActionResult> OnGet(int id)
     {
         var schoolId = GetSchoolId();
         if (schoolId == null)
@@ -34,7 +33,7 @@ public class Edit : BasePageModel
             return Redirect("/floors");
         }
 
-        var room = _roomRepository.GetRoomWithRoomTypes(id);
+        var room = await _roomRepository.GetRoomWithRoomTypes(id);
 
         if (room is null)
         {
@@ -49,13 +48,13 @@ public class Edit : BasePageModel
             RoomTypeIds = room.RoomTypeIds
         };
 
-        RoomTypes = _roomTypeRepository.GetAll();
+        RoomTypes = await _roomTypeRepository.GetAll();
 
         return Page();
     }
-    public IActionResult OnPostUpdate(RoomDto room)
+    public async Task<IActionResult> OnPostUpdate(RoomEditDto room)
     {
-        var roomToUpdate = _roomRepository.GetRoomWithRoomTypes(room.Id);
+        var roomToUpdate = await _roomRepository.GetRoomWithRoomTypes(room.Id);
         if (roomToUpdate is null)
         {
             return NotFound("Room is not found");
@@ -75,19 +74,19 @@ public class Edit : BasePageModel
         //roomToUpdate.Number = room.Number;
         //var positions = _positionsRepository.GetAll(p => employeeDto.PositionIds.Contains(p.Id));
 
-        var roomTypes = _roomTypeRepository.GetAll(r => room.RoomTypeIds.Contains(r.Id));
+        var roomTypes = await _roomTypeRepository.GetAll(r => room.RoomTypeIds.Contains(r.Id));
 
         roomToUpdate.SetNumber(room.Number);
         roomToUpdate.SetFloor(room.FloorId);
         roomToUpdate.SetRoomTypes(roomTypes.ToArray());
 
-        _roomRepository.Update(roomToUpdate);
+        await _roomRepository.Update(roomToUpdate);
         return Redirect($"/{floorId}/rooms");
     }
 
-    public IActionResult OnPostDelete(RoomDto room)
+    public async Task<IActionResult> OnPostDelete(RoomEditDto room)
     {
-        var roomToUpdate = _roomRepository.Get(room.Id);
+        var roomToUpdate = await _roomRepository.Get(room.Id);
         if (roomToUpdate is null)
         {
             return NotFound("Room is not found");
@@ -104,7 +103,7 @@ public class Edit : BasePageModel
         //    }
         //}
 
-        _roomRepository.Delete(roomToUpdate);
+        await _roomRepository.Delete(roomToUpdate);
         return Redirect($"/{floorId}/rooms");
     }
 }

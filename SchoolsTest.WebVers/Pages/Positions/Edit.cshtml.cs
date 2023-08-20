@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using SchoolsTest.Models.Interfaces;
 using SchoolsTest.Models;
-using SchoolsTest.WebVers.ViewModels;
 
 namespace SchoolsTest.WebVers.Pages.Positions;
 
@@ -18,7 +17,7 @@ public class Edit : BasePageModel
     {
         _positionRepository = repository;
     }
-    public IActionResult OnGet(int id)
+    public async Task<IActionResult> OnGet(int id)
     {
         var schoolId = GetSchoolId();
 
@@ -27,7 +26,7 @@ public class Edit : BasePageModel
             return Redirect("/schools");
         }
 
-        Position = _positionRepository.Get(id);
+        Position = await _positionRepository.Get(id);
 
         if (Position is null)
         {
@@ -36,11 +35,9 @@ public class Edit : BasePageModel
 
         return Page();
     }
-    public IActionResult OnPostUpdate(PositionDto position)
+    public async Task<IActionResult> OnPostUpdate(PositionEditDto position)
     {
-        var positionId = position.Id;
-
-        var positionToUpdate = _positionRepository.Get(positionId);
+        var positionToUpdate = await _positionRepository.Get(position.Id);
         if (positionToUpdate is null)
         {
             return NotFound("Position is not found");
@@ -48,21 +45,19 @@ public class Edit : BasePageModel
 
         positionToUpdate.Name = position.Name;
 
-        _positionRepository.Update(positionToUpdate);
+        await _positionRepository.Update(positionToUpdate);
         return Redirect($"/positions");
     }
 
-    public IActionResult OnPostDelete(PositionDto position)
+    public async Task<IActionResult> OnPostDelete(PositionEditDto position)
     {
-        var positionId = position.Id;
-
-        var positionToUpdate = _positionRepository.Get(positionId);
+        var positionToUpdate = await _positionRepository.Get(position.Id);
         if (positionToUpdate is null)
         {
             return NotFound("Position is not found");
         }
 
-        _positionRepository.Delete(positionToUpdate);
+        await _positionRepository.Delete(positionToUpdate);
         return Redirect($"/positions");
     }
 }

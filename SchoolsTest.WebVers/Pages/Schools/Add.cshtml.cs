@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using SchoolsTest.Data;
 using SchoolsTest.Models;
 using SchoolsTest.Models.Interfaces;
-using SchoolsTest.WebVers.ViewModels;
 
 namespace SchoolsTest.WebVers.Pages.Schools;
 
@@ -16,23 +15,23 @@ public class AddSchool : PageModel
     {
         _repository = repository;
     }
-    public void OnGet()
+    public async Task OnGet()
     {
         Message = "Write data about youre school";
     }
 
-    public IActionResult OnPost(SchoolDto schoolDto, AddressDto addressDto)
+    public async Task<IActionResult> OnPost(SchoolAddDto schoolDto/*, AddressDto addressDto*/)
     {
         Address address = new()
         {
-            Country = addressDto.Country,
-            City = addressDto.City,
-            Street = addressDto.Street,
-            PostalCode = addressDto.PostalCode,
+            Country = schoolDto.Country,
+            City = schoolDto.City,
+            Street = schoolDto.Street,
+            PostalCode = schoolDto.PostalCode,
         };
 
         School school = new(schoolDto.Name, address, schoolDto.OpeningDate);
-        _repository.Add(school);
+        await _repository.Add(school);
         return Redirect($"/schools");
     }
 }

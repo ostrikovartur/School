@@ -4,7 +4,6 @@ using SchoolsTest.Data;
 using SchoolsTest.Models;
 using SchoolsTest.Models.Interfaces;
 using SchoolsTest.WebVers.Pages.Employees;
-using SchoolsTest.WebVers.ViewModels;
 
 namespace SchoolsTest.WebVers.Pages.Floors;
 
@@ -20,7 +19,7 @@ public class Edit : BasePageModel
     {
         _floorRepository = repository;
     }
-    public IActionResult OnGet(int id)
+    public async Task<IActionResult> OnGet(int id)
     {
         var schoolId = GetSchoolId();
 
@@ -29,7 +28,7 @@ public class Edit : BasePageModel
             return Redirect("/schools");
         }
 
-        Floor = _floorRepository.Get(id);
+        Floor = await _floorRepository.Get(id);
 
         if (Floor is null)
         {
@@ -38,11 +37,11 @@ public class Edit : BasePageModel
 
         return Page();
     }
-    public IActionResult OnPostUpdate(FloorDto floor)
+    public async Task<IActionResult> OnPostUpdate(FloorEditDto floor)
     {
         var floorId = floor.Id;
 
-        var floorToUpdate = _floorRepository.Get(floorId);
+        var floorToUpdate = await _floorRepository.Get(floorId);
         if (floorToUpdate is null)
         {
             return NotFound("Floor is not found");
@@ -50,21 +49,21 @@ public class Edit : BasePageModel
 
         floorToUpdate.Number = floor.Number;
 
-        _floorRepository.Update(floorToUpdate);
+        await _floorRepository.Update(floorToUpdate);
         return Redirect($"/floors");
     }
 
-    public IActionResult OnPostDelete(FloorDto floor)
+    public async Task<IActionResult> OnPostDelete(FloorEditDto floor)
     {
         var floorId = floor.Id;
 
-        var floorToDelete = _floorRepository.Get(floorId);
+        var floorToDelete = await _floorRepository.Get(floorId);
         if (floorToDelete is null)
         {
             return NotFound("Floor is not found");
         }
 
-        _floorRepository.Delete(floorToDelete);
+        await _floorRepository.Delete(floorToDelete);
         return Redirect($"/floors");
     }
 }

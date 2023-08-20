@@ -5,11 +5,11 @@ namespace SchoolsTest.Models.Interfaces;
 
 public interface IRepository<TEntity> where TEntity : BaseEntity
 {
-    void Add(TEntity entity);
-    void Delete(TEntity entity);
-    IEnumerable<TEntity> GetAll();
-    IEnumerable<TEntity> GetAll(Expression<Func<TEntity, bool>> predicate);
-    void Update(TEntity entity);
+    Task Add(TEntity entity);
+    Task Delete(TEntity entity);
+    Task<IEnumerable<TEntity>> GetAll();
+    Task<IEnumerable<TEntity>> GetAll(Expression<Func<TEntity, bool>> predicate);
+    Task Update(TEntity entity);
 
-    TEntity Get(int id);
+    Task<TEntity> Get(int id);
 }

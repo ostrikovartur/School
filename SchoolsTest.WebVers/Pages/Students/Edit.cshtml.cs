@@ -4,7 +4,6 @@ using SchoolsTest.Data;
 using SchoolsTest.Models.Interfaces;
 using SchoolsTest.Models;
 using SchoolsTest.WebVers.Pages.Employees;
-using SchoolsTest.WebVers.ViewModels;
 
 namespace SchoolsTest.WebVers.Pages.Students;
 
@@ -20,7 +19,7 @@ public class Edit : BasePageModel
     {
         _repository = repository;
     }
-    public IActionResult OnGet(int id)
+    public async Task<IActionResult> OnGet(int id)
     {
         var schoolId = GetSchoolId();
 
@@ -29,7 +28,7 @@ public class Edit : BasePageModel
             return Redirect("/schools");
         }
 
-        Student = _repository.Get(id);
+        Student = await _repository.Get(id);
 
         if (Student is null)
         {
@@ -38,9 +37,9 @@ public class Edit : BasePageModel
 
         return Page();
     }
-    public IActionResult OnPostUpdate(StudentDto student)
+    public async Task<IActionResult> OnPostUpdate(StudentEditDto student)
     {
-        var studentToUpdate = _repository.Get(student.Id);
+        var studentToUpdate = await _repository.Get(student.Id);
 
         if (studentToUpdate is null)
         {
@@ -50,19 +49,19 @@ public class Edit : BasePageModel
         studentToUpdate.SetNames(student.FirstName, student.LastName);
         studentToUpdate.SetAge(student.Age);
 
-        _repository.Update(studentToUpdate);
+        await _repository.Update(studentToUpdate);
         return Redirect($"/students");
     }
-    public IActionResult OnPostDelete(StudentDto student)
+    public async Task<IActionResult> OnPostDelete(StudentEditDto student)
     {
-        var studentToDelete = _repository.Get(student.Id);
+        var studentToDelete = await _repository.Get(student.Id);
 
         if (studentToDelete is null)
         {
             return NotFound("Student is not found");
         }
 
-        _repository.Delete(studentToDelete);
+        await _repository.Delete(studentToDelete);
         return Redirect($"/students");
     }
 }

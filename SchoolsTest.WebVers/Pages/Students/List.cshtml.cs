@@ -15,7 +15,7 @@ public class StudentsList : PageModel
         _repository = repository;
     }
 
-    public IActionResult OnGet()
+    public async Task<IActionResult> OnGet()
     {
         if (!Request.Cookies.TryGetValue("schoolId", out string? schoolIdStr))
         {
@@ -26,7 +26,7 @@ public class StudentsList : PageModel
         {
             return NotFound("Incorrect school Id");
         }
-        Students = _repository.GetAll(s => s.School.Id == schoolId);
+        Students = await _repository.GetAll(s => s.School.Id == schoolId);
         return Page();
     }
 }
