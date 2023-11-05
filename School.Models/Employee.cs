@@ -8,7 +8,7 @@ namespace SchoolsTest.Models;
 public class Employee : Person
 {
     public ICollection<School> Schools { get; set; } = new HashSet<School>();
-    public ICollection<Position> Positions { get; set; }
+    public ICollection<Position> Positions { get; set; } = new HashSet<Position>();
     public int[] PositionIds => Positions.Select(x => x.Id).ToArray();
 
     public Employee(string firstName, string lastName, int age, ICollection<Position> position)

@@ -2,5 +2,5 @@
 
 public interface IFloorRepository : IRepository<Floor>
 {
-
+    Task<IEnumerable<Floor>> GetSchoolFloors(int schoolId);
 }
