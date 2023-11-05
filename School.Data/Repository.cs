@@ -7,42 +7,42 @@ namespace SchoolsTest.Data;
 
 public class Repository<TEntity> : IRepository<TEntity> where TEntity : BaseEntity
 {
-    protected readonly AppDbContext _dbContext;
+    protected readonly AppDbContext DbContext;
 
     public Repository(AppDbContext dbContext)
     {
-        _dbContext = dbContext;
+        DbContext = dbContext;
     }
     public async Task<IEnumerable<TEntity>> GetAll()
     {
-        return await _dbContext.Set<TEntity>().ToArrayAsync();
+        return await DbContext.Set<TEntity>().ToArrayAsync();
     }
 
     public async Task<IEnumerable<TEntity>> GetAll(Expression<Func<TEntity, bool>> predicate)
     {
-        return await _dbContext.Set<TEntity>()
+        return await DbContext.Set<TEntity>()
             .Where(predicate)
             .ToArrayAsync();
     }
 
     public async Task<TEntity> Get(int id)
     {
-        return await _dbContext.Set<TEntity>().FindAsync(id);
+        return await DbContext.Set<TEntity>().FindAsync(id);
     }
 
     public async Task Add(TEntity entity)
     {
-        _dbContext.Set<TEntity>().Add(entity);
-        await _dbContext.SaveChangesAsync();
+        DbContext.Set<TEntity>().Add(entity);
+        await DbContext.SaveChangesAsync();
     }
     public async Task Update(TEntity entity)
     {
-        _dbContext.Update(entity);
-        await _dbContext.SaveChangesAsync();
+        DbContext.Update(entity);
+        await DbContext.SaveChangesAsync();
     }
     public async Task Delete(TEntity entity)
     {
-        _dbContext.Remove(entity);
-        await _dbContext.SaveChangesAsync();
+        DbContext.Remove(entity);
+        await DbContext.SaveChangesAsync();
     }
 }

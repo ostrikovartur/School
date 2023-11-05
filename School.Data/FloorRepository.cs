@@ -1,15 +1,20 @@
-﻿using SchoolsTest.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using SchoolsTest.Models;
 using SchoolsTest.Models.Interfaces;
 
 namespace SchoolsTest.Data;
 
-public class FloorRepository : Repository<Floor>, IRepository<Floor>
+public class FloorRepository : Repository<Floor>, IFloorRepository
 {
-    private readonly AppDbContext _dbContext;
-
     public FloorRepository(AppDbContext dbContext)
         : base(dbContext)
     {
-        _dbContext = dbContext;
+    }
+
+    public async Task<IEnumerable<Floor>> GetSchoolFloors(int schoolId)
+    {
+        return await DbContext.Floors
+            .Where(f => f.SchoolId == schoolId)
+            .ToListAsync();
     }
 }

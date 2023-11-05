@@ -13,13 +13,13 @@ public class RoomRepository : Repository<Room>, IRoomRepository
 
     public async Task<Room?> GetRoomWithRoomTypes(int roomId)
     {
-        return await _dbContext.Set<Room>()
+        return await DbContext.Set<Room>()
             .Include(r => r.RoomTypes)
             .FirstOrDefaultAsync(r => r.Id == roomId);
     }
     public async Task<IEnumerable<Room>> GetRoomsWithTypes(int schoolId)
     {
-        var rooms = await _dbContext.Set<Room>()
+        var rooms = await DbContext.Set<Room>()
             .Include(r => r.RoomTypes)
             .Where(r => r.Floor.SchoolId == schoolId)
             .ToListAsync();
