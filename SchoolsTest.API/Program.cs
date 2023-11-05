@@ -1,31 +1,70 @@
+using Microsoft.AspNetCore.Authentication.OAuth;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.OpenApi.Models;
+using SchoolsTest.API.Employees;
+using SchoolsTest.API.Floor;
+using SchoolsTest.API.Position;
+using SchoolsTest.API.Room;
+using SchoolsTest.API.RoomType;
+using SchoolsTest.API.School;
+using SchoolsTest.API.Student;
+using SchoolsTest.API.User;
 using SchoolsTest.Data;
-using SchoolsTest.Models;
-using SchoolsTest.Models.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddRepositories(builder.Configuration);
+builder.Services.AddEndpointsApiExplorer();
+
+builder.Services.AddSwaggerGen(options =>
+{
+    options.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Version = "v1",
+        Title = "ToDo API",
+        Description = "An ASP.NET Core Web API for managing ToDo items",
+        TermsOfService = new Uri("https://example.com/terms"),
+        Contact = new OpenApiContact
+        {
+            Name = "Example Contact",
+            Url = new Uri("https://example.com/contact")
+        },
+        License = new OpenApiLicense
+        {
+            Name = "Example License",
+            Url = new Uri("https://example.com/license")
+        }
+    });
+});
+
+builder.Services.AddAuthConfiguration();
 
 var app = builder.Build();
 
-app.MapGet("/", () => "Hello World!");
+app.UseAuthentication();
+app.UseAuthorization();
 
-app.MapGet("/schools", (ISchoolRepository schoolRepository) => schoolRepository.GetAll());
-app.MapGet("/schools/{id}/floors", (int id, IFloorRepository repository) => repository.GetSchoolFloors(id));
-app.MapGet("/floors/{id}/rooms", (IRoomRepository roomRepository) => roomRepository.GetAll());
-app.MapGet("/schools/{id}/employees", (IEmployeeRepository employeeRepository) => employeeRepository.GetAll());
-app.MapGet("/schools/{id}/students", (IRepository<Student> studentRepository) => studentRepository.GetAll());
-app.MapGet("/schools/{id}/positions", (IRepository<Position> positionRepository) => positionRepository.GetAll());
-app.MapGet("/schools/{id}/roomTypes", (IRepository<RoomType> roomTypeRepository) => roomTypeRepository.GetAll());
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI(options =>
+    {
+        options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+        options.RoutePrefix = string.Empty;
+    });
+}
 
+app.MapGet("/testAuthorization", [Authorize] () => "Hello World!");
 
-//List<School> schools = new();
+//app.UseSchoolIdChecker();
 
-//app.MapGet("/schools", (int id) =>
-//{
-//    School school = schools.FirstOrDefault(s => s.Id == id);
-
-//    return Results.Json(school);
-//});
+EmployeeEndpoints.Map(app);
+FloorEndpoints.Map(app);
+PositionEndpoints.Map(app);
+RoomEndpoints.Map(app);
+RoomTypeEndpoints.Map(app);
+SchoolEndpoints.Map(app);
+StudentEndpoints.Map(app);
+AuthEndpoints.Map(app);
 
 app.Run();
