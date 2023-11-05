@@ -6,10 +6,10 @@ namespace SchoolsTest.WebVers.Pages.Floors;
 
 public class FloorsList : BasePageModel
 {
-    private readonly IRepository<Floor> _repository;
+    private readonly IFloorRepository _repository;
     public IEnumerable<Floor> Floors { get; set; }
 
-    public FloorsList(IRepository<Floor> repository)
+    public FloorsList(IFloorRepository repository)
     {
         _repository = repository;
     }
@@ -22,7 +22,7 @@ public class FloorsList : BasePageModel
             return NotFound("School not found");
         }
 
-        Floors = await _repository.GetAll(f => f.School.Id == schoolId);
+        Floors = await _repository.GetSchoolFloors(schoolId.Value);
 
         return Page();
     }

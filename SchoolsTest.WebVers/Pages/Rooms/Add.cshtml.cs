@@ -46,7 +46,7 @@ public class RoomAdd : PageModel
 
         var roomType = await _repositoryRoomType.GetAll(rt => roomDto.RoomTypeIds.Contains(rt.Id));
 
-        Models.Room room = new(roomDto.Number, roomType.ToArray(), currentFloor);
+        Models.Room room = new(roomDto.Number, roomType.ToArray()/*, currentFloor*/);
         var (valid, error) = currentFloor.AddRoom(room);
         if (!valid)
         {
