@@ -2,11 +2,10 @@
 
 public class Room : BaseEntity
 {
-    public ICollection<RoomType> RoomTypes { get; set; }
-
     public int Number { get; set; }
     public int FloorId { get; set; }
     public Floor Floor { get; set; }
+    public ICollection<RoomType> RoomTypes { get; set; } = new HashSet<RoomType>();
     public int[] RoomTypeIds => RoomTypes.Select(x => x.Id).ToArray();
 
     public Room()
@@ -14,11 +13,10 @@ public class Room : BaseEntity
 
     }
 
-    public Room(int number, ICollection<RoomType> type, Floor floor)
+    public Room(int number, ICollection<RoomType> roomType)
     {
         Number = number;
-        RoomTypes = type;
-        Floor = floor;
+        RoomTypes = roomType;
     }
     public Room(int number, Floor floor)
     {

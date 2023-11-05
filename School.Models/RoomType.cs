@@ -4,6 +4,7 @@ public class RoomType : BaseEntity
 {
     public string Name { get; set; }
     public ICollection<School> Schools { get; set; }
+    public int SchoolId { get; set; }
     public ICollection<Room> Rooms { get; set; }
 
     public RoomType(string name)
