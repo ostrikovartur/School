@@ -24,8 +24,8 @@ ILogger logger = new ConsoleLogger();
 
 var dbContext = host.Services.GetRequiredService<AppDbContext>();
 
-IRepository<School> schoolRepository = host.Services.GetRequiredService<IRepository<School>>();
-IRepository<Floor> floorRepository = host.Services.GetRequiredService<IRepository<Floor>>();
+ISchoolRepository schoolRepository = host.Services.GetRequiredService<ISchoolRepository>();
+IFloorRepository floorRepository = host.Services.GetRequiredService<IFloorRepository>();
 
 while (true)
 {
@@ -69,7 +69,7 @@ void HandleChoice(Menu? choice)
             break;
         case Menu.ShowAll:
             // show all
-            foreach (var school in schoolRepository.GetAll())
+            foreach (var school in (dynamic)schoolRepository.GetAll())
             {
                 logger.LogInfo(school.ToString());
             }
@@ -114,16 +114,16 @@ void SelectSchool()
 
     while (true)
     {
-        foreach (var school in schools)
+        foreach (var school in (dynamic)schools)
         {
             Console.WriteLine($"{school.Id}: {school.Name}");
         }
 
         var schoolIndex = GetIntValueFromConsole("Choose school: ");
 
-        if (schoolIndex <= schools.Count())
+        if (schoolIndex <= schools.Result.Count())
         {
-            var school = schools.Where(school => school.Id == schoolIndex).SingleOrDefault();
+            var school = schools.Result.Where(school => school.Id == schoolIndex).SingleOrDefault();
             dbContext.CurrentSchool = school;
             break;
         }
