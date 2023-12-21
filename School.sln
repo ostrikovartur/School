@@ -11,8 +11,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SchoolsTest.Models", "Schoo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SchoolsTest.WebVers", "SchoolsTest.WebVers\SchoolsTest.WebVers.csproj", "{E30BBCF8-0278-4875-BD6D-BEC19A56619B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SchoolsTest.API", "SchoolsTest.API\SchoolsTest.API.csproj", "{DFCF13AB-F2CE-481B-8B37-035861000685}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
