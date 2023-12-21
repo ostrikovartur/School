@@ -31,7 +31,7 @@ try
     using var context = services.GetRequiredService<AppDbContext>();
     context.Database.EnsureCreated();
     context.Database.Migrate();
-    await DBSeeder.SeedDB(context);
+    await DbSeeder.SeedDB(context);
 }
 catch (Exception ex)
 {
