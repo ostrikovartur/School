@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Text.Json;
 
 namespace SchoolsTest.API.User;
 
@@ -13,7 +14,7 @@ public static class LoginHandler
         SignInManager<IdentityUser<int>> signInManager,
         [FromBody] AuthRequest authRequest)
     {
-        var user = await userManager.FindByNameAsync(authRequest.UserName);
+        var user = await userManager.FindByEmailAsync(authRequest.Email);
 
         if (user is null)
         {
@@ -34,6 +35,19 @@ public static class LoginHandler
             return Results.BadRequest("User is locked out");
         }
 
+        if (user.UserName == "admin" && authRequest.Password == "Pass@word1" && authRequest.Email == "ostrikovartur21@gmail.com") 
+        {
+            var passwordResetToken = await userManager.GeneratePasswordResetTokenAsync(user);
+
+            return Results.Problem(
+                "User must change the default password first",
+                instance: JsonSerializer.Serialize(new
+                {
+                    url = $"/user/resetPassword?user=admin&token={passwordResetToken}"
+                }),
+                statusCode: StatusCodes.Status307TemporaryRedirect);
+        }
+
         var claims = new List<Claim> 
         {
             new Claim(ClaimTypes.Name, user.UserName) 
@@ -41,7 +55,7 @@ public static class LoginHandler
 
         var userClaims = await userManager.GetClaimsAsync(user);
 
-        var expiresIn = TimeSpan.FromMinutes(2);
+        var expiresIn = TimeSpan.FromMinutes(10);
         var expiresAt = DateTime.UtcNow.Add(expiresIn);
 
         var jwt = new JwtSecurityToken(
