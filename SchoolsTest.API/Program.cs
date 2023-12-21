@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Authentication.OAuth;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using SchoolsTest.API.Employees;
 using SchoolsTest.API.Floor;
@@ -66,5 +68,28 @@ RoomTypeEndpoints.Map(app);
 SchoolEndpoints.Map(app);
 StudentEndpoints.Map(app);
 AuthEndpoints.Map(app);
+
+
+using var scope = app.Services.CreateScope();
+var services = scope.ServiceProvider;
+
+try
+{
+    using var context = services.GetRequiredService<AppDbContext>();
+    context.Database.EnsureCreated();
+    context.Database.Migrate();
+
+    var userManager = services.GetRequiredService<UserManager<IdentityUser<int>>>();
+
+    await DbSeeder.SeedSystemAdmin(userManager);
+
+    await DbSeeder.SeedDB(context);
+}
+catch (Exception ex)
+{
+    var logger = services.GetRequiredService<ILogger<Program>>();
+    logger.LogError(ex, "An error occurred with create DB");
+}
+
 
 app.Run();
