@@ -1,4 +1,7 @@
-﻿namespace SchoolsTest.API.User;
+﻿using SchoolsTest.API.User.PasswordManage;
+using SchoolsTest.Models.Constants;
+
+namespace SchoolsTest.API.User;
 
 public static class AuthEndpoints
 {
@@ -17,7 +20,16 @@ public static class AuthEndpoints
             .WithSummary("Add claims to user")
             .RequireAuthorization(policies =>
             {
-                policies.RequireClaim(ClaimNames.Admin, ClaimValues.AdminClaims);
+                policies.RequireClaim(ClaimNames.Permission, ClaimValues.SystemAdminClaims);
             });
+
+        group.MapPost("/changePassword", ChangePasswordHandler.Handle)
+            .WithSummary("Change user password");
+
+        group.MapPost("/resetPassword", ResetPasswordHandler.Handle)
+            .WithSummary("Reset user password");
+
+        group.MapPost("/setNewPassword", SetNewPasswordHandler.Handle)
+            .WithSummary("Set new user password");
     }
 }
