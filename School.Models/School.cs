@@ -23,7 +23,7 @@ public class School : BaseEntity
         }
     }
 
-    public Position? Director => Positions.Where(p => p.Id == Constants.DirectorPosition && p.Schools.Any(s => s.Id == Id)).FirstOrDefault();
+    public Position? Director => Positions.Where(p => p.Id == Constants.Common.DirectorPosition && p.Schools.Any(s => s.Id == Id)).FirstOrDefault();
 
     [JsonIgnore]
 
