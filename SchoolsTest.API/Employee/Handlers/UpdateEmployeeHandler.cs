@@ -6,6 +6,7 @@ using SchoolsTest.WebVers.Pages.Schools;
 using System.Drawing;
 using System.Text.Json.Serialization;
 using System.Text.Json;
+using Microsoft.IdentityModel.Tokens;
 
 namespace SchoolsTest.API.Employee.Handlers;
 
@@ -23,6 +24,11 @@ public static class UpdateEmployeeHandler
         }
 
         var positions = await _positionsRepository.GetAll(p => employeeDto.PositionIds.Contains(p.Id));
+
+        if (positions.IsNullOrEmpty())
+        {
+            return Results.NotFound("Positions is not found");
+        }
 
         employeeToUpdate.SetNames(employeeDto.FirstName, employeeDto.LastName);
         employeeToUpdate.SetAge(employeeDto.Age);
