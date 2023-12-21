@@ -1,4 +1,5 @@
 ﻿using SchoolsTest.API.Room.Handlers;
+using SchoolsTest.Models.Constants;
 using SchoolsTest.WebVers.Pages.Rooms;
 using SchoolsTest.WebVers.Pages.RoomTypes;
 
@@ -8,31 +9,43 @@ public static class RoomEndpoints
 {
     public static void Map(WebApplication app)
     {
-        var group = app.MapGroup("/floors/{floorId:int}/rooms")
+        var manageGroup = app.MapGroup("/floors/{floorId:int}/rooms")
             .WithTags("Rooms Group")
-            .WithOpenApi();
+            .WithOpenApi()
+            .RequireAuthorization(builder =>
+            {
+                builder.RequireClaim(ClaimNames.Permission, ClaimValues.ManageRoom);
+            });
 
-        group.MapGet("", GetAllRoomsHandler.Handle)
+        var infoGroup = app.MapGroup("/floors/{floorId:int}/rooms")
+            .WithTags("Rooms Group")
+            .WithOpenApi()
+            .RequireAuthorization(builder =>
+            {
+                builder.RequireClaim(ClaimNames.Permission, ClaimValues.InfoRoom);
+            });
+
+        infoGroup.MapGet("", GetAllRoomsHandler.Handle)
             .WithSummary("Get all rooms")
             .Produces<RoomDto>()
             .Produces(StatusCodes.Status404NotFound);
 
-        group.MapPost("", CreateRoomHandler.Handle)
+        manageGroup.MapPost("", CreateRoomHandler.Handle)
             .WithSummary("Create new room")
             .Produces<RoomDto>()
             .Produces(StatusCodes.Status404NotFound);
 
-        group.MapDelete("{id}", DeleteRoomHandler.Handle)
+        manageGroup.MapDelete("{id}", DeleteRoomHandler.Handle)
             .WithSummary("Delete room")
             .Produces<RoomDto>()
             .Produces(StatusCodes.Status404NotFound);
 
-        group.MapPut("{id}", UpdateRoomHandler.Handle)
+        manageGroup.MapPut("{id}", UpdateRoomHandler.Handle)
             .WithSummary("Update room")
             .Produces<RoomDto>()
             .Produces(StatusCodes.Status404NotFound);
 
-        group.MapGet("{id}", InfoRoomHandler.Handle)
+        infoGroup.MapGet("{id}", InfoRoomHandler.Handle)
             .WithSummary("Get info about room")
             .Produces<RoomDto>()
             .Produces(StatusCodes.Status404NotFound);

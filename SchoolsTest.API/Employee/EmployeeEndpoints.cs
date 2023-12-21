@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SchoolsTest.API.Employee.Handlers;
+using SchoolsTest.Models.Constants;
 using SchoolsTest.WebVers.Pages.Employees;
 using SchoolsTest.WebVers.Pages.Floors;
 
@@ -8,31 +9,43 @@ public static class EmployeeEndpoints
 {
     public static void Map(WebApplication app)
     {
-        var group = app.MapGroup("/employees")
+        var manageGroup = app.MapGroup("/employees")
             .WithTags("Employee Group")
-            .WithOpenApi();
+            .WithOpenApi()
+            .RequireAuthorization(builder =>
+            {
+                builder.RequireClaim(ClaimNames.Permission, ClaimValues.ManageEmployee);
+            });
 
-        group.MapGet("", GetAllEmployeesHandler.Handle)
+        var infoGroup = app.MapGroup("/employees")
+            .WithTags("Employee Group")
+            .WithOpenApi()
+            .RequireAuthorization(builder =>
+            {
+                builder.RequireClaim(ClaimNames.Permission, ClaimValues.InfoEmployee);
+            });
+
+        infoGroup.MapGet("", GetAllEmployeesHandler.Handle)
             .WithSummary("Get all employees")
             .Produces<EmployeeDto>()
             .Produces(StatusCodes.Status404NotFound);
 
-        group.MapPost("", CreateEmployeeHandler.Handle)
+        manageGroup.MapPost("", CreateEmployeeHandler.Handle)
             .WithSummary("Create new employee")
             .Produces<EmployeeDto>()
             .Produces(StatusCodes.Status404NotFound);
 
-        group.MapDelete("{id}", DeleteEmployeeHandler.Handle)
+        manageGroup.MapDelete("{id}", DeleteEmployeeHandler.Handle)
             .WithSummary("Delete employee")
             .Produces<EmployeeDto>()
             .Produces(StatusCodes.Status404NotFound);
 
-        group.MapPut("{id}", UpdateEmployeeHandler.Handle)
+        manageGroup.MapPut("{id}", UpdateEmployeeHandler.Handle)
             .WithSummary("Update employee")
             .Produces<EmployeeDto>()
             .Produces(StatusCodes.Status404NotFound);
 
-        group.MapGet("{id}", InfoEmployeeHandler.Handle)
+        infoGroup.MapGet("{id}", InfoEmployeeHandler.Handle)
             .WithSummary("Get info about employee")
             .Produces<EmployeeDto>()
             .Produces(StatusCodes.Status404NotFound);
