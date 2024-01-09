@@ -2,8 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using SchoolsTest.Models.Constants;
 using System.Security.Claims;
+using System.Web;
 
-namespace SchoolsTest.API.User;
+namespace SchoolsTest.API.User.EmailManage;
 
 public class ConfirmEmail
 {

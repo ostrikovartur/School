@@ -17,6 +17,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddRepositories(builder.Configuration);
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddDefaultIdentity<IdentityUser<int>>();
 
 builder.Services.AddSwaggerGen(options =>
 {

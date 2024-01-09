@@ -17,15 +17,14 @@ public static class RegisterHandler
         UserManager<IdentityUser<int>> userManager,
         SignInManager<IdentityUser<int>> signInManager,
         [FromQuery] string userName,
-        [FromQuery] string password)
+        [FromQuery] string password,
+        [FromQuery] string email)
     {
         var user = new IdentityUser<int>(userName);
 
         var result = await userManager.CreateAsync(user, password);
 
-        var addEmail = await userManager.GetEmailAsync(user);
-
-        var confirmEmailToken = await userManager.GenerateEmailConfirmationTokenAsync(user);
+        var addEmail = await userManager.SetEmailAsync(user, email);
 
         var addClaims = await userManager.AddClaimsAsync(user, ClaimValues.EmployeeClaims.Select(c => new Claim(ClaimNames.Permission, c)).ToArray());
 
@@ -36,6 +35,6 @@ public static class RegisterHandler
 
         await signInManager.SignInAsync(user, isPersistent: true);
 
-        return Results.Ok(new { token = confirmEmailToken });
+        return Results.Ok();
     }
 }

@@ -1,4 +1,5 @@
-﻿using SchoolsTest.API.User.PasswordManage;
+﻿using SchoolsTest.API.User.EmailManage;
+using SchoolsTest.API.User.PasswordManage;
 using SchoolsTest.Models.Constants;
 
 namespace SchoolsTest.API.User;
@@ -31,5 +32,8 @@ public static class AuthEndpoints
 
         group.MapPost("/setNewPassword", SetNewPasswordHandler.Handle)
             .WithSummary("Set new user password");
+
+        group.MapPost("/confirmEmail", ConfirmEmail.Handle)
+            .WithSummary("Confirm user email");
     }
 }
